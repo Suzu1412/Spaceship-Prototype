@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour//, IHealth
+public abstract class EnemyController : MonoBehaviour, IHealth
 {
     protected int _currentHealth;
     //[SerializeField] public EnemyStatsSO stats;
+    public int maxHealth;
     [SerializeField] public Pattern pattern;
     protected Rigidbody2D rb;
     [HideInInspector] public Transform playerPosition;
@@ -16,12 +17,10 @@ public class EnemyController : MonoBehaviour//, IHealth
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        //_currentHealth = stats.maxHealth;
+        _currentHealth = maxHealth;
         direction = -1f;
         //pattern.Enter(this);
     }
-
-
 
     // Update is called once per frame
     void Update()
@@ -29,14 +28,14 @@ public class EnemyController : MonoBehaviour//, IHealth
         //pattern.Behaviour(this);
     }
 
-    /*
+    
     #region IHealth Implementation
     public void Heal(int amount)
     {
 
-        if (_currentHealth + amount >= stats.maxHealth)
+        if (_currentHealth + amount >= maxHealth)
         {
-            _currentHealth = stats.maxHealth;
+            _currentHealth = maxHealth;
         }
         else
         {
@@ -66,7 +65,7 @@ public class EnemyController : MonoBehaviour//, IHealth
     }
     #endregion
 
-    //public abstract void Move();
+    public abstract void Move();
 
 
 
@@ -74,9 +73,8 @@ public class EnemyController : MonoBehaviour//, IHealth
     {
         if (collision.collider.CompareTag("Player"))
         {
-            collision.collider.GetComponent<IHealth>().Damage(stats.collisionDamage);
+            //collision.collider.GetComponent<IHealth>().Damage(stats.collisionDamage);
             Damage(999);
         }
     }
-    */
 }
