@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour, IHealth
+public class EnemyController : MonoBehaviour//, IHealth
 {
     protected int _currentHealth;
     //[SerializeField] public EnemyStatsSO stats;
