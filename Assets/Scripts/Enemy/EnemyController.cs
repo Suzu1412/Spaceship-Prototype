@@ -7,10 +7,11 @@ public abstract class EnemyController : MonoBehaviour, IHealth
     protected int _currentHealth;
     //[SerializeField] public EnemyStatsSO stats;
     public int maxHealth;
-    [SerializeField] public Pattern pattern;
-    protected Rigidbody2D rb;
+    [SerializeField] public FiniteStateMachine finiteStateMachine;
+    public Rigidbody2D rb { get; private set; }
     [HideInInspector] public Transform playerPosition;
     [HideInInspector] public float direction;
+    [HideInInspector] public bool targetFailed;
 
 
     // Start is called before the first frame update
@@ -19,13 +20,22 @@ public abstract class EnemyController : MonoBehaviour, IHealth
         rb = GetComponent<Rigidbody2D>();
         _currentHealth = maxHealth;
         direction = -1f;
-        //pattern.Enter(this);
+    }
+
+    void OnEnable()
+    {
+        finiteStateMachine.Enter(this);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //pattern.Behaviour(this);
+        finiteStateMachine.LogicUpdate(this);
+    }
+    
+    void FixedUpdate()
+    {
+        finiteStateMachine.PhysicsUpdate(this);
     }
 
     
@@ -67,7 +77,24 @@ public abstract class EnemyController : MonoBehaviour, IHealth
 
     public abstract void Move();
 
+    public void FindClosestEnemy()
+    {
+        float distanceToClosestEnemy = Mathf.Infinity;
+        GameObject closestEnemy = null;
+        GameObject[] allEnemies = GameObject.FindGameObjectsWithTag("Player");
 
+        foreach(GameObject currentEnemy in allEnemies)
+        {
+            float distanceToEnemy = (currentEnemy.transform.position - this.transform.position).sqrMagnitude;
+
+            if(distanceToEnemy < distanceToClosestEnemy)
+            {
+                distanceToClosestEnemy = distanceToEnemy;
+                closestEnemy = currentEnemy;
+            }
+        }
+        Debug.DrawLine(this.transform.position, closestEnemy.transform.position);
+    }
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
