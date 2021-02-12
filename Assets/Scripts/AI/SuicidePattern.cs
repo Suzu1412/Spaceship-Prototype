@@ -22,11 +22,32 @@ public class SuicidePattern : FiniteStateMachine
 
     public override void PhysicsUpdate(EnemyController controller)
     {
+        /*
         if (controller.transform.position.x > 3.0f)
         {
             controller.transform.position = new Vector3(-3.0f, 0.0f, 0.0f);
         }
 
         controller.rb.MovePosition(controller.transform.position + controller.transform.right * Time.fixedDeltaTime);
+        */
+
+        if (controller.playerPosition != null)
+        {
+            if (controller.EnemyDirection().y < 0f)
+            {
+                if (controller.EnemyDirection().x <= -0.1f)
+                {
+                    controller.rb.velocity = new Vector2(-controller.moveSpeed / 2, -controller.moveSpeed);
+                }
+                else if (controller.EnemyDirection().x >= 0.1f)
+                {
+                    controller.rb.velocity = new Vector2(controller.moveSpeed / 2, -controller.moveSpeed);
+                }
+                else 
+                {
+                    controller.rb.velocity = new Vector2(0f, -controller.moveSpeed);
+                }
+            }
+        }
     }
 }

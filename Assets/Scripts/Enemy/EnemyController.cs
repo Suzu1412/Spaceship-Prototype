@@ -7,6 +7,7 @@ public abstract class EnemyController : MonoBehaviour, IHealth
     protected int _currentHealth;
     //[SerializeField] public EnemyStatsSO stats;
     public int maxHealth;
+    public float moveSpeed = 3f;
     [SerializeField] public FiniteStateMachine finiteStateMachine;
     public Rigidbody2D rb { get; private set; }
     [HideInInspector] public Transform playerPosition;
@@ -93,7 +94,14 @@ public abstract class EnemyController : MonoBehaviour, IHealth
                 closestEnemy = currentEnemy;
             }
         }
+        playerPosition = closestEnemy.transform;
         Debug.DrawLine(this.transform.position, closestEnemy.transform.position);
+    }
+
+    public Vector3 EnemyDirection()
+    {
+        Vector3 direction = playerPosition.transform.position - transform.position;
+        return direction;
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
