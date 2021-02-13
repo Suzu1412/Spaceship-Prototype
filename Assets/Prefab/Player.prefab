@@ -60,9 +60,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa891c751b5d5645b533029fb42cee7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1
   currentHealth: 0
-  moveSpeed: 3
+  stats: {fileID: 11400000, guid: 787d98992fe934f45a325c23406d73c5, type: 2}
   currentLevel: 0
   power: 0
   bottomLeftCorner: {fileID: 0}

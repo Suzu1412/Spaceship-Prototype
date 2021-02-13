@@ -24,13 +24,13 @@ public abstract class Weapon : MonoBehaviour
     {
         currentProjectile.transform.position = gunPosition.position + new Vector3(offset, 0, 0);
 
-        currentProjectile.SetActive(true);
+        
         currentProjectile.GetComponent<Projectile>().fired = true;
 
     }
 
-    public void ResetShoot()
+    public void ResetShoot(float delay)
     {
-        timeUntilNextShoot = mainWeapon.shootRate;
+        timeUntilNextShoot = delay;
     }
 }

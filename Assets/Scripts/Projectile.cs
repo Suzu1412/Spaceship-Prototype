@@ -4,18 +4,13 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] protected WeaponType weapon;
-
     public bool fired;
     public float projectileLifeTime;
     public bool up;
     private bool flipped;
+    public int damage;
+    public float projectileSpeed;
 
-
-    void OnEnable()
-    {
-        projectileLifeTime = weapon.lifeTime;
-    }
 
     private void OnDisable()
     {
@@ -25,41 +20,42 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        DisableProjectile();
         Movement();
+    }
+
+    private void DisableProjectile()
+    {
+        projectileLifeTime -= Time.deltaTime;
+        if (projectileLifeTime <= 0)
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 
     public void Movement()
     {
         if (fired)
         {
-            projectileLifeTime -= Time.deltaTime;
-
-            if (projectileLifeTime > 0)
+            if (up)
             {
-                if (up)
-                {
-                    transform.Translate(Vector2.up * weapon.projectileSpeed * Time.deltaTime);
+                transform.Translate(Vector2.up * projectileSpeed * Time.deltaTime);
 
-                    if (flipped)
-                    {
-                        flipped = false;
-                        transform.localScale = new Vector2(transform.localScale.x, -transform.localScale.y);
-                    }
-                }
-                else
+                if (flipped)
                 {
-                    if (!flipped)
-                    {
-                        flipped = true;
-                        transform.localScale = new Vector2(transform.localScale.x, -transform.localScale.y);
-                    }
-
-                    transform.Translate(Vector2.down * weapon.projectileSpeed * Time.deltaTime);
+                    flipped = false;
+                    transform.localScale = new Vector2(transform.localScale.x, -transform.localScale.y);
                 }
             }
             else
             {
-                this.gameObject.SetActive(false);
+                if (!flipped)
+                {
+                    flipped = true;
+                    transform.localScale = new Vector2(transform.localScale.x, -transform.localScale.y);
+                }
+
+                transform.Translate(Vector2.down * projectileSpeed * Time.deltaTime);
             }
         }
     }

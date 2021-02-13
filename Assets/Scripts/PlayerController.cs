@@ -9,11 +9,10 @@ public class PlayerController : MonoBehaviour, IHealth
     private ObjectPooler objectPooler;
 
     [Header("Player Stats")]
-    public int maxHealth = 1;
     public int currentHealth;
-    public float moveSpeed = 3f;
-    [Range(0, 3)]
-    public int currentLevel;// { get; private set; }
+    public PlayerStats stats;
+
+    [Range(0, 3)] public int currentLevel;// { get; private set; }
     [Range(1, 64)] public int power;
 
     [Header("Movement Constraint")]
@@ -34,7 +33,7 @@ public class PlayerController : MonoBehaviour, IHealth
     // Start is called before the first frame update
     void Start()
     {
-        currentHealth = maxHealth;
+        currentHealth = stats.maxHealth;
         power = 1;
         
         if (bottomLeftCorner == null) bottomLeftCorner = GameObject.Find("bottomLeftCorner").transform;
@@ -55,7 +54,7 @@ public class PlayerController : MonoBehaviour, IHealth
 
     private void Move()
     {
-        Vector2 movement = new Vector2(input.horizontal * moveSpeed, input.vertical * moveSpeed);
+        Vector2 movement = new Vector2(input.horizontal * stats.moveSpeed, input.vertical * stats.moveSpeed);
         rb.velocity = movement;
     }
 
@@ -77,9 +76,9 @@ public class PlayerController : MonoBehaviour, IHealth
     #region Implementing Ihealth
     public void Heal(int amount)
     {
-        if (currentHealth + amount > maxHealth)
+        if (currentHealth + amount > stats.maxHealth)
         {
-            currentHealth = maxHealth;
+            currentHealth = stats.maxHealth;
         }
         else
         {

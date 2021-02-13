@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class EnemyController : MonoBehaviour, IHealth
 {
     protected int _currentHealth;
-    //[SerializeField] public EnemyStatsSO stats;
+    [SerializeField] public EnemyStats stats;
     public int maxHealth;
     public float moveSpeed = 3f;
     [SerializeField] public FiniteStateMachine finiteStateMachine;
@@ -26,6 +26,11 @@ public abstract class EnemyController : MonoBehaviour, IHealth
     void OnEnable()
     {
         finiteStateMachine.Enter(this);
+    }
+
+    void OnDisable()
+    {
+        finiteStateMachine.Exit(this);
     }
 
     // Update is called once per frame
@@ -78,7 +83,7 @@ public abstract class EnemyController : MonoBehaviour, IHealth
 
     public abstract void Move();
 
-    public void FindClosestEnemy()
+    private void FindClosestEnemy()
     {
         float distanceToClosestEnemy = Mathf.Infinity;
         GameObject closestEnemy = null;
@@ -98,6 +103,16 @@ public abstract class EnemyController : MonoBehaviour, IHealth
         Debug.DrawLine(this.transform.position, closestEnemy.transform.position);
     }
 
+    public void InvokeFindClosestEnemy()
+    {
+        InvokeRepeating("FindClosestEnemy", 0, 0.3f);
+    }
+
+    public void DisableFindClosestEnemy()
+    {
+        CancelInvoke("FindClosestEnemy");
+    }
+
     public Vector3 EnemyDirection()
     {
         Vector3 direction = playerPosition.transform.position - transform.position;
@@ -108,8 +123,8 @@ public abstract class EnemyController : MonoBehaviour, IHealth
     {
         if (collision.collider.CompareTag("Player"))
         {
-            //collision.collider.GetComponent<IHealth>().Damage(stats.collisionDamage);
-            Damage(999);
+            collision.collider.GetComponent<IHealth>().Damage(stats.collissionDamage);
+            Death();
         }
     }
 }

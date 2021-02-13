@@ -8,29 +8,22 @@ public class SuicidePattern : FiniteStateMachine
     public override void Enter(EnemyController controller)
     {
         controller.targetFailed = false;
+        controller.InvokeFindClosestEnemy();
     }
 
     public override void Exit(EnemyController controller)
     {
         controller.targetFailed = false;
+        controller.DisableFindClosestEnemy();
     }
 
     public override void LogicUpdate(EnemyController controller)
     {
-        controller.FindClosestEnemy();
+        return;
     }
 
     public override void PhysicsUpdate(EnemyController controller)
     {
-        /*
-        if (controller.transform.position.x > 3.0f)
-        {
-            controller.transform.position = new Vector3(-3.0f, 0.0f, 0.0f);
-        }
-
-        controller.rb.MovePosition(controller.transform.position + controller.transform.right * Time.fixedDeltaTime);
-        */
-
         if (controller.playerPosition != null)
         {
             if (controller.EnemyDirection().y < 0f)
