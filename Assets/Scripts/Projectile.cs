@@ -59,4 +59,13 @@ public class Projectile : MonoBehaviour
             }
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.GetComponent<IHealth>() != null)
+        {
+            other.GetComponent<IHealth>().Damage(damage);
+            this.gameObject.SetActive(false);
+        }
+    }
 }

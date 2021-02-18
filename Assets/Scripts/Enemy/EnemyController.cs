@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class EnemyController : MonoBehaviour, IHealth
+public class EnemyController : MonoBehaviour, IHealth
 {
-    protected int _currentHealth;
+    [SerializeField] private int currentHealth;
     [SerializeField] public EnemyStats stats;
-    public int maxHealth;
-    public float moveSpeed = 3f;
     [SerializeField] public FiniteStateMachine finiteStateMachine;
     public Rigidbody2D rb { get; private set; }
     [HideInInspector] public Transform playerPosition;
@@ -19,7 +17,7 @@ public abstract class EnemyController : MonoBehaviour, IHealth
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        _currentHealth = maxHealth;
+        currentHealth = stats.maxHealth;
         direction = -1f;
     }
 
@@ -49,25 +47,25 @@ public abstract class EnemyController : MonoBehaviour, IHealth
     public void Heal(int amount)
     {
 
-        if (_currentHealth + amount >= maxHealth)
+        if (currentHealth + amount >= stats.maxHealth)
         {
-            _currentHealth = maxHealth;
+            currentHealth = stats.maxHealth;
         }
         else
         {
-            _currentHealth += amount;
+            currentHealth += amount;
         }
     }
 
     public void Damage(int amount)
     {
-        if (_currentHealth - amount <= 0)
+        if (currentHealth - amount <= 0)
         {
             Death();
         }
         else
         {
-            _currentHealth -= amount;
+            currentHealth -= amount;
         }
     }
 
@@ -81,26 +79,36 @@ public abstract class EnemyController : MonoBehaviour, IHealth
     }
     #endregion
 
-    public abstract void Move();
-
     private void FindClosestEnemy()
     {
         float distanceToClosestEnemy = Mathf.Infinity;
         GameObject closestEnemy = null;
-        GameObject[] allEnemies = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] allEnemies = DetectEnemy();
 
-        foreach(GameObject currentEnemy in allEnemies)
+        if (allEnemies.Length > 0)
         {
-            float distanceToEnemy = (currentEnemy.transform.position - this.transform.position).sqrMagnitude;
-
-            if(distanceToEnemy < distanceToClosestEnemy)
+            foreach (GameObject currentEnemy in allEnemies)
             {
-                distanceToClosestEnemy = distanceToEnemy;
-                closestEnemy = currentEnemy;
+                float distanceToEnemy = (currentEnemy.transform.position - this.transform.position).sqrMagnitude;
+
+                if (distanceToEnemy < distanceToClosestEnemy)
+                {
+                    distanceToClosestEnemy = distanceToEnemy;
+                    closestEnemy = currentEnemy;
+                }
             }
+            playerPosition = closestEnemy.transform;
+            Debug.DrawLine(this.transform.position, closestEnemy.transform.position);
         }
-        playerPosition = closestEnemy.transform;
-        Debug.DrawLine(this.transform.position, closestEnemy.transform.position);
+        else
+        {
+            playerPosition = this.transform;
+        }
+    }
+
+    private GameObject[] DetectEnemy()
+    {
+        return GameObject.FindGameObjectsWithTag("Player");
     }
 
     public void InvokeFindClosestEnemy()

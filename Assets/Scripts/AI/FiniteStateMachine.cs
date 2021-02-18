@@ -11,4 +11,6 @@ public abstract class FiniteStateMachine : ScriptableObject
     public abstract void PhysicsUpdate(EnemyController controller);
 
     public abstract void Exit(EnemyController controller);
+
+    public abstract bool Transition(Decision decision);
 }

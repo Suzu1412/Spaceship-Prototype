@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour, IHealth
 
     public void Death()
     {
-        Debug.Log("Player Death");
+        this.gameObject.SetActive(false);
     }
     #endregion
 
@@ -132,12 +132,5 @@ public class PlayerController : MonoBehaviour, IHealth
         {
             currentLevel = 3;
         }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        Debug.Log(other.name);
-        other.GetComponent<IHealth>()?.Damage(5);
-        this.gameObject.SetActive(false);
     }
 }

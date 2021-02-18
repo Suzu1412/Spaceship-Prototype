@@ -30,17 +30,22 @@ public class SuicidePattern : FiniteStateMachine
             {
                 if (controller.EnemyDirection().x <= -0.1f)
                 {
-                    controller.rb.velocity = new Vector2(-controller.moveSpeed / 2, -controller.moveSpeed);
+                    controller.rb.velocity = new Vector2(-controller.stats.moveSpeed / 2, -controller.stats.moveSpeed);
                 }
                 else if (controller.EnemyDirection().x >= 0.1f)
                 {
-                    controller.rb.velocity = new Vector2(controller.moveSpeed / 2, -controller.moveSpeed);
+                    controller.rb.velocity = new Vector2(controller.stats.moveSpeed / 2, -controller.stats.moveSpeed);
                 }
                 else 
                 {
-                    controller.rb.velocity = new Vector2(0f, -controller.moveSpeed);
+                    controller.rb.velocity = Vector2.down * controller.stats.moveSpeed;
                 }
             }
         }
+    }
+
+    public override bool Transition(Decision decision)
+    {
+        throw new System.NotImplementedException();
     }
 }
