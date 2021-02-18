@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "AI/Suicide Pattern")]
-public class SuicidePattern : FiniteStateMachine
+[CreateAssetMenu(menuName = "AI/State/Suicide State")]
+public class SuicideState: State
 {
     public override void Enter(EnemyController controller)
     {
         controller.targetFailed = false;
         controller.InvokeFindClosestEnemy();
+        Debug.Log("Enter suicide state");
     }
 
     public override void Exit(EnemyController controller)
@@ -19,7 +20,7 @@ public class SuicidePattern : FiniteStateMachine
 
     public override void LogicUpdate(EnemyController controller)
     {
-        return;
+        //base.LogicUpdate(controller);
     }
 
     public override void PhysicsUpdate(EnemyController controller)
@@ -36,7 +37,7 @@ public class SuicidePattern : FiniteStateMachine
                 {
                     controller.rb.velocity = new Vector2(controller.stats.moveSpeed / 2, -controller.stats.moveSpeed);
                 }
-                else 
+                else
                 {
                     controller.rb.velocity = Vector2.down * controller.stats.moveSpeed;
                 }
@@ -44,8 +45,4 @@ public class SuicidePattern : FiniteStateMachine
         }
     }
 
-    public override bool Transition(Decision decision)
-    {
-        throw new System.NotImplementedException();
-    }
 }

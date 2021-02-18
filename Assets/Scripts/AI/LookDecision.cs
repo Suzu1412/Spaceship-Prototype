@@ -7,13 +7,17 @@ public class LookDecision : Decision
 {
     public override bool Decide(EnemyController controller)
     {
-        bool targetVisible = false;
-
-        return targetVisible;
+        return FindEnemies(controller);
     }
 
-    private bool Look(EnemyController controller)
+    private bool FindEnemies(EnemyController controller)
     {
-        return false;
+        bool enemiesFound = false;
+        GameObject[] players =  GameObject.FindGameObjectsWithTag("Player");
+        if (players.Length > 0)
+        {
+            enemiesFound = true;
+        }
+        return enemiesFound;
     }
 }

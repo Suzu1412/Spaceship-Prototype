@@ -6,11 +6,11 @@ public class EnemyController : MonoBehaviour, IHealth
 {
     [SerializeField] private int currentHealth;
     [SerializeField] public EnemyStats stats;
-    [SerializeField] public FiniteStateMachine finiteStateMachine;
     public Rigidbody2D rb { get; private set; }
     [HideInInspector] public Transform playerPosition;
     [HideInInspector] public float direction;
     [HideInInspector] public bool targetFailed;
+    [SerializeField] public State currentState;
 
 
     // Start is called before the first frame update
@@ -23,23 +23,23 @@ public class EnemyController : MonoBehaviour, IHealth
 
     void OnEnable()
     {
-        finiteStateMachine.Enter(this);
+        currentState.Enter(this);
     }
 
     void OnDisable()
     {
-        finiteStateMachine.Exit(this);
+        currentState.Exit(this);
     }
 
     // Update is called once per frame
     void Update()
     {
-        finiteStateMachine.LogicUpdate(this);
+        currentState.LogicUpdate(this);
     }
     
     void FixedUpdate()
     {
-        finiteStateMachine.PhysicsUpdate(this);
+        currentState.PhysicsUpdate(this);
     }
 
     
@@ -109,6 +109,16 @@ public class EnemyController : MonoBehaviour, IHealth
     private GameObject[] DetectEnemy()
     {
         return GameObject.FindGameObjectsWithTag("Player");
+    }
+
+    public void TransitionToState(State nextState)
+    {
+        if (currentState != nextState)
+        {
+            currentState.Exit(this);
+            currentState = nextState;
+            currentState.Enter(this);
+        }
     }
 
     public void InvokeFindClosestEnemy()

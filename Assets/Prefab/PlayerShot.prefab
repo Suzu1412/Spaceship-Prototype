@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 6312322471829764148}
   - component: {fileID: 380883962200073478}
   - component: {fileID: -5930507176285849076}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PlayerShot
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -72,10 +72,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c7e156bcad7af428a13c7f89e55d7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapon: {fileID: 11400000, guid: 1a487383f0b405d40a774522e89856b4, type: 2}
   fired: 0
   projectileLifeTime: 0
   up: 0
+  damage: 0
+  projectileSpeed: 0
 --- !u!50 &-5930507176285849076
 Rigidbody2D:
   serializedVersion: 4
@@ -107,7 +108,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6312322472898821870}
   - component: {fileID: 6312322472898821868}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
