@@ -20,7 +20,7 @@ public class SuicideState: State
 
     public override void LogicUpdate(EnemyController controller)
     {
-        //base.LogicUpdate(controller);
+        base.LogicUpdate(controller);
     }
 
     public override void PhysicsUpdate(EnemyController controller)

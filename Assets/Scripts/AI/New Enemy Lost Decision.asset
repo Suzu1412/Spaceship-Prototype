@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d72a0e88d58f4091b281e2ff2560e51, type: 3}
-  m_Name: New Suicide State
+  m_Script: {fileID: 11500000, guid: a613a05796617144b9fce3b3a96d79c1, type: 3}
+  m_Name: New Enemy Lost Decision
   m_EditorClassIdentifier: 
-  decisions:
-  - {fileID: 11400000, guid: 0a21ed108d22d614d8a6f40cc1ee0be1, type: 2}
+  nextState: {fileID: 11400000, guid: 22762ae2341574d65a4af215ce294ea5, type: 2}

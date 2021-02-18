@@ -23,6 +23,6 @@ public class IdleState : State
 
     public override void PhysicsUpdate(EnemyController controller)
     {
-        //throw new System.NotImplementedException();
+        controller.rb.velocity = Vector2.zero;
     }
 }
