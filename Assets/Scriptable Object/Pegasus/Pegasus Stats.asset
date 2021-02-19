@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 3
   damage: 5
-  moveSpeed: 8
+  moveSpeed: 4
   shootRate: 0.2
   projectileSpeed: 5
   projectileDuration: 3
