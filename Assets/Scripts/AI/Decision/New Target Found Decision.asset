@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4b667197565dad4d84f445be6a2f17a, type: 3}
-  m_Name: New Look Decision
+  m_Script: {fileID: 11500000, guid: 56a0f8669f3ac9c4bb98816d67a59552, type: 3}
+  m_Name: New Target Found Decision
   m_EditorClassIdentifier: 
   nextState: {fileID: 11400000, guid: b33613ac2bb7d420e90135af70cf6105, type: 2}

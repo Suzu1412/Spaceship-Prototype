@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: New Idle State
   m_EditorClassIdentifier: 
   decisions:
-  - {fileID: 11400000, guid: 343aa3e132dc7406188205dc75fc81ad, type: 2}
+  - {fileID: 11400000, guid: dfc7647836bacb545a982be49d8e986a, type: 2}

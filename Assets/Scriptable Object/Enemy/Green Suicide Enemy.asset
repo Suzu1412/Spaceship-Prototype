@@ -14,13 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 50
   damage: 5
-  moveSpeed: 3
+  moveSpeed: 1
   shootRate: 0
   projectileSpeed: 0
   projectileDuration: 0
   criticalChance: 0
   dodgeChance: 0
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  angle: 180
+  distance: 5
   dropChance: 0
   shootChance: 0
   waitUntilShoot: 0
-  collissionDamage: 0
+  collissionDamage: 999

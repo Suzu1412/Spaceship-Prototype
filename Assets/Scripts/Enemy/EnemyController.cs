@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour, IHealth
 {
-    [SerializeField] private int currentHealth;
+    public int currentHealth { get; private set; }
     [SerializeField] public EnemyStats stats;
     public Rigidbody2D rb { get; private set; }
     [HideInInspector] public Transform playerPosition;
     [HideInInspector] public float direction;
     [HideInInspector] public bool targetFailed;
-    [SerializeField] public State currentState;
-
+    public State currentState;
+    public bool detected { get; private set; }
 
     // Start is called before the first frame update
     void Start()
@@ -19,11 +19,11 @@ public class EnemyController : MonoBehaviour, IHealth
         rb = GetComponent<Rigidbody2D>();
         currentHealth = stats.maxHealth;
         direction = -1f;
+        currentState.Enter(this);
     }
 
     void OnEnable()
     {
-        currentState.Enter(this);
     }
 
     void OnDisable()
@@ -41,7 +41,6 @@ public class EnemyController : MonoBehaviour, IHealth
     {
         currentState.PhysicsUpdate(this);
     }
-
     
     #region IHealth Implementation
     public void Heal(int amount)
@@ -79,37 +78,84 @@ public class EnemyController : MonoBehaviour, IHealth
     }
     #endregion
 
-    private void FindClosestEnemy()
+    #region Player Detection
+    public void DetectPlayer()
+    {
+        detected = false;
+
+        FindClosestPlayer();
+
+        if (playerPosition != null)
+        {
+            Vector2 PlayerVector = playerPosition.position - transform.position;
+
+            if (Vector3.Angle(PlayerVector.normalized, -transform.up) < stats.angle * 0.5f)
+            {
+                if (PlayerVector.magnitude < stats.distance)
+                {
+                    detected = true;
+                }
+            }
+        }
+    }
+
+    private void FindClosestPlayer()
     {
         float distanceToClosestEnemy = Mathf.Infinity;
-        GameObject closestEnemy = null;
-        GameObject[] allEnemies = DetectEnemy();
+        GameObject closestPlayer = null;
+        GameObject[] allEnemies = GameObject.FindGameObjectsWithTag("Player");
 
         if (allEnemies.Length > 0)
         {
-            foreach (GameObject currentEnemy in allEnemies)
+            foreach (GameObject currentPlayer in allEnemies)
             {
-                float distanceToEnemy = (currentEnemy.transform.position - this.transform.position).sqrMagnitude;
+                float distanceToEnemy = (currentPlayer.transform.position - this.transform.position).sqrMagnitude;
 
                 if (distanceToEnemy < distanceToClosestEnemy)
                 {
                     distanceToClosestEnemy = distanceToEnemy;
-                    closestEnemy = currentEnemy;
+                    closestPlayer = currentPlayer;
                 }
             }
-            playerPosition = closestEnemy.transform;
-            Debug.DrawLine(this.transform.position, closestEnemy.transform.position);
+            playerPosition = closestPlayer.transform;
+            //Debug.DrawLine(this.transform.position, closestPlayer.transform.position); // Show Player Detection
         }
         else
         {
-            playerPosition = this.transform;
+            playerPosition = null;
         }
     }
 
-    private GameObject[] DetectEnemy()
+    public Vector3 EnemyDirection()
     {
-        return GameObject.FindGameObjectsWithTag("Player");
+        Vector3 direction = playerPosition.transform.position - transform.position;
+        return direction;
     }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = detected ? Color.green : Color.red;
+
+        if (stats.angle <= 0f) return;
+
+        float halfVisionAngle = stats.angle * 0.5f;
+
+        Vector3 p1, p2;
+
+        p1 = PointForAngle(halfVisionAngle + 270, stats.distance);
+        p2 = PointForAngle(-halfVisionAngle + 270, stats.distance);
+
+        Gizmos.DrawLine(transform.position, transform.position + p1);
+        Gizmos.DrawLine(transform.position, transform.position + p2);
+
+        Gizmos.DrawRay(transform.position, -transform.up * stats.distance);
+    }
+
+    Vector3 PointForAngle(float angle, float distance)
+    {
+        return new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * distance;
+    }
+    #endregion
 
     public void TransitionToState(State nextState)
     {
@@ -119,22 +165,6 @@ public class EnemyController : MonoBehaviour, IHealth
             currentState = nextState;
             currentState.Enter(this);
         }
-    }
-
-    public void InvokeFindClosestEnemy()
-    {
-        InvokeRepeating("FindClosestEnemy", 0, 0.3f);
-    }
-
-    public void DisableFindClosestEnemy()
-    {
-        CancelInvoke("FindClosestEnemy");
-    }
-
-    public Vector3 EnemyDirection()
-    {
-        Vector3 direction = playerPosition.transform.position - transform.position;
-        return direction;
     }
 
     public void OnCollisionEnter2D(Collision2D collision)

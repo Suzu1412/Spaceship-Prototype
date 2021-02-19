@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a613a05796617144b9fce3b3a96d79c1, type: 3}
-  m_Name: New Enemy Lost Decision
+  m_Script: {fileID: 11500000, guid: abfc11a6e0384a543ab4449ac9965b44, type: 3}
+  m_Name: New Target Lost Decision
   m_EditorClassIdentifier: 
-  nextState: {fileID: 11400000, guid: 22762ae2341574d65a4af215ce294ea5, type: 2}
+  nextState: {fileID: 11400000, guid: 945ab2ab981828045985e51cd3a9ef82, type: 2}

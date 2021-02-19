@@ -7,15 +7,10 @@ public class SuicideState: State
 {
     public override void Enter(EnemyController controller)
     {
-        controller.targetFailed = false;
-        controller.InvokeFindClosestEnemy();
-        Debug.Log("Enter suicide state");
     }
 
     public override void Exit(EnemyController controller)
     {
-        controller.targetFailed = false;
-        controller.DisableFindClosestEnemy();
     }
 
     public override void LogicUpdate(EnemyController controller)

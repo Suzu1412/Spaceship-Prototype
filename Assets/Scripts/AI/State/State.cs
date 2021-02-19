@@ -17,12 +17,11 @@ public abstract class State : ScriptableObject
 
     public abstract void Exit(EnemyController controller);
 
-
-    public void MakeTransition(EnemyController controller)
+    private void MakeTransition(EnemyController controller)
     {
         for (int i = 0; i < decisions.Length; i++)
         {
-            if (decisions[i].Decide(controller))
+            if (decisions[i].Decide(controller) && decisions[i].nextState != null)
             {
                 controller.TransitionToState(decisions[i].nextState);
                 break;
