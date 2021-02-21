@@ -9,14 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4992b58d70190714a9cda2ddc97ffcc8, type: 3}
-  m_Name: Pegasus Stats
+  m_Script: {fileID: 11500000, guid: 19f8278d838a4c047aae223321c49dbf, type: 3}
+  m_Name: New Straight Bullets
   m_EditorClassIdentifier: 
-  maxHealth: 30
-  damage: 5
-  moveSpeed: 4
-  shootRate: 0.2
-  projectileSpeed: 5
-  projectileDuration: 3
-  criticalChance: 0
-  dodgeChance: 0
+  bulletAmount: 010000000000000000000000
+  initialOffset: 0
+  offsetBetweenShots: 0.5
+  spread: 0

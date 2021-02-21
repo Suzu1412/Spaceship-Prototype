@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "AI/State/Move State")]
-
 public class MoveState : State
 {
     public override void Enter(EnemyController controller)
     {
-        controller.rb.velocity = Vector3.zero;
     }
 
     public override void Exit(EnemyController controller)

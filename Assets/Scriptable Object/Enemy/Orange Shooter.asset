@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 30
   damage: 5
-  moveSpeed: 5
+  moveSpeed: 3
   shootRate: 0.5
-  projectileSpeed: 4
+  projectileSpeed: 8
   projectileDuration: 10
   criticalChance: 0
   dodgeChance: 0
@@ -24,7 +24,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   angle: 10
-  distance: 6
+  distance: 10
   dropChance: 0
   shootChance: 0
   waitUntilShoot: 0

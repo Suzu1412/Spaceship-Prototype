@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 50
   damage: 5
-  moveSpeed: 1
+  moveSpeed: 3
   shootRate: 0
   projectileSpeed: 0
   projectileDuration: 0

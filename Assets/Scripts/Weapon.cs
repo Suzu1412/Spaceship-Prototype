@@ -23,10 +23,7 @@ public abstract class Weapon : MonoBehaviour
     public virtual void SetProjectileValues(float offset)
     {
         currentProjectile.transform.position = gunPosition.position + new Vector3(offset, 0, 0);
-
-        
         currentProjectile.GetComponent<Projectile>().fired = true;
-
     }
 
     public void ResetShoot(float delay)

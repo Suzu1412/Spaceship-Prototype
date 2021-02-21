@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb49b5c65e792bc4e8e361830bfa1794, type: 3}
+  m_Name: Orange Enemy
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 7321851205745762313, guid: b7daed41f630db44f960f912540b9e20, type: 3}
+  projectileSpeed: 2
+  amountToPool: 10
+  shootRate: 3
+  lifeTime: 5
+  pattern: {fileID: 11400000, guid: 28005e50749d0934f8bdbf133e444ebf, type: 2}

@@ -7,23 +7,37 @@ public class EnemyController : MonoBehaviour, IHealth
     public int currentHealth { get; private set; }
     [SerializeField] public EnemyStats stats;
     public Rigidbody2D rb { get; private set; }
+    private ObjectPooler objectPooler;
+
+
     [HideInInspector] public Transform playerPosition;
-    [HideInInspector] public float direction;
     [HideInInspector] public bool targetFailed;
-    public State currentState;
+    [SerializeField] private State initialState;
     public bool detected { get; private set; }
+    private State currentState;
+
+    [Header("Follow Path Attributes")]
+    private Transform path;
+    public Transform waypoints;
+    [HideInInspector] public int currentWaypoint;
+    [HideInInspector] public bool followPath;
+
+    [Header("Shoot")]
+    public bool canShoot;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         currentHealth = stats.maxHealth;
-        direction = -1f;
-        currentState.Enter(this);
+        objectPooler = ObjectPooler.Instance;
+        path = GameObject.Find("Path").transform;
     }
 
     void OnEnable()
     {
+        currentState = initialState;
+        currentState.Enter(this);
     }
 
     void OnDisable()
@@ -156,6 +170,18 @@ public class EnemyController : MonoBehaviour, IHealth
         return new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * distance;
     }
     #endregion
+
+    public ObjectPooler GetObjectPooler()
+    {
+        return objectPooler;
+    }
+
+    public void AssignPath(int number)
+    {
+        waypoints = path.GetChild(number).transform;
+        followPath = true;
+        currentWaypoint = 0;
+    }
 
     public void TransitionToState(State nextState)
     {
