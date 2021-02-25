@@ -34,15 +34,15 @@ public class PlayerWeapon : Weapon
             }
         }
 
-        ResetShoot(player.stats.shootRate);
+        ResetShoot(mainWeapon.shootRate);
     }
 
     public override void SetProjectileValues(float offset)
     {
         base.SetProjectileValues(offset);
         currentProjectile.GetComponent<Projectile>().up = true;
-        currentProjectile.GetComponent<Projectile>().projectileLifeTime = player.stats.projectileDuration;
-        currentProjectile.GetComponent<Projectile>().projectileSpeed = player.stats.projectileSpeed;
+        currentProjectile.GetComponent<Projectile>().projectileLifeTime = mainWeapon.lifeTime;
+        currentProjectile.GetComponent<Projectile>().projectileSpeed = mainWeapon.projectileSpeed;
         currentProjectile.GetComponent<Projectile>().damage = player.stats.damage;
         currentProjectile.SetActive(true);
     }

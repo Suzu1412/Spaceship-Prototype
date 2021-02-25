@@ -8,9 +8,10 @@ public class WeaponType : ScriptableObject
     public GameObject projectile;
     public float projectileSpeed;
     public int amountToPool;
-
     public float shootRate;
     public float lifeTime;
-
     public Pattern pattern;
+    [Header("Probability")]
+    [Range(0f, 1f)] public float criticalChance;
+    [Range(0f, 1f)] public float dodgeChance;
 }

@@ -24,6 +24,9 @@ public class EnemyController : MonoBehaviour, IHealth
 
     [Header("Shoot")]
     public bool canShoot;
+    public bool shootOnTargetDetection;
+    public bool shootRandomly;
+    [Range(0f,1f)] public float chanceToShoot;
 
     // Start is called before the first frame update
     void Awake()
