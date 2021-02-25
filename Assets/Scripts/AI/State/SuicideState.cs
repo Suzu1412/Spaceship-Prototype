@@ -11,6 +11,7 @@ public class SuicideState: State
 
     public override void Exit(EnemyController controller)
     {
+        base.Exit(controller);
         controller.rb.velocity = Vector2.zero;
     }
 

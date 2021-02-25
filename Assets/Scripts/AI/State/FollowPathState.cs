@@ -9,12 +9,8 @@ public class FollowPathState : State
     {
         controller.AssignPath(0);
         controller.transform.position = controller.waypoints.GetChild(controller.currentWaypoint).position;
+        controller.SetShootDecision();
         
-    }
-
-    public override void Exit(EnemyController controller)
-    {
-
     }
 
     public override void LogicUpdate(EnemyController controller)

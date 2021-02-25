@@ -15,7 +15,10 @@ public abstract class State : ScriptableObject
 
     public abstract void PhysicsUpdate(EnemyController controller);
 
-    public abstract void Exit(EnemyController controller);
+    public virtual void Exit(EnemyController controller)
+    {
+        controller.DisableShootDecision();
+    }
 
     private void MakeTransition(EnemyController controller)
     {

@@ -6,8 +6,7 @@ public class PlayerController : MonoBehaviour, IHealth
 {
     private InputController input;
     private Rigidbody2D rb;
-    private ObjectPooler objectPooler;
-
+    
     [Header("Player Stats")]
     public int currentHealth;
     public PlayerStats stats;
@@ -20,11 +19,12 @@ public class PlayerController : MonoBehaviour, IHealth
     [SerializeField] private Transform topRightCorner;
     [SerializeField] private float offset;
 
+    public bool canShoot = true;
+
     private void Awake()
     {
         input = GetComponent<InputController>();
         rb = GetComponent<Rigidbody2D>();
-        objectPooler = ObjectPooler.Instance;
 
         if (input == null) Debug.LogError("InputController not attached to player");
         if (rb == null) Debug.LogError("Rigidbody2D not attached to player");
@@ -103,11 +103,6 @@ public class PlayerController : MonoBehaviour, IHealth
         this.gameObject.SetActive(false);
     }
     #endregion
-
-    public ObjectPooler GetObjectPooler() 
-    {
-        return objectPooler;
-    }
 
     public bool IsShooting()
     {

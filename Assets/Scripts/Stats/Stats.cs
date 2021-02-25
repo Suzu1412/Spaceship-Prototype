@@ -8,4 +8,7 @@ public abstract class Stats : ScriptableObject
     public int maxHealth;
     public int damage;
     public float moveSpeed;
+    [Header("Probability")]
+    [Range(0f, 1f)] public float criticalChance;
+    [Range(0f, 1f)] public float dodgeChance; 
 }

@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ShootDecision
+{
+    None, 
+    Random,
+    Interval,
+    OnDetection
+}
+
 public class EnemyController : MonoBehaviour, IHealth
 {
     public int currentHealth { get; private set; }
@@ -9,11 +17,10 @@ public class EnemyController : MonoBehaviour, IHealth
     public Rigidbody2D rb { get; private set; }
     private ObjectPooler objectPooler;
 
-
     [HideInInspector] public Transform playerPosition;
-    [HideInInspector] public bool targetFailed;
     [SerializeField] private State initialState;
     public bool detected { get; private set; }
+    public bool canShoot { get; private set; }
     private State currentState;
 
     [Header("Follow Path Attributes")]
@@ -23,22 +30,23 @@ public class EnemyController : MonoBehaviour, IHealth
     [HideInInspector] public bool followPath;
 
     [Header("Shoot")]
-    public bool canShoot;
-    public bool shootOnTargetDetection;
-    public bool shootRandomly;
-    [Range(0f,1f)] public float chanceToShoot;
+    public ShootDecision shootDecision;
+    [Tooltip("On Random Shoot Decision")] [Range(0f, 3f)] public float minRandomShoot = 1f;
+    [Tooltip("On Random Shoot Decision")] [Range(0f, 4f)] public float maxRandomShoot = 5f;
+    [Tooltip("On Interval Shoot Decision")] [Range(0f, 2f)] public float shootIntervalMaxWait = 1f;
+
 
     // Start is called before the first frame update
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        currentHealth = stats.maxHealth;
         objectPooler = ObjectPooler.Instance;
         path = GameObject.Find("Path").transform;
     }
 
     void OnEnable()
     {
+        currentHealth = stats.maxHealth;
         currentState = initialState;
         currentState.Enter(this);
     }
@@ -204,4 +212,76 @@ public class EnemyController : MonoBehaviour, IHealth
             Death();
         }
     }
+
+    public void SetShootDecision()
+    {
+        switch (shootDecision)
+        {
+            case ShootDecision.None:
+                break;
+
+            case ShootDecision.Random:
+                StartCoroutine(ShootRandom());
+                break;
+
+            case ShootDecision.Interval:
+                Invoke("ShootOnInterval", Random.Range(0f, shootIntervalMaxWait));
+                break;
+
+            case ShootDecision.OnDetection:
+                InvokeRepeating("ShootOnDetection", 0f, 0.2f);
+                break;
+        }
+    }
+
+    public void DisableShootDecision()
+    {
+        canShoot = false;
+        switch (shootDecision)
+        {
+            case ShootDecision.None:
+                break;
+
+            case ShootDecision.Random:
+                StopCoroutine(ShootRandom());
+                break;
+
+            case ShootDecision.Interval:
+                CancelInvoke("ShootOnInterval");
+                break;
+
+            case ShootDecision.OnDetection:
+                CancelInvoke("ShootOnDetection");
+                break;
+        }
+    }
+
+    IEnumerator ShootRandom()
+    {
+        while (true)
+        {
+            Debug.Log(canShoot);
+            yield return new WaitForSeconds(Random.Range(minRandomShoot, maxRandomShoot));
+            canShoot = true;
+            yield return new WaitForSeconds(.1f);
+            canShoot = false;
+        }
+    }
+
+    private void ShootOnInterval()
+    {
+        canShoot = true;
+    }
+
+
+    private void ShootOnDetection()
+    {
+        DetectPlayer();
+        canShoot = false;
+        if (detected)
+        {
+            canShoot = true;
+        }
+    }
+    
 }

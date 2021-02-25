@@ -6,13 +6,10 @@ public class EnemyWeapon : Weapon
 {
     private EnemyController controller;
 
-    protected void Start()
+    protected override void Awake()
     {
+        base.Awake();
         controller = GetComponent<EnemyController>();
-
-        GameObject newPool = new GameObject();
-        projectileParentFolder = newPool;
-        controller.GetObjectPooler().CreatePool(mainWeapon, currentPool, projectileParentFolder);
     }
 
     protected override void Update()
@@ -28,7 +25,7 @@ public class EnemyWeapon : Weapon
     {
         for (int i = 0; i < mainWeapon.pattern.bulletAmount[0]; i++)
         {
-            currentProjectile = controller.GetObjectPooler().GetObject(currentPool);
+            currentProjectile = objectPooler.SpawnFromPool(mainWeapon.projectile.name, new Vector3(0f, 0f, 0f), Quaternion.identity);
 
             if (currentProjectile != null)
             {
