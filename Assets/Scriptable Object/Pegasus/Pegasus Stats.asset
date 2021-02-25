@@ -15,8 +15,3 @@ MonoBehaviour:
   maxHealth: 30
   damage: 5
   moveSpeed: 4
-  shootRate: 0.2
-  projectileSpeed: 5
-  projectileDuration: 3
-  criticalChance: 0
-  dodgeChance: 0
