@@ -11,6 +11,7 @@ public class MoveState : State
 
     public override void Exit(EnemyController controller)
     {
+        base.Exit(controller);
         controller.rb.velocity = Vector3.zero;
     }
 

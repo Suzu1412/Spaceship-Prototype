@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cad98a65e0de97243a7725f26997d4b2, type: 3}
   m_Name: New Follow Path State
   m_EditorClassIdentifier: 
-  decisions:
-  - {fileID: 11400000, guid: 3be44a6f410abc244a70978673ea388f, type: 2}
+  decisions: []

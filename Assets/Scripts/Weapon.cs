@@ -10,8 +10,24 @@ public abstract class Weapon : MonoBehaviour
     [SerializeField] protected Transform gunRotation;
     public GameObject currentProjectile { get; protected set; }
 
-    public List<GameObject> currentPool = new List<GameObject>();
+    protected ObjectPooler objectPooler;
     protected float timeUntilNextShoot;
+
+    protected virtual void Awake()
+    {
+        objectPooler = ObjectPooler.Instance;
+
+        ObjectPooler.Pool item = new ObjectPooler.Pool
+        {
+            prefab = mainWeapon.projectile,
+            shouldExpandPool = true,
+            size = mainWeapon.amountToPool,
+            tag = mainWeapon.projectile.name,
+            isChild = true
+        };
+
+        objectPooler.AddPool(item);
+    }
 
     protected virtual void Update()
     {
@@ -29,5 +45,10 @@ public abstract class Weapon : MonoBehaviour
     public void ResetShoot(float delay)
     {
         timeUntilNextShoot = delay;
+    }
+
+    public ObjectPooler GetObjectPooler()
+    {
+        return objectPooler;
     }
 }

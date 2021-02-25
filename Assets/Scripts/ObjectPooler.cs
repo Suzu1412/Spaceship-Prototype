@@ -4,19 +4,41 @@ using UnityEngine;
 
 public class ObjectPooler : MonoBehaviour
 {
-    private static ObjectPooler instance;
-    private GameObject projectileParentFolder;
-    public List<GameObject> pooledObjects;
-    public List<ObjectPoolItem> itemsToPool;
-
+    //Para que aparezca en el inspector tenemos que agregar la etiqueta de System.Serializable
     [System.Serializable]
-    public class ObjectPoolItem
+    public class Pool
     {
-        public GameObject objectToPool;
-        public int amountToPool;
-        public bool shouldExpand = true;
+        public string tag;
+        public GameObject prefab;
+        public int size;
+        public bool shouldExpandPool = false;
+        public bool isChild = true;
     }
-    
+
+    private static ObjectPooler instance;
+    public Dictionary<string, List<GameObject>> poolDictionary = new Dictionary<string, List<GameObject>>();
+    public List<Pool> pools = new List<Pool>();
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void Start()
+    {
+        foreach (Pool pool in pools)
+        {
+            CreatePool(pool);
+        }
+    }
 
     public static ObjectPooler Instance
     {
@@ -31,81 +53,72 @@ public class ObjectPooler : MonoBehaviour
         }
     }
 
-    private GameObject currentItem;
-
-    void Awake()
+    public void AddPool(Pool pool)
     {
-        if(instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        pools.Add(pool);
     }
 
-    private void Start()
+    private void CreatePool(Pool pool)
     {
-        pooledObjects = new List<GameObject>();
-
-        foreach(ObjectPoolItem item in itemsToPool)
+        if (!poolDictionary.ContainsKey(tag))
         {
-            for (int i = 0; i < item.amountToPool; i++)
+            List<GameObject> objectPool = new List<GameObject>();
+
+            for (int i = 0; i < pool.size; i++)
             {
-                GameObject obj = Instantiate(item.objectToPool);
+                GameObject obj = Instantiate(pool.prefab);
                 obj.SetActive(false);
-                pooledObjects.Add(obj);
+                objectPool.Add(obj);
+                if (pool.isChild)
+                    obj.transform.SetParent(this.transform);
             }
+
+            poolDictionary.Add(pool.tag, objectPool);
         }
-        
     }
 
-    public void CreatePool(WeaponType weapon, List<GameObject> currentPool, GameObject projectileParentFolder)
+    public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation)
     {
-        for(int i=0; i < weapon.amountToPool; i++)
+        if (!poolDictionary.ContainsKey(tag))
         {
-            currentItem = Instantiate(weapon.projectile);
-
-            currentItem.SetActive(false);
-            currentPool.Add(currentItem);
-            currentItem.transform.SetParent(projectileParentFolder.transform);
+            Debug.LogWarning("Pool with tag" + tag + " doesn't exist");
+            return null;
         }
 
-        projectileParentFolder.name = weapon.name;
-    }
-
-    public GameObject GetPooledObject(string tag)
-    {
-        for (int i=0; i < pooledObjects.Count; i++)
+        if (poolDictionary[tag].Count > 0)
         {
-            if (!pooledObjects[i].activeInHierarchy && pooledObjects[i].tag == tag)
+            for (int i = 0; i < poolDictionary[tag].Count; i++)
             {
-                return pooledObjects[i];
+                if (!poolDictionary[tag][i].activeInHierarchy)
+                {
+                    GameObject objectToSpawn = poolDictionary[tag][i];
+
+                    objectToSpawn.SetActive(true);
+                    objectToSpawn.transform.position = position;
+                    objectToSpawn.transform.rotation = rotation;
+
+                    return objectToSpawn;
+                }
             }
         }
 
-        foreach(ObjectPoolItem item in itemsToPool)
+        foreach (Pool pool in pools)
         {
-            if (item.objectToPool.tag == tag && item.shouldExpand)
+            if (pool.tag.Equals(tag) && pool.shouldExpandPool)
             {
-                GameObject obj = Instantiate(item.objectToPool);
-                obj.SetActive(false);
-                pooledObjects.Add(obj);
-                return obj;
-            }
-        }
-        return null;
-    }
+                GameObject objectToSpawn = Instantiate(pool.prefab);
 
-    public GameObject GetObject(List<GameObject> currentPool)
-    {
-        for(int i=0; i<currentPool.Count; i++)
-        {
-            if (!currentPool[i].activeInHierarchy)
-            {
-                return currentPool[i];
+
+                if (pool.isChild)
+                    objectToSpawn.transform.SetParent(this.transform);
+
+                poolDictionary[tag].Add(objectToSpawn);
+
+                objectToSpawn.SetActive(true);
+                objectToSpawn.transform.position = position;
+                objectToSpawn.transform.rotation = rotation;
+
+                return objectToSpawn;
             }
         }
 

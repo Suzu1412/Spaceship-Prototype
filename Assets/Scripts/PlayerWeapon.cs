@@ -4,46 +4,43 @@ using UnityEngine;
 
 public class PlayerWeapon : Weapon
 {
-    private PlayerController player;
+    private PlayerController controller;
 
-    protected void Start()
+    protected override void Awake()
     {
-        player = GetComponent<PlayerController>();
-
-        GameObject newPool = new GameObject();
-        projectileParentFolder = newPool;
-        player.GetObjectPooler().CreatePool(mainWeapon, currentPool, projectileParentFolder);
+        base.Awake();
+        controller = GetComponent<PlayerController>();
     }
 
     protected override void Update()
     {
         base.Update();
-        if (timeUntilNextShoot <= 0)
+        if (controller.canShoot && timeUntilNextShoot <= 0)
             FireWeapon();
     }
 
     protected override void FireWeapon()
     {
-        for (int i = 0; i < mainWeapon.pattern.bulletAmount[player.currentLevel]; i++)
+        for (int i = 0; i < mainWeapon.pattern.bulletAmount[controller.currentLevel]; i++)
         {
-            currentProjectile = player.GetObjectPooler().GetObject(currentPool);
+            currentProjectile = objectPooler.SpawnFromPool(mainWeapon.projectile.name, new Vector3(0f, 0f, 0f), Quaternion.identity);
 
             if (currentProjectile != null)
             {
-                mainWeapon.pattern.PlaceProjectile(this, player.currentLevel, i);
+                mainWeapon.pattern.PlaceProjectile(this, controller.currentLevel, i);
             }
         }
 
-        ResetShoot(player.stats.shootRate);
+        ResetShoot(mainWeapon.shootRate);
     }
 
     public override void SetProjectileValues(float offset)
     {
         base.SetProjectileValues(offset);
         currentProjectile.GetComponent<Projectile>().up = true;
-        currentProjectile.GetComponent<Projectile>().projectileLifeTime = player.stats.projectileDuration;
-        currentProjectile.GetComponent<Projectile>().projectileSpeed = player.stats.projectileSpeed;
-        currentProjectile.GetComponent<Projectile>().damage = player.stats.damage;
+        currentProjectile.GetComponent<Projectile>().projectileLifeTime = mainWeapon.lifeTime;
+        currentProjectile.GetComponent<Projectile>().projectileSpeed = mainWeapon.projectileSpeed;
+        currentProjectile.GetComponent<Projectile>().damage = controller.stats.damage;
         currentProjectile.SetActive(true);
     }
         
