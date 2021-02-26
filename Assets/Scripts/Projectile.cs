@@ -10,6 +10,7 @@ public class Projectile : MonoBehaviour
     private bool flipped;
     public int damage;
     public float projectileSpeed;
+    public Vector3 moveDirection;
 
 
     private void OnDisable()
@@ -33,8 +34,9 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    public void Movement()
+    private void Movement()
     {
+        /*
         if (fired)
         {
             if (up)
@@ -56,8 +58,17 @@ public class Projectile : MonoBehaviour
                 }
 
                 transform.Translate(Vector2.down * projectileSpeed * Time.deltaTime);
+         
             }
         }
+        */
+        
+        transform.Translate(moveDirection * projectileSpeed * Time.deltaTime);
+    }
+
+    public void SetMoveDirection(Vector3 direction)
+    {
+        moveDirection = direction;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

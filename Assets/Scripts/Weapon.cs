@@ -12,6 +12,7 @@ public abstract class Weapon : MonoBehaviour
 
     protected ObjectPooler objectPooler;
     protected float timeUntilNextShoot;
+    private Vector2 bulletDirection;
 
     protected virtual void Awake()
     {
@@ -36,10 +37,22 @@ public abstract class Weapon : MonoBehaviour
 
     protected abstract void FireWeapon();
 
-    public virtual void SetProjectileValues(float offset)
+    public virtual void SetProjectileValues(float xPos, float yPos, float angle)
     {
-        currentProjectile.transform.position = gunPosition.position + new Vector3(offset, 0, 0);
+        currentProjectile.transform.position = new Vector3(gunPosition.position.x + xPos, gunPosition.position.y + yPos, 0);
+        currentProjectile.transform.rotation = gunPosition.rotation;
+
+        float bulDirX = gunPosition.position.x + Mathf.Cos((angle * Mathf.PI) / 180f);
+        float bulDirY = gunPosition.position.y + Mathf.Sin((angle * Mathf.PI) / 180f);
+
+        Vector3 bulMoveVector = new Vector3(bulDirX, bulDirY, 0f);
+        bulletDirection = (bulMoveVector - transform.position).normalized;
+
         currentProjectile.GetComponent<Projectile>().fired = true;
+        currentProjectile.GetComponent<Projectile>().projectileLifeTime = mainWeapon.lifeTime;
+        currentProjectile.GetComponent<Projectile>().projectileSpeed = mainWeapon.projectileSpeed;
+        currentProjectile.GetComponent<Projectile>().SetMoveDirection(bulletDirection);
+        currentProjectile.SetActive(true);
     }
 
     public void ResetShoot(float delay)

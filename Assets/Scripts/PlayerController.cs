@@ -2,60 +2,72 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour, IHealth
+public class PlayerController : CharController
 {
-    private InputController input;
-    private Rigidbody2D rb;
+    private InputController _input;
     
-    [Header("Player Stats")]
-    public int currentHealth;
-    public PlayerStats stats;
-
-    [Range(0, 3)] public int currentLevel;// { get; private set; }
+    [Header("Player Attributes")]
+    [SerializeField] private PlayerStats _stats;
+    [Range(0, 3)] public int currentLevel;
     [Range(1, 64)] public int power;
+
+    [Header("Decision Making")]
+    private bool _canShoot = true;
 
     [Header("Movement Constraint")]
     [SerializeField] private Transform bottomLeftCorner;
     [SerializeField] private Transform topRightCorner;
     [SerializeField] private float offset;
 
-    public bool canShoot = true;
+    public InputController input { get { return _input; } }
+    public bool canShoot { get { return _canShoot; } }
+    public PlayerStats stats { get { return _stats; } }
 
-    private void Awake()
+    protected override void Awake()
     {
-        input = GetComponent<InputController>();
-        rb = GetComponent<Rigidbody2D>();
-
-        if (input == null) Debug.LogError("InputController not attached to player");
-        if (rb == null) Debug.LogError("Rigidbody2D not attached to player");
+        base.Awake();
+        _input = GetComponent<InputController>();
+        if (_input == null) Debug.LogError(this.gameObject.name + " missing InputController");
+        if (_stats == null) Debug.Log(this.gameObject.name + " missing Stats");
     }
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
-        currentHealth = stats.maxHealth;
         power = 1;
         
         if (bottomLeftCorner == null) bottomLeftCorner = GameObject.Find("bottomLeftCorner").transform;
         if (topRightCorner == null) topRightCorner = GameObject.Find("topRightCorner").transform;
+        if (offset == 0) offset = 0.2f;
+    }
+
+    void OnEnable()
+    {
+        _currentHealth = stats.maxHealth;
     }
 
     // Update is called once per frame
     void Update()
     {
         RestrictMovement();
+        /*
+        _canShoot = false;
+        if (IsShooting())
+        {
+            _canShoot = true;
+        }
+        */
     }
 
     private void FixedUpdate()
     {
         Move();
-        //WeaponLevel();
     }
 
     private void Move()
     {
         Vector2 movement = new Vector2(input.horizontal * stats.moveSpeed, input.vertical * stats.moveSpeed);
-        rb.velocity = movement;
+        _rb.velocity = movement;
     }
 
     private void RestrictMovement()
@@ -74,31 +86,31 @@ public class PlayerController : MonoBehaviour, IHealth
     }
 
     #region Implementing Ihealth
-    public void Heal(int amount)
+    public override void Heal(int amount)
     {
-        if (currentHealth + amount > stats.maxHealth)
+        if (_currentHealth + amount > stats.maxHealth)
         {
-            currentHealth = stats.maxHealth;
+            _currentHealth = stats.maxHealth;
         }
         else
         {
-            currentHealth += amount;
+            _currentHealth += amount;
         }
     }
 
-    public void Damage(int amount)
+    public override void Damage(int amount)
     {
-        if (currentHealth - amount <= 0)
+        if (_currentHealth - amount <= 0)
         {
             Death();
         }
         else
         {
-            currentHealth -= amount;
+            _currentHealth -= amount;
         }
     }
 
-    public void Death()
+    public override void Death()
     {
         this.gameObject.SetActive(false);
     }

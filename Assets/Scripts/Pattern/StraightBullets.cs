@@ -5,11 +5,14 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "ProjectilePattern/Straight", order = 2)]
 public class StraightBullets : Pattern
 {
+    public float initialOffset;
+    public float offsetBetweenShots;
+
     public override void PlaceProjectile(Weapon weapon, int level, int pointer)
     {
         if (bulletAmount[level] == 1)
         {
-            weapon.SetProjectileValues(0);
+            weapon.SetProjectileValues(0f, 0f, 90f);
         }
 
         else if (bulletAmount[level] > 1)
@@ -18,11 +21,11 @@ public class StraightBullets : Pattern
             {
                 if (pointer < bulletAmount[level] / 2)
                 {
-                    weapon.SetProjectileValues(initialOffset - offsetBetweenShots * (bulletAmount[level] / 2 - pointer));
+                    weapon.SetProjectileValues(initialOffset - offsetBetweenShots * (bulletAmount[level] / 2 - pointer), 0f, 90f);
                 }
                 else
                 {
-                    weapon.SetProjectileValues(-initialOffset + offsetBetweenShots * (pointer + 1 - bulletAmount[level] / 2));
+                    weapon.SetProjectileValues(-initialOffset + offsetBetweenShots * (pointer + 1 - bulletAmount[level] / 2), 0f, 90f);
                 }
             }
             else
@@ -31,15 +34,15 @@ public class StraightBullets : Pattern
 
                 if (pointer < bulletAmount[level] / 2)
                 {
-                    weapon.SetProjectileValues(-offsetBetweenShots * (bulletAmount[level] / 2 - pointer));
+                    weapon.SetProjectileValues(-offsetBetweenShots * (bulletAmount[level] / 2 - pointer), 0f, 90f);
                 }
                 else if (pointer == centerBullet)
                 {
-                    weapon.SetProjectileValues(0);
+                    weapon.SetProjectileValues(0f, 0f, 90f);
                 }
                 else
                 {
-                    weapon.SetProjectileValues(offsetBetweenShots * (pointer - bulletAmount[level] / 2));
+                    weapon.SetProjectileValues(offsetBetweenShots * (pointer - bulletAmount[level] / 2), 0f, 90f);
                 }
             }
         }

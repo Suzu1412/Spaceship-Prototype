@@ -5,95 +5,119 @@ using UnityEngine;
 public enum ShootDecision
 {
     None, 
-    Random,
     Interval,
     OnDetection
 }
 
-public class EnemyController : MonoBehaviour, IHealth
+public enum PathToTake
 {
-    public int currentHealth { get; private set; }
-    [SerializeField] public EnemyStats stats;
-    public Rigidbody2D rb { get; private set; }
-    private ObjectPooler objectPooler;
+    None = -1,
+    Fighter = 0,
+    Rogue = 1,
+    Ranger = 2
+}
 
-    [HideInInspector] public Transform playerPosition;
-    [SerializeField] private State initialState;
-    public bool detected { get; private set; }
-    public bool canShoot { get; private set; }
-    private State currentState;
+public class EnemyController : CharController
+{
+    #region Variables
+    [Header("Enemy Attributes")]
+    private State _initialState;
+    [SerializeField] private EnemyStats _stats;
+    [SerializeField] private State _currentState;
+
+    [Header("Decision Making")]
+    private bool _detected;
+    private bool _canShoot;
+    private Transform _playerPosition;
 
     [Header("Follow Path Attributes")]
-    private Transform path;
-    public Transform waypoints;
-    [HideInInspector] public int currentWaypoint;
-    [HideInInspector] public bool followPath;
-
+    private Transform _path;
+    private Transform _waypoints;
+    private int _currentWaypoint;
+    private bool _followPath;
+    [SerializeField] private PathToTake _pathToTake;
+    
     [Header("Shoot")]
     public ShootDecision shootDecision;
-    [Tooltip("On Random Shoot Decision")] [Range(0f, 3f)] public float minRandomShoot = 1f;
-    [Tooltip("On Random Shoot Decision")] [Range(0f, 4f)] public float maxRandomShoot = 5f;
-    [Tooltip("On Interval Shoot Decision")] [Range(0f, 2f)] public float shootIntervalMaxWait = 1f;
+    [Tooltip("On Random Shoot Decision")] [Range(0f, 3f)] [SerializeField] private float _minRandomShoot = 1f;
+    [Tooltip("On Random Shoot Decision")] [Range(0f, 5f)] [SerializeField] private float _maxRandomShoot = 5f;
+    [Tooltip("On Interval Shoot Decision")] [Range(0f, 2f)] [SerializeField] private float _shootIntervalMaxWait = 1f;
+    #endregion
+
+    #region Properties
+    public EnemyStats stats { get { return _stats; } }
+    public Transform playerPosition { get { return _playerPosition; } }
+    public bool detected { get { return _detected; } }
+    public bool canShoot { get { return _canShoot; } }
+    public int currentWayPoint { get { return _currentWaypoint; } }
+    public bool followPath { get { return _followPath; } }
+    public Transform waypoints { get { return _waypoints; } }
+    public float minRandomShoot { get { return _minRandomShoot; } }
+    public float maxRandomShoot { get { return _maxRandomShoot; } }
+    public float shootIntervalMaxWait { get { return _shootIntervalMaxWait; } }
+    #endregion
 
 
     // Start is called before the first frame update
-    void Awake()
+    protected override void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-        objectPooler = ObjectPooler.Instance;
-        path = GameObject.Find("Path").transform;
+        base.Awake();
+        _path = GameObject.Find("Path").transform;
+        _initialState = _currentState;
+        if (_initialState == null) Debug.Log(this.gameObject.name + " missing CurrentState");
+        if (_stats == null) Debug.Log(this.gameObject.name + " missing Stats");
     }
 
     void OnEnable()
     {
-        currentHealth = stats.maxHealth;
-        currentState = initialState;
-        currentState.Enter(this);
+        _currentHealth = stats.maxHealth;
+        _currentState = _initialState;
+        _currentState.Enter(this);
     }
 
     void OnDisable()
     {
-        currentState.Exit(this);
+        _currentState.Exit(this);
     }
 
     // Update is called once per frame
     void Update()
     {
-        currentState.LogicUpdate(this);
+        _currentState.LogicUpdate(this);
     }
     
     void FixedUpdate()
     {
-        currentState.PhysicsUpdate(this);
+        _currentState.PhysicsUpdate(this);
     }
-    
+
     #region IHealth Implementation
-    public void Heal(int amount)
+    public override void Heal(int amount)
     {
 
-        if (currentHealth + amount >= stats.maxHealth)
+        if (_currentHealth + amount >= stats.maxHealth)
         {
-            currentHealth = stats.maxHealth;
+            _currentHealth = stats.maxHealth;
         }
         else
         {
-            currentHealth += amount;
+            _currentHealth += amount;
         }
     }
 
-    public void Damage(int amount)
+    public override void Damage(int amount)
     {
-        if (currentHealth - amount <= 0)
+        if (_currentHealth - amount <= 0)
         {
             Death();
         }
         else
         {
-            currentHealth -= amount;
+            _currentHealth -= amount;
         }
     }
 
-    public void Death()
+    public override void Death()
     {
         //impactEffect.SpawnFromPool(this.name, this.transform.position, Quaternion.identity);
         //GameObject explosion = explosionEffect.SpawnFromPool(this.tag, this.transform.position, Quaternion.identity);
@@ -106,7 +130,7 @@ public class EnemyController : MonoBehaviour, IHealth
     #region Player Detection
     public void DetectPlayer()
     {
-        detected = false;
+        _detected = false;
 
         FindClosestPlayer();
 
@@ -118,7 +142,7 @@ public class EnemyController : MonoBehaviour, IHealth
             {
                 if (PlayerVector.magnitude < stats.distance)
                 {
-                    detected = true;
+                    _detected = true;
                 }
             }
         }
@@ -142,12 +166,12 @@ public class EnemyController : MonoBehaviour, IHealth
                     closestPlayer = currentPlayer;
                 }
             }
-            playerPosition = closestPlayer.transform;
+            _playerPosition = closestPlayer.transform;
             //Debug.DrawLine(this.transform.position, closestPlayer.transform.position); // Show Player Detection
         }
         else
         {
-            playerPosition = null;
+            _playerPosition = null;
         }
     }
 
@@ -182,46 +206,32 @@ public class EnemyController : MonoBehaviour, IHealth
     }
     #endregion
 
-    public ObjectPooler GetObjectPooler()
-    {
-        return objectPooler;
-    }
-
+    #region Path
     public void AssignPath(int number)
     {
-        waypoints = path.GetChild(number).transform;
-        followPath = true;
-        currentWaypoint = 0;
+        _waypoints = _path.GetChild((int)_pathToTake).GetChild(number).transform;
+        _followPath = true;
+        _currentWaypoint = 0;
     }
 
-    public void TransitionToState(State nextState)
+    public void UpdatePath()
     {
-        if (currentState != nextState)
+        _currentWaypoint++;
+        
+        if (currentWayPoint >= waypoints.childCount)
         {
-            currentState.Exit(this);
-            currentState = nextState;
-            currentState.Enter(this);
+            _currentWaypoint = 0;
+            _followPath = false;
         }
     }
+    #endregion
 
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider.CompareTag("Player"))
-        {
-            collision.collider.GetComponent<IHealth>().Damage(stats.collissionDamage);
-            Death();
-        }
-    }
-
+    #region Shoot
     public void SetShootDecision()
     {
         switch (shootDecision)
         {
             case ShootDecision.None:
-                break;
-
-            case ShootDecision.Random:
-                StartCoroutine(ShootRandom());
                 break;
 
             case ShootDecision.Interval:
@@ -236,14 +246,10 @@ public class EnemyController : MonoBehaviour, IHealth
 
     public void DisableShootDecision()
     {
-        canShoot = false;
+        _canShoot = false;
         switch (shootDecision)
         {
             case ShootDecision.None:
-                break;
-
-            case ShootDecision.Random:
-                StopCoroutine(ShootRandom());
                 break;
 
             case ShootDecision.Interval:
@@ -256,32 +262,39 @@ public class EnemyController : MonoBehaviour, IHealth
         }
     }
 
-    IEnumerator ShootRandom()
-    {
-        while (true)
-        {
-            Debug.Log(canShoot);
-            yield return new WaitForSeconds(Random.Range(minRandomShoot, maxRandomShoot));
-            canShoot = true;
-            yield return new WaitForSeconds(.1f);
-            canShoot = false;
-        }
-    }
-
     private void ShootOnInterval()
     {
-        canShoot = true;
+        _canShoot = true;
     }
 
 
     private void ShootOnDetection()
     {
         DetectPlayer();
-        canShoot = false;
+        _canShoot = false;
         if (detected)
         {
-            canShoot = true;
+            _canShoot = true;
         }
     }
-    
+    #endregion
+
+    public void TransitionToState(State nextState)
+    {
+        if (_currentState != nextState)
+        {
+            _currentState.Exit(this);
+            _currentState = nextState;
+            _currentState.Enter(this);
+        }
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Player"))
+        {
+            collision.collider.GetComponent<IHealth>().Damage(stats.collissionDamage);
+            Death();
+        }
+    }
 }

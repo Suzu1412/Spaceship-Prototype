@@ -21,7 +21,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   angle: 10
-  distance: 7.5
+  distance: 8
   dropChance: 0
   shootChance: 0
   waitUntilShoot: 0
