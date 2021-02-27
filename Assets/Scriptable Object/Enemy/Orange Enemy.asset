@@ -17,6 +17,9 @@ MonoBehaviour:
   amountToPool: 10
   shootRate: 0.5
   lifeTime: 5
-  pattern: {fileID: 11400000, guid: 28005e50749d0934f8bdbf133e444ebf, type: 2}
-  criticalChance: 0
-  dodgeChance: 0
+  pattern: 0
+  initialOffsetX: 0.15
+  offsetXBetweenShots: 0.3
+  startAngle: 0
+  endAngle: 0
+  increaseAngle: 0

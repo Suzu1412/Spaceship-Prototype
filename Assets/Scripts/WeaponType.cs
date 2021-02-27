@@ -10,8 +10,25 @@ public class WeaponType : ScriptableObject
     public int amountToPool;
     public float shootRate;
     public float lifeTime;
-    public Pattern pattern;
-    [Header("Probability")]
-    [Range(0f, 1f)] public float criticalChance;
-    [Range(0f, 1f)] public float dodgeChance;
+    public BulletPattern pattern;
+
+    [Header("Straight Bullet Variables")]
+    public float initialOffsetX = 0.15f;
+    public float offsetXBetweenShots = 0.3f;
+
+    [Header("Radius Bullet Variables")]
+    [Range(0f, 360f)] public float startAngle = 0f;
+    [Range(0f, 360f)] public float endAngle = 360f;
+
+    [Header("Spiral Bullet Variables")]
+    public float increaseAngle;
+}
+
+public enum BulletPattern
+{
+    Straight,
+    Radius,
+    Spiral,
+    Random,
+    DirectionToPlayer
 }

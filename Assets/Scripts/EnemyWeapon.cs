@@ -15,7 +15,7 @@ public class EnemyWeapon : Weapon
     protected override void Update()
     {
         base.Update();
-        if (controller.canShoot && timeUntilNextShoot <= 0)
+        if (controller.canShoot)
         {
             FireWeapon();
         }
@@ -23,24 +23,83 @@ public class EnemyWeapon : Weapon
 
     protected override void FireWeapon()
     {
-        for (int i = 0; i < mainWeapon.pattern.bulletAmount[0]; i++)
+        for (int i = 0; i < weaponList.Count; i++)
         {
-            currentProjectile = objectPooler.SpawnFromPool(mainWeapon.projectile.name, new Vector3(0f, 0f, 0f), Quaternion.identity);
+            /*
+            weaponList[i].timeUntilNextShot -= Time.deltaTime;
 
-            if (currentProjectile != null)
+            if (weaponList[i].timeUntilNextShot <= 0f)
             {
-                mainWeapon.pattern.PlaceProjectile(this, 0, i);
+                for (int j = 0; j < weaponList[i].amountToShoot; j++)
+                {
+                    weaponList[i].timeBetweenShots -= Time.deltaTime;
+
+                    if (weaponList[i].timeBetweenShots <= 0f)
+                    {
+                        weaponList[i].timeBetweenShots = weaponList[i].weaponType.shootRate;
+
+                        currentProjectile = objectPooler.SpawnFromPool(weaponList[i].weaponType.projectile.name, new Vector3(0f, 0f, 0f), Quaternion.identity);
+
+                        if (currentProjectile != null)
+                        {
+                            //StartCoroutine(SetBullets(controller.currentLevel, i, weaponList[i].timeBetweenShots));
+                            ShootPattern(i, j);
+                        }
+                    }
+                }
+            }
+            */
+
+            weaponList[i].timeUntilNextShot -= Time.deltaTime;
+
+            if (weaponList[i].timeUntilNextShot <= 0f)
+            {
+                weaponList[i].timeUntilNextShot = weaponList[i].timeBetweenShots + weaponList[i].weaponType.shootRate;
+
+                for (int j = 0; j < weaponList[i].amountToShoot; j++)
+                {
+                    currentProjectile = objectPooler.SpawnFromPool(weaponList[i].weaponType.projectile.name, new Vector3(0f, 0f, 0f), Quaternion.identity);
+
+                    if (currentProjectile != null)
+                    {
+                        ShootPattern(i, j);
+                    }
+                }
             }
         }
 
         ResetShoot(mainWeapon.shootRate);
     }
 
-    public override void SetProjectileValues(float xPos, float yPos, float angle)
+    public override void SetProjectileValues(Transform gunPosition, float xPos, float yPos, float angle)
     {
-        base.SetProjectileValues(xPos, yPos, angle);
-        currentProjectile.GetComponent<Projectile>().up = false;
+        base.SetProjectileValues(gunPosition, xPos, yPos, -angle);
         currentProjectile.GetComponent<Projectile>().damage = controller.stats.damage;
     }
 
+    protected override Transform PointTowardsClosestEnemy()
+    {
+        Transform enemyPosition = null;
+        float distanceToClosestEnemy = Mathf.Infinity;
+        GameObject closestEnemy = null;
+        GameObject[] allEnemies = GameObject.FindGameObjectsWithTag("Player");
+
+        if (allEnemies.Length > 0)
+        {
+            foreach (GameObject enemy in allEnemies)
+            {
+                float distanceToEnemy = (enemy.transform.position - this.transform.position).sqrMagnitude;
+
+                if (distanceToEnemy < distanceToClosestEnemy)
+                {
+                    distanceToClosestEnemy = distanceToEnemy;
+                    closestEnemy = enemy;
+                }
+            }
+            enemyPosition = closestEnemy.transform;
+            //Debug.DrawLine(this.transform.position, closestPlayer.transform.position); // Show Player Detection
+        }
+
+        return enemyPosition;
+    }
 }

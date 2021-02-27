@@ -60,7 +60,7 @@ public class ObjectPooler : MonoBehaviour
 
     private void CreatePool(Pool pool)
     {
-        if (!poolDictionary.ContainsKey(tag))
+        if (!poolDictionary.ContainsKey(pool.tag))
         {
             List<GameObject> objectPool = new List<GameObject>();
 

@@ -12,7 +12,7 @@ public class PlayerController : CharController
     [Range(1, 64)] public int power;
 
     [Header("Decision Making")]
-    private bool _canShoot = true;
+    private bool _canShoot = false;
 
     [Header("Movement Constraint")]
     [SerializeField] private Transform bottomLeftCorner;
@@ -29,6 +29,12 @@ public class PlayerController : CharController
         _input = GetComponent<InputController>();
         if (_input == null) Debug.LogError(this.gameObject.name + " missing InputController");
         if (_stats == null) Debug.Log(this.gameObject.name + " missing Stats");
+        Invoke("CanShoot", 1f);
+    }
+
+    void CanShoot()
+    {
+        _canShoot = true;
     }
 
     // Start is called before the first frame update
