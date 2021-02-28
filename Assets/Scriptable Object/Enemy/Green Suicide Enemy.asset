@@ -17,7 +17,7 @@ MonoBehaviour:
   moveSpeed: 3
   criticalChance: 0
   dodgeChance: 0
-  collissionDamage: 999
+  collissionDamage: 30
   score: 150
   playerLayer:
     serializedVersion: 2

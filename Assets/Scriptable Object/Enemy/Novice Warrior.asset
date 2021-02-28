@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: Novice Warrior
   m_EditorClassIdentifier: 
   maxHealth: 0
-  damage: 0
-  moveSpeed: 0
+  damage: 20
+  moveSpeed: 2
   criticalChance: 0
   dodgeChance: 0
-  collissionDamage: 0
+  collissionDamage: 30
   score: 50
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   angle: 0
   distance: 0
   dropChance: 0

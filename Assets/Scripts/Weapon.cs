@@ -49,11 +49,6 @@ public abstract class Weapon : MonoBehaviour
     {
         currentProjectile.transform.position = new Vector3(gunPosition.position.x + xPos, gunPosition.position.y + yPos, 0);
 
-        //Código original: ángulo 0 = Vector2.Up;
-        //float bulDirX = currentProjectile.transform.position.x + Mathf.Sin((angle * Mathf.PI) / 180f);
-        //float bulDirY = currentProjectile.transform.position.y + Mathf.Cos((angle * Mathf.PI) / 180f);
-
-        //Código modificado: Ánglo 90 = Vector2.Up
         bulDirX = currentProjectile.transform.position.x + Mathf.Cos((angle * Mathf.PI) / 180f);
         bulDirY = currentProjectile.transform.position.y + Mathf.Sin((angle * Mathf.PI) / 180f);
 

@@ -6,6 +6,7 @@ public class PlayerController : CharController
 {
     private InputController _input;
     private GameManager _manager;
+    private UnityEngine.UI.Image healthBar;
 
     [Header("Player Start Animation")]
     bool arrivedAtStartPosition;
@@ -57,6 +58,7 @@ public class PlayerController : CharController
         arrivedAtStartPosition = false;
         startMarker = new Vector3(this.transform.position.x, -2f, 0f);
         endMarker = new Vector3(this.transform.position.x, -3.2f, 0f);
+        FillHealthBar();
     }
 
     void OnEnable()
@@ -120,18 +122,21 @@ public class PlayerController : CharController
         {
             _currentHealth += amount;
         }
+        FillHealthBar();
     }
 
     public override void Damage(int amount)
     {
         if (_currentHealth - amount <= 0)
         {
+            _currentHealth = 0;
             Death();
         }
         else
         {
             _currentHealth -= amount;
         }
+        FillHealthBar();
     }
 
     public override void Death()
@@ -183,6 +188,17 @@ public class PlayerController : CharController
             // Smoothly move the camera towards that target position
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTimeEnd);
         }
+    }
+
+    void FillHealthBar()
+    {
+        float fillAmount = (float)currentHealth / (float)stats.maxHealth;
+        healthBar.fillAmount = fillAmount;
+    }
+
+    public void SetHealhBar(UnityEngine.UI.Image image)
+    {
+        healthBar = image;
     }
 
 }

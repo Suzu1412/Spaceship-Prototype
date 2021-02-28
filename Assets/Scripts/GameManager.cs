@@ -8,14 +8,18 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private ScoreManager scorePlayer1;
     [SerializeField] private ScoreManager scorePlayer2;
-    public Text textScorePlayer1;
-    public Text textScorePlayer2;
-    public Text readyText;
-    private GameObject[] players;
-    public GameState state;
-    bool gameStarted;
-    bool gamePlaying;
-    bool finishedGame;
+    [SerializeField] private Text textScorePlayer1;
+    [SerializeField] private Text textScorePlayer2;
+    [SerializeField] private Text readyText;
+    [SerializeField] private Text fpsCounter;
+    [SerializeField] private Image healthBarP1;
+    [SerializeField] Image healthBarP2;
+    [SerializeField] private GameObject[] players;
+    private GameState _state;
+    public GameState state { get { return _state; } }
+    private bool gameStarted;
+    private bool gamePlaying;
+    private bool finishedGame;
 
 
     private void Awake()
@@ -32,6 +36,7 @@ public class GameManager : MonoBehaviour
         if (players != null)
         {
             players[0].GetComponent<CharController>().SetScore(scorePlayer1);
+            players[0].GetComponent<PlayerController>().SetHealhBar(healthBarP1);
             scorePlayer1.player = "P1";
             scorePlayer1.scoreText = textScorePlayer1;
             scorePlayer1.UpdateText();
@@ -39,6 +44,7 @@ public class GameManager : MonoBehaviour
             if (players.Length > 1)
             {
                 players[1].GetComponent<CharController>().SetScore(scorePlayer2);
+                players[1].GetComponent<PlayerController>().SetHealhBar(healthBarP2);
                 scorePlayer2.player = "P2";
                 scorePlayer2.scoreText = textScorePlayer2;
                 scorePlayer2.UpdateText();
@@ -46,24 +52,25 @@ public class GameManager : MonoBehaviour
             else
             {
                 textScorePlayer2.gameObject.SetActive(false);
+                healthBarP2.gameObject.transform.parent.parent.gameObject.SetActive(false);
             }
         }
         else
         {
             Debug.LogError("No Player found on the Scene");
         }
-        state = GameState.Playing;
+        _state = GameState.Playing;
     }
 
     private void Start()
     {
         UpdateState();
+        InvokeRepeating("UpdateFPSCounter", 0f, 0.1f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log((int)(1f / Time.unscaledDeltaTime));
         UpdateState();
     }
 
@@ -77,6 +84,14 @@ public class GameManager : MonoBehaviour
 
             case GameState.Playing:
                 PlayGame();
+                break;
+
+            case GameState.GameOver:
+                GameOver();
+                break;
+
+            case GameState.Victory:
+
                 break;
         }
     }
@@ -116,6 +131,18 @@ public class GameManager : MonoBehaviour
 
             gamePlaying = true;
         }
+        else
+        {
+            if (players[0].activeSelf == false)
+            {
+                _state = GameState.GameOver;
+            }
+        }
+    }
+
+    void GameOver()
+    {
+        Debug.Log("Game Over");
     }
 
     void EnableReadyText()
@@ -133,7 +160,13 @@ public class GameManager : MonoBehaviour
         gameStarted = false;
         gamePlaying = false;
         finishedGame = false;
-        state = GameState.Playing;
+        _state = GameState.Playing;
+    }
+
+    void UpdateFPSCounter()
+    {
+        float fps = Mathf.Round(1f / Time.unscaledDeltaTime);
+        fpsCounter.text = "FPS: " + fps.ToString();
     }
 }
 
@@ -141,5 +174,6 @@ public enum GameState
 {
     Start,
     Playing,
-    GameOver
+    GameOver,
+    Victory
 }
