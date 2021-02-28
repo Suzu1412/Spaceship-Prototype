@@ -6,12 +6,10 @@ public class Projectile : MonoBehaviour
 {
     public bool fired;
     public float projectileLifeTime;
-    public bool up;
-    private bool flipped;
     public int damage;
     public float projectileSpeed;
     public Vector3 moveDirection;
-
+    [HideInInspector] public ScoreManager score;
 
     private void OnDisable()
     {
@@ -21,8 +19,11 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        DisableProjectile();
-        Movement();
+        if (fired)
+        {
+            DisableProjectile();
+            Movement();
+        }
     }
 
     private void DisableProjectile()
@@ -36,33 +37,6 @@ public class Projectile : MonoBehaviour
 
     private void Movement()
     {
-        /*
-        if (fired)
-        {
-            if (up)
-            {
-                transform.Translate(Vector2.up * projectileSpeed * Time.deltaTime);
-
-                if (flipped)
-                {
-                    flipped = false;
-                    transform.localScale = new Vector2(transform.localScale.x, -transform.localScale.y);
-                }
-            }
-            else
-            {
-                if (!flipped)
-                {
-                    flipped = true;
-                    transform.localScale = new Vector2(transform.localScale.x, -transform.localScale.y);
-                }
-
-                transform.Translate(Vector2.down * projectileSpeed * Time.deltaTime);
-         
-            }
-        }
-        */
-        
         transform.Translate(moveDirection * projectileSpeed * Time.deltaTime);
     }
 
@@ -76,7 +50,17 @@ public class Projectile : MonoBehaviour
         if (other.GetComponent<IHealth>() != null)
         {
             other.GetComponent<IHealth>().Damage(damage);
+
+            if (score != null) //Only the Player can Set the score on Projectile
+            {
+                other.GetComponent<CharController>().SetScore(score);
+            }
             this.gameObject.SetActive(false);
         }
+    }
+
+    private void OnBecameInvisible()
+    {
+        this.gameObject.SetActive(false);
     }
 }

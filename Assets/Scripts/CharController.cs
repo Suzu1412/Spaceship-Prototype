@@ -7,6 +7,9 @@ public abstract class CharController : MonoBehaviour, IHealth
     protected int _currentHealth;
     protected Rigidbody2D _rb;
     protected ObjectPooler _objectPooler;
+    [HideInInspector] protected ScoreManager score;
+    protected bool isDeath;
+
     public int currentHealth { get { return _currentHealth; } }
     public Rigidbody2D rb { get { return _rb; } }
 
@@ -21,4 +24,13 @@ public abstract class CharController : MonoBehaviour, IHealth
     public abstract void Death();
 
     public abstract void Heal(int amount);
+
+    public void SetScore(ScoreManager score)
+    {
+        this.score = score;
+    }
+    public ScoreManager GetScore()
+    {
+        return score;
+    }
 }

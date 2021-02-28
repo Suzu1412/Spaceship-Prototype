@@ -6,7 +6,8 @@ public enum ShootDecision
 {
     None, 
     Interval,
-    OnDetection
+    OnDetection,
+    RandomSeconds
 }
 
 public enum PathToTake
@@ -71,6 +72,7 @@ public class EnemyController : CharController
     void OnEnable()
     {
         _currentHealth = stats.maxHealth;
+        isDeath = false;
         _currentState = _initialState;
         _currentState.Enter(this);
     }
@@ -123,7 +125,13 @@ public class EnemyController : CharController
         //GameObject explosion = explosionEffect.SpawnFromPool(this.tag, this.transform.position, Quaternion.identity);
         //explosion.GetComponent<ParticleSystem>().Play();
 
-        this.gameObject.SetActive(false);
+        if (!isDeath)
+        {
+            isDeath = true;
+            if (score != null) score.SetScore(stats.score);
+            this.gameObject.SetActive(false);
+        }
+        
     }
     #endregion
 
@@ -235,11 +243,15 @@ public class EnemyController : CharController
                 break;
 
             case ShootDecision.Interval:
-                Invoke("ShootOnInterval", Random.Range(0f, shootIntervalMaxWait));
+                Invoke("ShootOnInterval", shootIntervalMaxWait);
                 break;
 
             case ShootDecision.OnDetection:
                 InvokeRepeating("ShootOnDetection", 0f, 0.2f);
+                break;
+
+            case ShootDecision.RandomSeconds:
+
                 break;
         }
     }
@@ -258,6 +270,10 @@ public class EnemyController : CharController
 
             case ShootDecision.OnDetection:
                 CancelInvoke("ShootOnDetection");
+                break;
+
+            case ShootDecision.RandomSeconds:
+                //CancelInvoke("ShootRandom");
                 break;
         }
     }

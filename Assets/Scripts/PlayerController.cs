@@ -5,7 +5,16 @@ using UnityEngine;
 public class PlayerController : CharController
 {
     private InputController _input;
-    
+    private GameManager _manager;
+
+    [Header("Player Start Animation")]
+    bool arrivedAtStartPosition;
+    public Vector3 startMarker;
+    public Vector3 endMarker;
+    public float smoothTimeStart = 0.6F;
+    public float smoothTimeEnd = 0.6F;
+    private Vector3 velocity = Vector3.zero;
+
     [Header("Player Attributes")]
     [SerializeField] private PlayerStats _stats;
     [Range(0, 3)] public int currentLevel;
@@ -27,14 +36,14 @@ public class PlayerController : CharController
     {
         base.Awake();
         _input = GetComponent<InputController>();
+        _manager = GameObject.FindObjectOfType<GameManager>();
         if (_input == null) Debug.LogError(this.gameObject.name + " missing InputController");
         if (_stats == null) Debug.Log(this.gameObject.name + " missing Stats");
-        Invoke("CanShoot", 1f);
     }
 
-    void CanShoot()
+    public void CanShoot(bool canShoot)
     {
-        _canShoot = true;
+        _canShoot = canShoot;
     }
 
     // Start is called before the first frame update
@@ -45,29 +54,38 @@ public class PlayerController : CharController
         if (bottomLeftCorner == null) bottomLeftCorner = GameObject.Find("bottomLeftCorner").transform;
         if (topRightCorner == null) topRightCorner = GameObject.Find("topRightCorner").transform;
         if (offset == 0) offset = 0.2f;
+        arrivedAtStartPosition = false;
+        startMarker = new Vector3(this.transform.position.x, -2f, 0f);
+        endMarker = new Vector3(this.transform.position.x, -3.2f, 0f);
     }
 
     void OnEnable()
     {
         _currentHealth = stats.maxHealth;
+        isDeath = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        RestrictMovement();
-        /*
-        _canShoot = false;
-        if (IsShooting())
-        {
-            _canShoot = true;
+        switch(_manager.state){
+            case GameState.Start:
+                MoveToStartPosition();
+                break;
         }
-        */
+
+        if (_manager.state == GameState.Playing)
+        {
+            RestrictMovement();
+        }
     }
 
     private void FixedUpdate()
     {
-        Move();
+        if (_manager.state == GameState.Playing)
+        {
+            Move();
+        }
     }
 
     private void Move()
@@ -146,4 +164,25 @@ public class PlayerController : CharController
             currentLevel = 3;
         }
     }
+
+    void MoveToStartPosition()
+    {
+        if (!arrivedAtStartPosition)
+        {
+            Vector3 targetPosition = startMarker;
+
+            // Smoothly move the camera towards that target position
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTimeStart);
+
+            if (Vector3.Distance(transform.position, startMarker) < 0.2f) arrivedAtStartPosition = true;
+        }
+        else
+        {
+            Vector3 targetPosition = endMarker;
+
+            // Smoothly move the camera towards that target position
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTimeEnd);
+        }
+    }
+
 }

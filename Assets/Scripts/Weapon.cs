@@ -6,12 +6,13 @@ public abstract class Weapon : MonoBehaviour
 {
     [SerializeField] protected List<WeaponList> weaponList;
     [SerializeField] protected WeaponType mainWeapon;
-    //public Transform gunPosition;
-    public GameObject currentProjectile { get; protected set; }
-
+    protected GameObject currentProjectile;
     protected ObjectPooler objectPooler;
     protected float timeUntilNextShoot;
+    private Vector3 bulMoveVector;
     private Vector2 bulletDirection;
+    private float bulDirX;
+    private float bulDirY;
 
     protected virtual void Awake()
     {
@@ -53,10 +54,10 @@ public abstract class Weapon : MonoBehaviour
         //float bulDirY = currentProjectile.transform.position.y + Mathf.Cos((angle * Mathf.PI) / 180f);
 
         //Código modificado: Ánglo 90 = Vector2.Up
-        float bulDirX = currentProjectile.transform.position.x + Mathf.Cos((angle * Mathf.PI) / 180f);
-        float bulDirY = currentProjectile.transform.position.y + Mathf.Sin((angle * Mathf.PI) / 180f);
+        bulDirX = currentProjectile.transform.position.x + Mathf.Cos((angle * Mathf.PI) / 180f);
+        bulDirY = currentProjectile.transform.position.y + Mathf.Sin((angle * Mathf.PI) / 180f);
 
-        Vector3 bulMoveVector = new Vector3(bulDirX, bulDirY, 0f);
+        bulMoveVector = new Vector3(bulDirX, bulDirY, 0f);
         bulletDirection = (bulMoveVector - currentProjectile.transform.position).normalized;
 
         currentProjectile.GetComponent<Projectile>().fired = true;
@@ -66,11 +67,7 @@ public abstract class Weapon : MonoBehaviour
         currentProjectile.SetActive(true);
     }
 
-    public void ResetShoot(float delay)
-    {
-        timeUntilNextShoot = delay;
-    }
-
+    #region ShootPattern
     public void ShootPattern(int index, int pointer)
     {
         switch (weaponList[index].weaponType.pattern)
@@ -101,8 +98,6 @@ public abstract class Weapon : MonoBehaviour
     public void StraightBullet(int i, int pointer)
     {
         Vector2 position = CalculatebulletPosition(i, pointer);
-        Debug.Log(position);
-        Debug.Log(pointer);
         SetProjectileValues(weaponList[i].gunPosition, position.x, position.y, 90f);
     }
 
@@ -207,7 +202,7 @@ public abstract class Weapon : MonoBehaviour
     }
 
     protected abstract Transform PointTowardsClosestEnemy();
-
+    #endregion
 }
 
 [System.Serializable]

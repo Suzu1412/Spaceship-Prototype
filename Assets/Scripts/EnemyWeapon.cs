@@ -25,31 +25,6 @@ public class EnemyWeapon : Weapon
     {
         for (int i = 0; i < weaponList.Count; i++)
         {
-            /*
-            weaponList[i].timeUntilNextShot -= Time.deltaTime;
-
-            if (weaponList[i].timeUntilNextShot <= 0f)
-            {
-                for (int j = 0; j < weaponList[i].amountToShoot; j++)
-                {
-                    weaponList[i].timeBetweenShots -= Time.deltaTime;
-
-                    if (weaponList[i].timeBetweenShots <= 0f)
-                    {
-                        weaponList[i].timeBetweenShots = weaponList[i].weaponType.shootRate;
-
-                        currentProjectile = objectPooler.SpawnFromPool(weaponList[i].weaponType.projectile.name, new Vector3(0f, 0f, 0f), Quaternion.identity);
-
-                        if (currentProjectile != null)
-                        {
-                            //StartCoroutine(SetBullets(controller.currentLevel, i, weaponList[i].timeBetweenShots));
-                            ShootPattern(i, j);
-                        }
-                    }
-                }
-            }
-            */
-
             weaponList[i].timeUntilNextShot -= Time.deltaTime;
 
             if (weaponList[i].timeUntilNextShot <= 0f)
@@ -67,8 +42,6 @@ public class EnemyWeapon : Weapon
                 }
             }
         }
-
-        ResetShoot(mainWeapon.shootRate);
     }
 
     public override void SetProjectileValues(Transform gunPosition, float xPos, float yPos, float angle)

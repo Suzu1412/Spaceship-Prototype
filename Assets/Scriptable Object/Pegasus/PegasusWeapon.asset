@@ -17,7 +17,7 @@ MonoBehaviour:
   amountToPool: 70
   shootRate: 0.2
   lifeTime: 2.5
-  pattern: 4
+  pattern: 0
   initialOffsetX: 0.15
   offsetXBetweenShots: 0.3
   startAngle: 60
