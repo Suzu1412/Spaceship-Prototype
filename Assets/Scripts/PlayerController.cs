@@ -11,8 +11,8 @@ public class PlayerController : CharController
 
     [Header("Player Start Animation")]
     bool arrivedAtStartPosition;
-    public Vector3 startMarker;
-    public Vector3 endMarker;
+    private Vector3 startMarker;
+    private Vector3 endMarker;
     public float smoothTimeStart = 0.6F;
     public float smoothTimeEnd = 0.6F;
     public float smoothVictory = 1.2f;
@@ -60,7 +60,7 @@ public class PlayerController : CharController
         if (topRightCorner == null) topRightCorner = GameObject.Find("topRightCorner").transform;
         if (offset == 0) offset = 0.2f;
         arrivedAtStartPosition = false;
-        startMarker = new Vector3(this.transform.position.x, -2f, 0f);
+        startMarker = new Vector3(this.transform.position.x, -1.5f, 0f);
         endMarker = new Vector3(this.transform.position.x, -3.2f, 0f);
         FillHealthBar();
     }

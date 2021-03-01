@@ -6,17 +6,17 @@ public class WaveManager : MonoBehaviour
 {
     public List<WaveObject> waves = new List<WaveObject>();
     private int _currentWave;
-    public bool _canSPawnWaves = true;
-    public bool canSpawnWaves { get { return _canSPawnWaves; } }
-    public ObjectPooler objectPooler;
+    private bool _canSpawnWaves = true;
+    public bool canSpawnWaves { get { return _canSpawnWaves; } }
+    private ObjectPooler _objectPooler;
     private GameManager _manager;
 
     private void Awake()
     {
         _manager = GameObject.FindObjectOfType<GameManager>();
-        objectPooler = ObjectPooler.Instance;
+        _objectPooler = ObjectPooler.Instance;
         _currentWave = 0;
-        _canSPawnWaves = true;
+        _canSpawnWaves = true;
         SpawnEnemies();
     }
 
@@ -59,14 +59,14 @@ public class WaveManager : MonoBehaviour
 
         foreach(ObjectPooler.Pool item in itemList)
         {
-            objectPooler.AddPool(item);
+            _objectPooler.CreatePool(item);
         }
     }
 
     private void Update()
     {
         waves[_currentWave].timeToSpawn -= Time.deltaTime;
-        if (_manager.state == GameState.Playing && _canSPawnWaves && waves[_currentWave].timeToSpawn <= 0f)
+        if (_manager.state == GameState.Playing && canSpawnWaves && waves[_currentWave].timeToSpawn <= 0f)
         {
             for (int i = 0; i < waves[_currentWave].theWave.enemyList.Count; i++)
             {
@@ -77,18 +77,18 @@ public class WaveManager : MonoBehaviour
                 {
                     if (waves[_currentWave].theWave.enemyList[i].wayPoint != null)
                     {
-                        objectPooler.SpawnFromPool(waves[_currentWave].theWave.enemyList[i].enemy.name, waves[_currentWave].theWave.enemyList[i].wayPoint.position, Quaternion.identity);
+                        _objectPooler.SpawnFromPool(waves[_currentWave].theWave.enemyList[i].enemy.name, waves[_currentWave].theWave.enemyList[i].wayPoint.position, Quaternion.identity);
                     }
                     else
                     {
                         if (waves[_currentWave].theWave.enemyList[i].randomXPosition)
                         {
                             float randomXPosition = Random.Range(waves[_currentWave].theWave.enemyList[i].minXPosition, waves[_currentWave].theWave.enemyList[i].maxXPosition);
-                            objectPooler.SpawnFromPool(waves[_currentWave].theWave.enemyList[i].enemy.name, new Vector3(randomXPosition, 8f, 0f), Quaternion.identity);
+                            _objectPooler.SpawnFromPool(waves[_currentWave].theWave.enemyList[i].enemy.name, new Vector3(randomXPosition, 8f, 0f), Quaternion.identity);
                         }
                         else
                         {
-                            objectPooler.SpawnFromPool(waves[_currentWave].theWave.enemyList[i].enemy.name, new Vector3(waves[_currentWave].theWave.enemyList[i].spawnXPosition, 8f, 0f),
+                            _objectPooler.SpawnFromPool(waves[_currentWave].theWave.enemyList[i].enemy.name, new Vector3(waves[_currentWave].theWave.enemyList[i].spawnXPosition, 8f, 0f),
                                 Quaternion.identity);
                         }
                     }
@@ -105,10 +105,10 @@ public class WaveManager : MonoBehaviour
             }
             else if (waves[_currentWave].enemySpawned == waves[_currentWave].theWave.enemyList.Count)
             {
-                _canSPawnWaves = false;
+                _canSpawnWaves = false;
             }
 
-            if (_currentWave == waves.Count - 1 && _canSPawnWaves == false)
+            if (_currentWave == waves.Count - 1 && canSpawnWaves == false)
             {
                 _manager.LastWave();
             }

@@ -226,7 +226,7 @@ public class GameManager : MonoBehaviour
 
     void FadeIn(Text text)
     {
-        text.CrossFadeAlpha(1f, 0.2f, false);
+        text.CrossFadeAlpha(0f, 0.2f, false);
     }
 
     void FadeOut(Text text)
