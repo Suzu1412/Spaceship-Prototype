@@ -9,6 +9,7 @@ public abstract class CharController : MonoBehaviour, IHealth
     protected ObjectPooler _objectPooler;
     [HideInInspector] protected ScoreManager score;
     protected bool isDeath;
+    protected GameManager _manager;
 
     public int currentHealth { get { return _currentHealth; } }
     public Rigidbody2D rb { get { return _rb; } }
@@ -17,6 +18,7 @@ public abstract class CharController : MonoBehaviour, IHealth
     {
         _rb = GetComponent<Rigidbody2D>();
         if (rb == null) Debug.Log(this.gameObject.name + " missing RigidBody2D");
+        _manager = GameObject.FindObjectOfType<GameManager>();
 
     }
     public abstract void Damage(int amount);

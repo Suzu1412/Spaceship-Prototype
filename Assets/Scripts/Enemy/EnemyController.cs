@@ -27,8 +27,9 @@ public class EnemyController : CharController
     [SerializeField] private State _currentState;
 
     [Header("Decision Making")]
-    private bool _detected;
-    private bool _canShoot;
+    private bool _canDetect = true;
+    private bool _detected = true;
+    private bool _canShoot = true;
     private Transform _playerPosition;
 
     [Header("Follow Path Attributes")]
@@ -75,11 +76,13 @@ public class EnemyController : CharController
         isDeath = false;
         _currentState = _initialState;
         _currentState.Enter(this);
+        _manager.AddEnemyCount();
     }
 
     void OnDisable()
     {
         _currentState.Exit(this);
+        _manager.RemoveEnemyCount();
     }
 
     // Update is called once per frame
@@ -91,6 +94,11 @@ public class EnemyController : CharController
     void FixedUpdate()
     {
         _currentState.PhysicsUpdate(this);
+
+        if (transform.position.y < -6) 
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 
     #region IHealth Implementation
@@ -138,19 +146,23 @@ public class EnemyController : CharController
     #region Player Detection
     public void DetectPlayer()
     {
+
         _detected = false;
 
         FindClosestPlayer();
 
-        if (playerPosition != null)
+        if (_canDetect)
         {
-            Vector2 PlayerVector = playerPosition.position - transform.position;
-
-            if (Vector3.Angle(PlayerVector.normalized, -transform.up) < stats.angle * 0.5f)
+            if (playerPosition != null)
             {
-                if (PlayerVector.magnitude < stats.distance)
+                Vector2 PlayerVector = playerPosition.position - transform.position;
+
+                if (Vector3.Angle(PlayerVector.normalized, -transform.up) < stats.angle * 0.5f)
                 {
-                    _detected = true;
+                    if (PlayerVector.magnitude < stats.distance)
+                    {
+                        _detected = true;
+                    }
                 }
             }
         }
@@ -312,5 +324,17 @@ public class EnemyController : CharController
             collision.collider.GetComponent<IHealth>().Damage(stats.collissionDamage);
             Death();
         }
+    }
+
+    private void OnBecameVisible()
+    {
+        _canDetect = true;
+        _canShoot = true;
+    }
+
+    private void OnBecameInvisible()
+    {
+        _canDetect = false;
+        _canShoot = false;
     }
 }

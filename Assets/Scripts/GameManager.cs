@@ -8,14 +8,22 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private ScoreManager scorePlayer1;
     [SerializeField] private ScoreManager scorePlayer2;
-    public Text textScorePlayer1;
-    public Text textScorePlayer2;
-    public Text readyText;
-    private GameObject[] players;
-    public GameState state;
-    bool gameStarted;
-    bool gamePlaying;
-    bool finishedGame;
+    [SerializeField] private Text textScorePlayer1;
+    [SerializeField] private Text textScorePlayer2;
+    [SerializeField] private Text readyText;
+    [SerializeField] private Text victoryText;
+    [SerializeField] private Text fpsCounter;
+    [SerializeField] private Image healthBarP1;
+    [SerializeField] Image healthBarP2;
+    [SerializeField] private GameObject[] players;
+    private SceneManager sceneManager;
+    private int numberOfEnemies;
+    private GameState _state;
+    public GameState state { get { return _state; } }
+    private bool gameStarted;
+    private bool gamePlaying;
+    private bool victory;
+    private bool lastWave;
 
 
     private void Awake()
@@ -28,10 +36,12 @@ public class GameManager : MonoBehaviour
 
         readyText.gameObject.SetActive(false);
         players = GameObject.FindGameObjectsWithTag("Player");
+        sceneManager = GameObject.FindObjectOfType<SceneManager>();
         
         if (players != null)
         {
             players[0].GetComponent<CharController>().SetScore(scorePlayer1);
+            players[0].GetComponent<PlayerController>().SetHealhBar(healthBarP1);
             scorePlayer1.player = "P1";
             scorePlayer1.scoreText = textScorePlayer1;
             scorePlayer1.UpdateText();
@@ -39,6 +49,7 @@ public class GameManager : MonoBehaviour
             if (players.Length > 1)
             {
                 players[1].GetComponent<CharController>().SetScore(scorePlayer2);
+                players[1].GetComponent<PlayerController>().SetHealhBar(healthBarP2);
                 scorePlayer2.player = "P2";
                 scorePlayer2.scoreText = textScorePlayer2;
                 scorePlayer2.UpdateText();
@@ -46,24 +57,29 @@ public class GameManager : MonoBehaviour
             else
             {
                 textScorePlayer2.gameObject.SetActive(false);
+                healthBarP2.gameObject.transform.parent.parent.gameObject.SetActive(false);
             }
         }
         else
         {
             Debug.LogError("No Player found on the Scene");
         }
-        state = GameState.Start;
-    }
+        #if UNITY_EDITOR
+            _state = GameState.Start;
+        #else
+            _state = GameState.Start;
+        #endif
+        }
 
     private void Start()
     {
         UpdateState();
+        InvokeRepeating("UpdateFPSCounter", 0f, 0.1f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log((int)(1f / Time.unscaledDeltaTime));
         UpdateState();
     }
 
@@ -77,6 +93,14 @@ public class GameManager : MonoBehaviour
 
             case GameState.Playing:
                 PlayGame();
+                break;
+
+            case GameState.GameOver:
+                GameOver();
+                break;
+
+            case GameState.Victory:
+                Victory();
                 break;
         }
     }
@@ -95,7 +119,9 @@ public class GameManager : MonoBehaviour
                 players[0].transform.position = new Vector2(0f, -7);
             }
 
-            Invoke("EnableReadyText", 0.8f);
+            sceneManager.StartScene();
+
+            Invoke("EnableReadyText", 0.6f);
             Invoke("DisableReadyText", 3f);
             Invoke("SetStatePlaying", 3f);
 
@@ -108,7 +134,6 @@ public class GameManager : MonoBehaviour
     {
         if (!gamePlaying)
         {
-            Debug.Log("Play Game");
             for (int i= 0; i < players.Length; i++)
             {
                 players[i].GetComponent<PlayerController>().CanShoot(true);
@@ -116,11 +141,41 @@ public class GameManager : MonoBehaviour
 
             gamePlaying = true;
         }
+        else
+        {
+            if (players[0].activeSelf == false)
+            {
+                _state = GameState.GameOver;
+            }
+        }
+    }
+
+    void Victory()
+    {
+        if (!victory)
+        {
+            for (int i = 0; i < players.Length; i++)
+            {
+                players[i].GetComponent<PlayerController>().CanShoot(false);
+            }
+
+            sceneManager.EndScene();
+            EnableVictoryText();
+            victory = true;
+        }
+        
+    }
+
+    void GameOver()
+    {
+        Debug.Log("Game Over");
     }
 
     void EnableReadyText()
     {
         readyText.gameObject.SetActive(true);
+        readyText.canvasRenderer.SetAlpha(0f);
+        FadeOut(readyText);
     }
 
     void DisableReadyText()
@@ -128,12 +183,55 @@ public class GameManager : MonoBehaviour
         readyText.gameObject.SetActive(false);
     }
 
+    void EnableVictoryText()
+    {
+        victoryText.gameObject.SetActive(true);
+        victoryText.canvasRenderer.SetAlpha(0f);
+        FadeOut(victoryText);
+    }
+
     void SetStatePlaying()
     {
         gameStarted = false;
         gamePlaying = false;
-        finishedGame = false;
-        state = GameState.Playing;
+        victory  = false;
+        _state = GameState.Playing;
+    }
+
+    void UpdateFPSCounter()
+    {
+        float fps = Mathf.Round(1f / Time.unscaledDeltaTime);
+        fpsCounter.text = "FPS: " + fps.ToString();
+    }
+
+    public void AddEnemyCount()
+    {
+        numberOfEnemies++;
+    }
+
+    public void RemoveEnemyCount()
+    {
+        numberOfEnemies--;
+
+        if (lastWave && numberOfEnemies == 0)
+        {
+            _state = GameState.Victory;
+        }
+    }
+
+    public void LastWave()
+    {
+        lastWave = true;
+    }
+
+    void FadeIn(Text text)
+    {
+        text.CrossFadeAlpha(1f, 0.2f, false);
+    }
+
+    void FadeOut(Text text)
+    {
+        text.CrossFadeAlpha(1f, 0.5f, false);
     }
 }
 
@@ -141,5 +239,6 @@ public enum GameState
 {
     Start,
     Playing,
-    GameOver
+    GameOver,
+    Victory
 }

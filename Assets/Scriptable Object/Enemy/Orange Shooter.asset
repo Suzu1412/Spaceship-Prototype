@@ -17,6 +17,8 @@ MonoBehaviour:
   moveSpeed: 3
   criticalChance: 0
   dodgeChance: 0
+  collissionDamage: 20
+  score: 50
   playerLayer:
     serializedVersion: 2
     m_Bits: 1
@@ -25,4 +27,3 @@ MonoBehaviour:
   dropChance: 0
   shootChance: 0
   waitUntilShoot: 0
-  collissionDamage: 0

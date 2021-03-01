@@ -5,7 +5,6 @@ using UnityEngine;
 public abstract class Weapon : MonoBehaviour
 {
     [SerializeField] protected List<WeaponList> weaponList;
-    [SerializeField] protected WeaponType mainWeapon;
     protected GameObject currentProjectile;
     protected ObjectPooler objectPooler;
     protected float timeUntilNextShoot;
@@ -18,16 +17,18 @@ public abstract class Weapon : MonoBehaviour
     {
         objectPooler = ObjectPooler.Instance;
 
-        ObjectPooler.Pool item = new ObjectPooler.Pool
+        for (int i = 0; i < weaponList.Count; i++)
         {
-            prefab = mainWeapon.projectile,
-            shouldExpandPool = true,
-            size = mainWeapon.amountToPool,
-            tag = mainWeapon.projectile.name,
-            isChild = true
-        };
-
-        objectPooler.AddPool(item);
+            ObjectPooler.Pool item = new ObjectPooler.Pool
+            {
+                prefab = weaponList[i].weaponType.projectile,
+                shouldExpandPool = true,
+                size = weaponList[i].weaponType.amountToPool,
+                tag = weaponList[i].weaponType.projectile.name,
+                isChild = true
+            };
+            objectPooler.CreatePool(item);
+        }
     }
 
     protected void OnEnable()
@@ -45,15 +46,10 @@ public abstract class Weapon : MonoBehaviour
 
     protected abstract void FireWeapon();
 
-    public virtual void SetProjectileValues(Transform gunPosition, float xPos, float yPos, float angle)
+    public virtual void SetProjectileValues(Transform gunPosition, float xPos, float yPos, float angle, int currentWeapon)
     {
         currentProjectile.transform.position = new Vector3(gunPosition.position.x + xPos, gunPosition.position.y + yPos, 0);
 
-        //Código original: ángulo 0 = Vector2.Up;
-        //float bulDirX = currentProjectile.transform.position.x + Mathf.Sin((angle * Mathf.PI) / 180f);
-        //float bulDirY = currentProjectile.transform.position.y + Mathf.Cos((angle * Mathf.PI) / 180f);
-
-        //Código modificado: Ánglo 90 = Vector2.Up
         bulDirX = currentProjectile.transform.position.x + Mathf.Cos((angle * Mathf.PI) / 180f);
         bulDirY = currentProjectile.transform.position.y + Mathf.Sin((angle * Mathf.PI) / 180f);
 
@@ -61,8 +57,8 @@ public abstract class Weapon : MonoBehaviour
         bulletDirection = (bulMoveVector - currentProjectile.transform.position).normalized;
 
         currentProjectile.GetComponent<Projectile>().fired = true;
-        currentProjectile.GetComponent<Projectile>().projectileLifeTime = mainWeapon.lifeTime;
-        currentProjectile.GetComponent<Projectile>().projectileSpeed = mainWeapon.projectileSpeed;
+        currentProjectile.GetComponent<Projectile>().projectileLifeTime = weaponList[currentWeapon].weaponType.lifeTime;
+        currentProjectile.GetComponent<Projectile>().projectileSpeed = weaponList[currentWeapon].weaponType.projectileSpeed;
         currentProjectile.GetComponent<Projectile>().SetMoveDirection(bulletDirection);
         currentProjectile.SetActive(true);
     }
@@ -98,7 +94,7 @@ public abstract class Weapon : MonoBehaviour
     public void StraightBullet(int i, int pointer)
     {
         Vector2 position = CalculatebulletPosition(i, pointer);
-        SetProjectileValues(weaponList[i].gunPosition, position.x, position.y, 90f);
+        SetProjectileValues(weaponList[i].gunPosition, position.x, position.y, 90f, i);
     }
 
     public void RadiusBullet(int i, int pointer)
@@ -112,7 +108,7 @@ public abstract class Weapon : MonoBehaviour
 
         float angle = weaponList[i].weaponType.startAngle + (angleStep * pointer);
 
-        SetProjectileValues(weaponList[i].gunPosition, 0f, 0f, angle);
+        SetProjectileValues(weaponList[i].gunPosition, 0f, 0f, angle, i);
     }
 
     public void SpiralBullet(int i, int pointer)
@@ -129,13 +125,13 @@ public abstract class Weapon : MonoBehaviour
         }
 
         float angle = 360 / weaponList[i].amountToShoot * pointer + angleStep;
-        SetProjectileValues(weaponList[i].gunPosition, 0f, 0f, angle);
+        SetProjectileValues(weaponList[i].gunPosition, 0f, 0f, angle, i);
     }
 
     public void RandomBullet(int i, int pointer)
     {
         float angle = Random.Range(0f, 360f);
-        SetProjectileValues(weaponList[i].gunPosition, 0f, 0f, angle);
+        SetProjectileValues(weaponList[i].gunPosition, 0f, 0f, angle, i);
     }
 
     public void DirectionToPlayerBullet(int i, int pointer)
@@ -149,7 +145,7 @@ public abstract class Weapon : MonoBehaviour
             direction.Normalize();
             float rotation = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-            SetProjectileValues(weaponList[i].gunPosition, position.x, position.y, rotation);
+            SetProjectileValues(weaponList[i].gunPosition, position.x, position.y, rotation, i);
         }
         else
         {
