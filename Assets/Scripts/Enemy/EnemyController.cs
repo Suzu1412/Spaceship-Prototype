@@ -229,7 +229,7 @@ public class EnemyController : CharController
     #region Path
     public void AssignPath(int number)
     {
-        if (_waypoints != null)
+        if (_waypoints == null)
         {
             _waypoints = _path.GetChild((int)_pathToTake).GetChild(number).transform;
         }

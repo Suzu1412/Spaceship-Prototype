@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
         players = GameObject.FindGameObjectsWithTag("Player");
         sceneManager = GameObject.FindObjectOfType<SceneManager>();
         
-        if (players != null)
+        if (players.Length >= 1)
         {
             players[0].GetComponent<CharController>().SetScore(scorePlayer1);
             players[0].GetComponent<PlayerController>().SetHealhBar(healthBarP1);
@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("No Player found on the Scene");
+            //Debug.LogError("No Player found on the Scene");
         }
         #if !UNITY_EDITOR
             _state = GameState.Start;
@@ -143,9 +143,12 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            if (players[0].activeSelf == false)
+            if (players.Length >= 1)
             {
-                _state = GameState.GameOver;
+                if (players[0].activeSelf)
+                {
+                    _state = GameState.GameOver;
+                }
             }
         }
     }
