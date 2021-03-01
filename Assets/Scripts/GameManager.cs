@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("No Player found on the Scene");
         }
-        state = GameState.Playing;
+        state = GameState.Start;
     }
 
     private void Start()
