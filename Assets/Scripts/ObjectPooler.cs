@@ -58,7 +58,7 @@ public class ObjectPooler : MonoBehaviour
         pools.Add(pool);
     }
 
-    private void CreatePool(Pool pool)
+    public void CreatePool(Pool pool)
     {
         if (!poolDictionary.ContainsKey(pool.tag))
         {

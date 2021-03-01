@@ -6,7 +6,7 @@ public class WaveManager : MonoBehaviour
 {
     public List<WaveObject> waves = new List<WaveObject>();
     private int _currentWave;
-    private bool _canSPawnWaves = true;
+    public bool _canSPawnWaves = true;
     public bool canSpawnWaves { get { return _canSPawnWaves; } }
     public ObjectPooler objectPooler;
     private GameManager _manager;
@@ -34,7 +34,10 @@ public class WaveManager : MonoBehaviour
                 {
                     if (itemList[k].tag.Equals(waves[i].theWave.enemyList[j].enemy.name))
                     {
-                        itemList[k].size++;
+                        if (itemList[k].size < waves[i].theWave.enemyList.Count)
+                        {
+                            itemList[k].size++;
+                        }
                         found = true;
                     }
                 }
@@ -69,30 +72,30 @@ public class WaveManager : MonoBehaviour
             {
                 waves[_currentWave].theWave.enemyList[i].spawnTimeOffset -= Time.deltaTime;
 
-                if (waves[_currentWave].theWave.enemyList[i].spawnTimeOffset <= 0)
+
+                if (waves[_currentWave].theWave.enemyList[i].spawnTimeOffset <= 0f && !waves[_currentWave].theWave.enemyList[i].alreadySpawned)
                 {
                     if (waves[_currentWave].theWave.enemyList[i].wayPoint != null)
                     {
-                        //Assign Waypoint and position itself to the first point
-                        //waves[_currentWave].theWave.enemyList[i].enemy.SetWaypoint(waves[_currentWave].theWave.enemyList[i].wayPoint);
+                        objectPooler.SpawnFromPool(waves[_currentWave].theWave.enemyList[i].enemy.name, waves[_currentWave].theWave.enemyList[i].wayPoint.position, Quaternion.identity);
                     }
                     else
                     {
                         if (waves[_currentWave].theWave.enemyList[i].randomXPosition)
                         {
                             float randomXPosition = Random.Range(waves[_currentWave].theWave.enemyList[i].minXPosition, waves[_currentWave].theWave.enemyList[i].maxXPosition);
-                            Debug.Log(waves[_currentWave].theWave.enemyList[i].minXPosition);
-                            Debug.Log(waves[_currentWave].theWave.enemyList[i].maxXPosition);
                             objectPooler.SpawnFromPool(waves[_currentWave].theWave.enemyList[i].enemy.name, new Vector3(randomXPosition, 8f, 0f), Quaternion.identity);
                         }
                         else
                         {
-                            waves[_currentWave].theWave.enemyList[i].enemy.transform.position = new Vector2(waves[_currentWave].theWave.enemyList[i].spawnXPosition, 8f);
+                            objectPooler.SpawnFromPool(waves[_currentWave].theWave.enemyList[i].enemy.name, new Vector3(waves[_currentWave].theWave.enemyList[i].spawnXPosition, 8f, 0f),
+                                Quaternion.identity);
                         }
                     }
 
                     waves[_currentWave].theWave.enemyList[i].enemy.gameObject.SetActive(true);
                     waves[_currentWave].enemySpawned++;
+                    waves[_currentWave].theWave.enemyList[i].alreadySpawned = true;
                 }
             }
 
@@ -100,9 +103,14 @@ public class WaveManager : MonoBehaviour
             {
                 _currentWave++;
             }
-            else
+            else if (waves[_currentWave].enemySpawned == waves[_currentWave].theWave.enemyList.Count)
             {
                 _canSPawnWaves = false;
+            }
+
+            if (_currentWave == waves.Count - 1 && _canSPawnWaves == false)
+            {
+                _manager.LastWave();
             }
         }
     }
@@ -128,12 +136,13 @@ public class EnemyWave
         [Tooltip("Wait time before appear")] public float spawnTimeOffset;
         
         [Header("Waypoint Position")]
-        [Tooltip("Only if the enemy follows waypoint. Else use the bottom options")]public Transform wayPoint;
+        [Tooltip("Only if the enemy follows waypoint. If empty it will use the bottom options")]public Transform wayPoint;
 
         [Header("Spawn Position if it doesn't follow waypoint")]
         public bool randomXPosition;
         [HideInInspector] public float minXPosition = -2.5f;
         [HideInInspector] public float maxXPosition = 2.5f;
         [Tooltip("If random X Position Unmarked and no waypoint configured")] [Range(-2.5f, 2.5f)] public float spawnXPosition;
+        [HideInInspector] public bool alreadySpawned;
     }
 }

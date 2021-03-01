@@ -10,19 +10,6 @@ public class PlayerWeapon : Weapon
     {
         base.Awake();
         controller = GetComponent<PlayerController>();
-
-        for(int i=0; i < weaponList.Count; i++)
-        {
-            ObjectPooler.Pool item = new ObjectPooler.Pool
-            {
-                prefab = weaponList[i].weaponType.projectile,
-                shouldExpandPool = true,
-                size = weaponList[i].weaponType.amountToPool,
-                tag = weaponList[i].weaponType.projectile.name,
-                isChild = true
-            };
-            objectPooler.AddPool(item);
-        }
     }
 
     protected override void Update()
@@ -52,10 +39,10 @@ public class PlayerWeapon : Weapon
         }
     }
 
-    public override void SetProjectileValues(Transform gunPosition, float xPos, float yPos, float angle)
+    public override void SetProjectileValues(Transform gunPosition, float xPos, float yPos, float angle, int currentWeapon)
     {
         
-        base.SetProjectileValues(gunPosition, xPos, yPos, angle);
+        base.SetProjectileValues(gunPosition, xPos, yPos, angle, currentWeapon);
         currentProjectile.GetComponent<Projectile>().damage = controller.stats.damage;
         currentProjectile.GetComponent<Projectile>().score = controller.GetScore();
     }

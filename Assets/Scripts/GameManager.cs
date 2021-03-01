@@ -11,15 +11,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text textScorePlayer1;
     [SerializeField] private Text textScorePlayer2;
     [SerializeField] private Text readyText;
+    [SerializeField] private Text victoryText;
     [SerializeField] private Text fpsCounter;
     [SerializeField] private Image healthBarP1;
     [SerializeField] Image healthBarP2;
     [SerializeField] private GameObject[] players;
+    private SceneManager sceneManager;
+    private int numberOfEnemies;
     private GameState _state;
     public GameState state { get { return _state; } }
     private bool gameStarted;
     private bool gamePlaying;
-    private bool finishedGame;
+    private bool victory;
+    private bool lastWave;
 
 
     private void Awake()
@@ -32,6 +36,7 @@ public class GameManager : MonoBehaviour
 
         readyText.gameObject.SetActive(false);
         players = GameObject.FindGameObjectsWithTag("Player");
+        sceneManager = GameObject.FindObjectOfType<SceneManager>();
         
         if (players != null)
         {
@@ -59,8 +64,12 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("No Player found on the Scene");
         }
-        _state = GameState.Playing;
-    }
+        #if UNITY_EDITOR
+            _state = GameState.Start;
+        #else
+            _state = GameState.Start;
+        #endif
+        }
 
     private void Start()
     {
@@ -91,7 +100,7 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.Victory:
-
+                Victory();
                 break;
         }
     }
@@ -110,7 +119,9 @@ public class GameManager : MonoBehaviour
                 players[0].transform.position = new Vector2(0f, -7);
             }
 
-            Invoke("EnableReadyText", 0.8f);
+            sceneManager.StartScene();
+
+            Invoke("EnableReadyText", 0.6f);
             Invoke("DisableReadyText", 3f);
             Invoke("SetStatePlaying", 3f);
 
@@ -123,7 +134,6 @@ public class GameManager : MonoBehaviour
     {
         if (!gamePlaying)
         {
-            Debug.Log("Play Game");
             for (int i= 0; i < players.Length; i++)
             {
                 players[i].GetComponent<PlayerController>().CanShoot(true);
@@ -140,6 +150,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void Victory()
+    {
+        if (!victory)
+        {
+            for (int i = 0; i < players.Length; i++)
+            {
+                players[i].GetComponent<PlayerController>().CanShoot(false);
+            }
+
+            sceneManager.EndScene();
+            EnableVictoryText();
+            victory = true;
+        }
+        
+    }
+
     void GameOver()
     {
         Debug.Log("Game Over");
@@ -148,6 +174,8 @@ public class GameManager : MonoBehaviour
     void EnableReadyText()
     {
         readyText.gameObject.SetActive(true);
+        readyText.canvasRenderer.SetAlpha(0f);
+        FadeOut(readyText);
     }
 
     void DisableReadyText()
@@ -155,11 +183,18 @@ public class GameManager : MonoBehaviour
         readyText.gameObject.SetActive(false);
     }
 
+    void EnableVictoryText()
+    {
+        victoryText.gameObject.SetActive(true);
+        victoryText.canvasRenderer.SetAlpha(0f);
+        FadeOut(victoryText);
+    }
+
     void SetStatePlaying()
     {
         gameStarted = false;
         gamePlaying = false;
-        finishedGame = false;
+        victory  = false;
         _state = GameState.Playing;
     }
 
@@ -167,6 +202,36 @@ public class GameManager : MonoBehaviour
     {
         float fps = Mathf.Round(1f / Time.unscaledDeltaTime);
         fpsCounter.text = "FPS: " + fps.ToString();
+    }
+
+    public void AddEnemyCount()
+    {
+        numberOfEnemies++;
+    }
+
+    public void RemoveEnemyCount()
+    {
+        numberOfEnemies--;
+
+        if (lastWave && numberOfEnemies == 0)
+        {
+            _state = GameState.Victory;
+        }
+    }
+
+    public void LastWave()
+    {
+        lastWave = true;
+    }
+
+    void FadeIn(Text text)
+    {
+        text.CrossFadeAlpha(1f, 0.2f, false);
+    }
+
+    void FadeOut(Text text)
+    {
+        text.CrossFadeAlpha(1f, 0.5f, false);
     }
 }
 

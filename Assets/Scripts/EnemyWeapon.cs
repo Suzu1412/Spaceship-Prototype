@@ -9,7 +9,7 @@ public class EnemyWeapon : Weapon
     protected override void Awake()
     {
         base.Awake();
-        controller = GetComponent<EnemyController>();
+        controller = GetComponent<EnemyController>();   
     }
 
     protected override void Update()
@@ -44,9 +44,9 @@ public class EnemyWeapon : Weapon
         }
     }
 
-    public override void SetProjectileValues(Transform gunPosition, float xPos, float yPos, float angle)
+    public override void SetProjectileValues(Transform gunPosition, float xPos, float yPos, float angle, int currentWeapon)
     {
-        base.SetProjectileValues(gunPosition, xPos, yPos, -angle);
+        base.SetProjectileValues(gunPosition, xPos, yPos, -angle, currentWeapon);
         currentProjectile.GetComponent<Projectile>().damage = controller.stats.damage;
     }
 

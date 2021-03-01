@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerController : CharController
 {
     private InputController _input;
-    private GameManager _manager;
     private UnityEngine.UI.Image healthBar;
 
     [Header("Player Start Animation")]
@@ -14,6 +13,7 @@ public class PlayerController : CharController
     public Vector3 endMarker;
     public float smoothTimeStart = 0.6F;
     public float smoothTimeEnd = 0.6F;
+    public float smoothVictory = 1.2f;
     private Vector3 velocity = Vector3.zero;
 
     [Header("Player Attributes")]
@@ -37,7 +37,6 @@ public class PlayerController : CharController
     {
         base.Awake();
         _input = GetComponent<InputController>();
-        _manager = GameObject.FindObjectOfType<GameManager>();
         if (_input == null) Debug.LogError(this.gameObject.name + " missing InputController");
         if (_stats == null) Debug.Log(this.gameObject.name + " missing Stats");
     }
@@ -74,11 +73,14 @@ public class PlayerController : CharController
             case GameState.Start:
                 MoveToStartPosition();
                 break;
-        }
 
-        if (_manager.state == GameState.Playing)
-        {
-            RestrictMovement();
+            case GameState.Playing:
+                RestrictMovement();
+                break;
+
+            case GameState.Victory:
+                Victory();
+                break;
         }
     }
 
@@ -88,6 +90,11 @@ public class PlayerController : CharController
         {
             Move();
         }
+    }
+
+    void Victory()
+    {
+        rb.velocity = Vector2.up * 5f;
     }
 
     private void Move()
