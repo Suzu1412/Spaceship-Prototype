@@ -35,7 +35,7 @@ public abstract class Weapon : MonoBehaviour
     {
         for (int i=0; i < weaponList.Count; i++)
         {
-            weaponList[i].increaseAngle = weaponList[i].weaponType.increaseAngle;
+            weaponList[i].increaseAngle = 0f; //weaponList[i].weaponType.increaseAngle;
         }
     }
 
@@ -100,15 +100,20 @@ public abstract class Weapon : MonoBehaviour
     public void RadiusBullet(int i, int pointer)
     {
         float angleStep = 0f;
+        float angle = 0f;
 
-        if (weaponList[i].amountToShoot - 1 >= 1)
+        if (weaponList[i].amountToShoot >= 2)
         {
-            angleStep = (weaponList[i].weaponType.endAngle - weaponList[i].weaponType.startAngle) / (weaponList[i].amountToShoot - 1);
+            angleStep = (weaponList[i].weaponType.endAngle - weaponList[i].weaponType.startAngle) / (weaponList[i].amountToShoot);
+
+            angle = weaponList[i].weaponType.startAngle + (angleStep * pointer);
+        }
+        else
+        {
+            angle = 180f;
         }
 
-        float angle = weaponList[i].weaponType.startAngle + (angleStep * pointer);
-
-        SetProjectileValues(weaponList[i].gunPosition, 0f, 0f, angle, i);
+        SetProjectileValues(weaponList[i].gunPosition, 0f, 0f, angle  - 90, i);
     }
 
     public void SpiralBullet(int i, int pointer)
@@ -116,15 +121,15 @@ public abstract class Weapon : MonoBehaviour
         float angleStep = 0f;
         if (pointer == 0)
         {
-            angleStep = weaponList[i].weaponType.increaseAngle + weaponList[i].increaseAngle;
-            weaponList[i].increaseAngle = angleStep;
+            angleStep = weaponList[i].increaseAngle;
+            weaponList[i].increaseAngle = weaponList[i].weaponType.increaseAngle + weaponList[i].increaseAngle;
         }
         else
         {
             angleStep = weaponList[i].increaseAngle;
         }
 
-        float angle = 360 / weaponList[i].amountToShoot * pointer + angleStep;
+        float angle = 360 / weaponList[i].amountToShoot * pointer + angleStep + 90;
         SetProjectileValues(weaponList[i].gunPosition, 0f, 0f, angle, i);
     }
 
@@ -209,5 +214,5 @@ public class WeaponList
     public float timeBetweenShots;
     public float timeUntilNextShot;
     public Transform gunPosition;
-    [Header("Only used in Spiral Pattern")] [HideInInspector] public float increaseAngle;
+    [Header("Only used in Spiral Pattern")] public float increaseAngle;
 }

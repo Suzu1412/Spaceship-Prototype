@@ -46,6 +46,11 @@ public class PlayerController : CharController
 
     }
 
+    public void Shoot()
+    {
+        _canShoot = true;
+    }
+
     public void CanShoot(bool canShoot)
     {
         _canShoot = canShoot;

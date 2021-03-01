@@ -17,9 +17,9 @@ MonoBehaviour:
   amountToPool: 150
   shootRate: 0.05
   lifeTime: 0.8
-  pattern: 3
+  pattern: 1
   initialOffsetX: 0.15
   offsetXBetweenShots: 0.3
-  startAngle: 230
-  endAngle: 320
-  increaseAngle: 15
+  startAngle: 0
+  endAngle: 360
+  increaseAngle: 10

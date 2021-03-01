@@ -26,20 +26,22 @@ public class EnemyWeapon : Weapon
         for (int i = 0; i < weaponList.Count; i++)
         {
             weaponList[i].timeUntilNextShot -= Time.deltaTime;
+            Debug.Log(weaponList[i].timeUntilNextShot);
 
             if (weaponList[i].timeUntilNextShot <= 0f)
             {
-                weaponList[i].timeUntilNextShot = weaponList[i].timeBetweenShots + weaponList[i].weaponType.shootRate;
-
                 for (int j = 0; j < weaponList[i].amountToShoot; j++)
                 {
                     currentProjectile = objectPooler.SpawnFromPool(weaponList[i].weaponType.projectile.name, new Vector3(0f, 0f, 0f), Quaternion.identity);
 
                     if (currentProjectile != null)
                     {
+                        Debug.Log("Shoot");
                         ShootPattern(i, j);
                     }
                 }
+
+                weaponList[i].timeUntilNextShot = weaponList[i].timeBetweenShots + weaponList[i].weaponType.shootRate;
             }
         }
     }

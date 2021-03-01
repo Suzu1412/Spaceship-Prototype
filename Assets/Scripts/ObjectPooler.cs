@@ -69,6 +69,7 @@ public class ObjectPooler : MonoBehaviour
             }
 
             poolDictionary.Add(pool.tag, objectPool);
+            pools.Add(pool);
         }
     }
 
@@ -117,6 +118,7 @@ public class ObjectPooler : MonoBehaviour
             }
         }
 
+        Debug.Log("Not enough objects in pool");
         return null;
     }
 }

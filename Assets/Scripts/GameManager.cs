@@ -136,7 +136,8 @@ public class GameManager : MonoBehaviour
         {
             for (int i= 0; i < players.Length; i++)
             {
-                players[i].GetComponent<PlayerController>().CanShoot(true);
+                //players[i].GetComponent<PlayerController>().CanShoot(true);
+                Invoke("MakePlayerShoot", 1f);
             }
 
             gamePlaying = true;
@@ -145,12 +146,17 @@ public class GameManager : MonoBehaviour
         {
             if (players.Length >= 1)
             {
-                if (players[0].activeSelf)
+                if (!players[0].activeSelf)
                 {
                     _state = GameState.GameOver;
                 }
             }
         }
+    }
+
+    void MakePlayerShoot()
+    {
+        players[0].GetComponent<PlayerController>().CanShoot(true);
     }
 
     void Victory()
@@ -171,7 +177,7 @@ public class GameManager : MonoBehaviour
 
     void GameOver()
     {
-        Debug.Log("Game Over");
+        //Debug.Log("Game Over");
     }
 
     void EnableReadyText()

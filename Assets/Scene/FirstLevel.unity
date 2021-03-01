@@ -169,7 +169,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &48369410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2630,9 +2630,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 787658446952061392, guid: 4cc2e47c398c2f14facf931b7a68aae3, type: 3}
+      propertyPath: shootDecision
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 787658446952061393, guid: 4cc2e47c398c2f14facf931b7a68aae3, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 787658446952061393, guid: 4cc2e47c398c2f14facf931b7a68aae3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2677,6 +2681,10 @@ PrefabInstance:
     - target: {fileID: 787658446952061397, guid: 4cc2e47c398c2f14facf931b7a68aae3, type: 3}
       propertyPath: m_Name
       value: Enemy Orange
+      objectReference: {fileID: 0}
+    - target: {fileID: 787658446952061397, guid: 4cc2e47c398c2f14facf931b7a68aae3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cc2e47c398c2f14facf931b7a68aae3, type: 3}
@@ -3022,7 +3030,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1642995581231152186, guid: f26509809d674b74fa2762cd5ab5228c, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1642995581231152186, guid: f26509809d674b74fa2762cd5ab5228c, type: 3}
       propertyPath: m_AnchorMax.x
@@ -4331,7 +4339,7 @@ PrefabInstance:
       objectReference: {fileID: 2066862130}
     - target: {fileID: 1771828020, guid: 628291c0305c38c4c8bfac71f45d1801, type: 3}
       propertyPath: weaponList.Array.data[0].amountToShoot
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1771828020, guid: 628291c0305c38c4c8bfac71f45d1801, type: 3}
       propertyPath: weaponList.Array.data[1].amountToShoot
