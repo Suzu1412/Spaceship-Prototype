@@ -64,10 +64,10 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("No Player found on the Scene");
         }
-        #if UNITY_EDITOR
+        #if !UNITY_EDITOR
             _state = GameState.Start;
         #else
-            _state = GameState.Start;
+            _state = GameState.Playing;
         #endif
         }
 

@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: PegasusWeapon
   m_EditorClassIdentifier: 
   projectile: {fileID: 6312322471829764151, guid: 55c10aebc9524914788636aad8a9fdd5, type: 3}
-  projectileSpeed: 15
-  amountToPool: 70
-  shootRate: 0.2
-  lifeTime: 2.5
-  pattern: 0
+  projectileSpeed: 8
+  amountToPool: 150
+  shootRate: 0.05
+  lifeTime: 0.8
+  pattern: 3
   initialOffsetX: 0.15
   offsetXBetweenShots: 0.3
-  startAngle: 60
-  endAngle: 120
+  startAngle: 230
+  endAngle: 320
   increaseAngle: 15

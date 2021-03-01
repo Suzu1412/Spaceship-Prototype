@@ -34,7 +34,7 @@ public class EnemyController : CharController
 
     [Header("Follow Path Attributes")]
     private Transform _path;
-    private Transform _waypoints;
+    [SerializeField] private Transform _waypoints;
     private int _currentWaypoint;
     private bool _followPath;
     [SerializeField] private PathToTake _pathToTake;
@@ -229,7 +229,10 @@ public class EnemyController : CharController
     #region Path
     public void AssignPath(int number)
     {
-        _waypoints = _path.GetChild((int)_pathToTake).GetChild(number).transform;
+        if (_waypoints != null)
+        {
+            _waypoints = _path.GetChild((int)_pathToTake).GetChild(number).transform;
+        }
         _followPath = true;
         _currentWaypoint = 0;
     }
