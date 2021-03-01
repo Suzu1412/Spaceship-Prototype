@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class PlayerController : CharController
 {
+    [Header("Player variables")]
     private InputController _input;
     private UnityEngine.UI.Image healthBar;
+    private BoxCollider2D _collider;
 
     [Header("Player Start Animation")]
     bool arrivedAtStartPosition;
@@ -37,8 +39,11 @@ public class PlayerController : CharController
     {
         base.Awake();
         _input = GetComponent<InputController>();
+        _collider = GetComponent<BoxCollider2D>();
         if (_input == null) Debug.LogError(this.gameObject.name + " missing InputController");
         if (_stats == null) Debug.Log(this.gameObject.name + " missing Stats");
+        
+
     }
 
     public void CanShoot(bool canShoot)
@@ -94,6 +99,7 @@ public class PlayerController : CharController
 
     void Victory()
     {
+        _collider.enabled = false;
         rb.velocity = Vector2.up * 5f;
     }
 
