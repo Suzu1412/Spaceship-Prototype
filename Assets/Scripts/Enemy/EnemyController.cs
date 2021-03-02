@@ -8,6 +8,7 @@ public enum ShootDecision
     Interval,
     OnDetection,
     RandomSeconds
+    //Shoot On Waypoint
 }
 
 public enum PathToTake
@@ -31,10 +32,12 @@ public class EnemyController : CharController
     private bool _detected = true;
     private bool _canShoot = true;
     private Transform _playerPosition;
+    private float _waitForSeconds = 0f;
 
     [Header("Follow Path Attributes")]
     private Transform _path;
-    [SerializeField] private Transform _waypoints;
+    private Transform _waypoints;
+    //SerializeField private List<int> _waypointToShoot = new List<int>(); //If on Waypoint shoot, else don't
     private int _currentWaypoint;
     private bool _followPath;
     [SerializeField] private PathToTake _pathToTake;
@@ -95,7 +98,7 @@ public class EnemyController : CharController
     {
         _currentState.PhysicsUpdate(this);
 
-        if (transform.position.y < -6) 
+        if (transform.position.y < -6 || transform.position.y > 9) 
         {
             this.gameObject.SetActive(false);
         }
@@ -205,7 +208,7 @@ public class EnemyController : CharController
     {
         Gizmos.color = detected ? Color.green : Color.red;
 
-        if (stats.angle <= 0f) return;
+        if (stats == null) return;
 
         float halfVisionAngle = stats.angle * 0.5f;
 
@@ -235,6 +238,7 @@ public class EnemyController : CharController
         }
         _followPath = true;
         _currentWaypoint = 0;
+        this.transform.position = _waypoints.GetChild(_currentWaypoint).transform.position;
     }
 
     public void UpdatePath()
@@ -247,6 +251,12 @@ public class EnemyController : CharController
             _followPath = false;
         }
     }
+
+    public void SetWaypoint(Transform waypoint)
+    {
+        _waypoints = waypoint;
+        this.transform.position = _waypoints.GetChild(0).transform.position;
+    }
     #endregion
 
     #region Shoot
@@ -255,6 +265,7 @@ public class EnemyController : CharController
         switch (shootDecision)
         {
             case ShootDecision.None:
+                _canShoot = false;
                 break;
 
             case ShootDecision.Interval:
@@ -309,6 +320,24 @@ public class EnemyController : CharController
         }
     }
     #endregion
+
+    public bool WaitForSeconds(float seconds)
+    {
+        bool timeOver = false;
+
+        if (_waitForSeconds <= 0f)
+        {
+            _waitForSeconds = seconds;
+        }
+        _waitForSeconds -= Time.deltaTime;
+
+        if (_waitForSeconds <= 0f)
+        {
+            timeOver = true;
+        }
+
+        return timeOver;
+    }
 
     public void TransitionToState(State nextState)
     {

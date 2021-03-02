@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65d628b9be737f04e85623e00bab6248, type: 3}
-  m_Name: Novice Fighter
+  m_Name: Novice Warrior
   m_EditorClassIdentifier: 
-  maxHealth: 15
-  damage: 10
-  moveSpeed: 3
+  maxHealth: 35
+  damage: 20
+  moveSpeed: 2.5
   criticalChance: 0
   dodgeChance: 0
-  collissionDamage: 20
-  score: 50
+  collissionDamage: 30
+  score: 75
   playerLayer:
     serializedVersion: 2
     m_Bits: 1
-  angle: 0
-  distance: 0
+  angle: 20
+  distance: 6
   dropChance: 0
   shootChance: 0
   waitUntilShoot: 0

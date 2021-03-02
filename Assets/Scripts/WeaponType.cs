@@ -6,11 +6,9 @@ using UnityEngine;
 public class WeaponType : ScriptableObject
 {
     public GameObject projectile;
-    public float projectileSpeed;
-    public int amountToPool;
-    public float shootRate;
-    public float lifeTime;
-    public BulletPattern pattern;
+    public int amountToPool = 30;
+    public float shootRate = 0.2f;
+    public float lifeTime = 2f;
 
     [Header("Straight Bullet Variables")]
     public float initialOffsetX = 0.15f;
@@ -21,14 +19,6 @@ public class WeaponType : ScriptableObject
     [Range(0f, 360f)] public float endAngle = 360f;
 
     [Header("Spiral Bullet Variables")]
-    public float increaseAngle;
+    public float increaseAngle = 10f;
 }
 
-public enum BulletPattern
-{
-    Straight,
-    Radius,
-    Spiral,
-    Random,
-    DirectionToPlayer
-}

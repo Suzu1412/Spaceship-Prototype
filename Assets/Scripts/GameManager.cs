@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Image healthBarP1;
     [SerializeField] Image healthBarP2;
     [SerializeField] private GameObject[] players;
+    private Transform path;
     private SceneManager sceneManager;
     private int numberOfEnemies;
     private GameState _state;
@@ -64,6 +65,8 @@ public class GameManager : MonoBehaviour
         {
             //Debug.LogError("No Player found on the Scene");
         }
+
+        EnablePath();
         #if !UNITY_EDITOR
             _state = GameState.Start;
         #else
@@ -81,6 +84,26 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         UpdateState();
+    }
+
+    void EnablePath()
+    {
+        if  (path == null)
+        {
+            path = GameObject.Find("Path").transform;
+        }
+
+        path.gameObject.SetActive(true);
+
+        for (int i=0; i < path.childCount; i++)
+        {
+            path.GetChild(i).gameObject.SetActive(true);
+
+            for (int j=0; j < path.GetChild(i).childCount; j++)
+            {
+                path.GetChild(i).GetChild(j).gameObject.SetActive(true);
+            }
+        }
     }
 
     void UpdateState()
@@ -177,7 +200,7 @@ public class GameManager : MonoBehaviour
 
     void GameOver()
     {
-        //Debug.Log("Game Over");
+        Debug.Log("Game Over");
     }
 
     void EnableReadyText()
@@ -224,13 +247,35 @@ public class GameManager : MonoBehaviour
 
         if (lastWave && numberOfEnemies == 0)
         {
-            _state = GameState.Victory;
+            bool playerSurvive = false;
+            for (int i=0; i < players.Length; i++)
+            {
+                if (players[i].activeInHierarchy && players[i].GetComponent<PlayerController>().currentHealth > 0)
+                {
+                    playerSurvive = true;
+                }
+            }
+
+            if (playerSurvive)
+            {
+                _state = GameState.Victory;
+            }
+            else
+            {
+                _state = GameState.GameOver;
+            }
+            
         }
     }
 
     public void LastWave()
     {
         lastWave = true;
+    }
+
+    public int GetEnemyCount()
+    {
+        return numberOfEnemies;
     }
 
     void FadeIn(Text text)

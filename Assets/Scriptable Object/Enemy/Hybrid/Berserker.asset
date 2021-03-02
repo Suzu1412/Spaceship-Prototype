@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65d628b9be737f04e85623e00bab6248, type: 3}
-  m_Name: Green Suicide Enemy
+  m_Name: Berserker
   m_EditorClassIdentifier: 
-  maxHealth: 50
-  damage: 5
+  maxHealth: 80
+  damage: 20
   moveSpeed: 3
   criticalChance: 0
   dodgeChance: 0
   collissionDamage: 30
-  score: 150
+  score: 250
   playerLayer:
     serializedVersion: 2
     m_Bits: 1
-  angle: 180
-  distance: 5
+  angle: 20
+  distance: 6
   dropChance: 0
   shootChance: 0
   waitUntilShoot: 0

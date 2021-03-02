@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb49b5c65e792bc4e8e361830bfa1794, type: 3}
-  m_Name: PegasusWeapon
+  m_Name: Basic Bullet
   m_EditorClassIdentifier: 
-  projectile: {fileID: 6312322471829764151, guid: 55c10aebc9524914788636aad8a9fdd5, type: 3}
-  amountToPool: 100
-  shootRate: 0.2
-  lifeTime: 1.2
-  pattern: 0
-  initialOffsetX: 0.15
-  offsetXBetweenShots: 0.3
+  projectile: {fileID: 7321851205745762313, guid: b7daed41f630db44f960f912540b9e20, type: 3}
+  amountToPool: 50
+  shootRate: 0.1
+  lifeTime: 2
+  initialOffsetX: 0.2
+  offsetXBetweenShots: 0.4
   startAngle: 0
   endAngle: 360
   increaseAngle: 10

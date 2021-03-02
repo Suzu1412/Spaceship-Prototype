@@ -72,12 +72,12 @@ public class WaveManager : MonoBehaviour
             {
                 waves[_currentWave].theWave.enemyList[i].spawnTimeOffset -= Time.deltaTime;
 
-
                 if (waves[_currentWave].theWave.enemyList[i].spawnTimeOffset <= 0f && !waves[_currentWave].theWave.enemyList[i].alreadySpawned)
                 {
                     if (waves[_currentWave].theWave.enemyList[i].wayPoint != null)
                     {
-                        _objectPooler.SpawnFromPool(waves[_currentWave].theWave.enemyList[i].enemy.name, waves[_currentWave].theWave.enemyList[i].wayPoint.position, Quaternion.identity);
+                        GameObject obj = _objectPooler.SpawnFromPool(waves[_currentWave].theWave.enemyList[i].enemy.name, waves[_currentWave].theWave.enemyList[i].wayPoint.position, Quaternion.identity);
+                        obj.GetComponent<EnemyController>().SetWaypoint(waves[_currentWave].theWave.enemyList[i].wayPoint);
                     }
                     else
                     {
@@ -111,6 +111,15 @@ public class WaveManager : MonoBehaviour
             if (_currentWave == waves.Count - 1 && canSpawnWaves == false)
             {
                 _manager.LastWave();
+            }
+        }
+
+        //Acelera la aparición de la próxima oleada si todos están muertos
+        if (_currentWave - 1 >= 0)
+        {
+            if (waves[_currentWave - 1].enemySpawned == waves[_currentWave - 1].theWave.enemyList.Count && _manager.GetEnemyCount() == 0)
+            {
+                waves[_currentWave].timeToSpawn = 0f;
             }
         }
     }

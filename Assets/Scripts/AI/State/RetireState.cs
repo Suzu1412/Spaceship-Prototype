@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "AI/State/Move State")]
-public class MoveState : State
+[CreateAssetMenu(menuName = "AI/State/Retire State")]
+public class RetireState : State
 {
     public override void Enter(EnemyController controller)
     {
@@ -18,6 +18,7 @@ public class MoveState : State
 
     public override void PhysicsUpdate(EnemyController controller)
     {
-        controller.rb.velocity = Vector2.down * controller.stats.moveSpeed;
+        controller.rb.velocity = Vector2.up * controller.stats.moveSpeed;
     }
 }
+

@@ -26,7 +26,6 @@ public class EnemyWeapon : Weapon
         for (int i = 0; i < weaponList.Count; i++)
         {
             weaponList[i].timeUntilNextShot -= Time.deltaTime;
-            Debug.Log(weaponList[i].timeUntilNextShot);
 
             if (weaponList[i].timeUntilNextShot <= 0f)
             {
@@ -36,7 +35,6 @@ public class EnemyWeapon : Weapon
 
                     if (currentProjectile != null)
                     {
-                        Debug.Log("Shoot");
                         ShootPattern(i, j);
                     }
                 }

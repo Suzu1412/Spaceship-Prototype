@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f871458f0a3be3c47af85f0063cea98c, type: 3}
+  m_Name: Move State - Reach4Y
+  m_EditorClassIdentifier: 
+  decisions:
+  - {fileID: 11400000, guid: ebd92e090d8b1064f9a035c7f2a51bc4, type: 2}

@@ -58,7 +58,7 @@ public abstract class Weapon : MonoBehaviour
 
         currentProjectile.GetComponent<Projectile>().fired = true;
         currentProjectile.GetComponent<Projectile>().projectileLifeTime = weaponList[currentWeapon].weaponType.lifeTime;
-        currentProjectile.GetComponent<Projectile>().projectileSpeed = weaponList[currentWeapon].weaponType.projectileSpeed;
+        currentProjectile.GetComponent<Projectile>().projectileSpeed = weaponList[currentWeapon].projectileSpeed;
         currentProjectile.GetComponent<Projectile>().SetMoveDirection(bulletDirection);
         currentProjectile.SetActive(true);
     }
@@ -66,7 +66,7 @@ public abstract class Weapon : MonoBehaviour
     #region ShootPattern
     public void ShootPattern(int index, int pointer)
     {
-        switch (weaponList[index].weaponType.pattern)
+        switch (weaponList[index].pattern)
         {
             case BulletPattern.Straight:
                 StraightBullet(index, pointer);
@@ -210,9 +210,20 @@ public abstract class Weapon : MonoBehaviour
 public class WeaponList
 {
     public WeaponType weaponType;
-    public int amountToShoot;
+    public int amountToShoot = 1;
+    public float projectileSpeed = 80;
     public float timeBetweenShots;
-    public float timeUntilNextShot;
+    [HideInInspector] public float timeUntilNextShot;
     public Transform gunPosition;
-    [Header("Only used in Spiral Pattern")] public float increaseAngle;
+    public BulletPattern pattern;
+    [Header("Only used in Spiral Pattern")] [HideInInspector] public float increaseAngle;
+}
+
+public enum BulletPattern
+{
+    Straight,
+    Radius,
+    Spiral,
+    Random,
+    DirectionToPlayer
 }
