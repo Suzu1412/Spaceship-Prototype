@@ -13,10 +13,12 @@ public abstract class CharController : MonoBehaviour, IHealth
 
     public int currentHealth { get { return _currentHealth; } }
     public Rigidbody2D rb { get { return _rb; } }
+    public ObjectPooler objectPooler { get { return _objectPooler; } }
 
     protected virtual void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _objectPooler = ObjectPooler.Instance;
         if (rb == null) Debug.Log(this.gameObject.name + " missing RigidBody2D");
         _manager = GameObject.FindObjectOfType<GameManager>();
 

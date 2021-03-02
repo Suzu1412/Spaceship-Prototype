@@ -24,6 +24,6 @@ MonoBehaviour:
     m_Bits: 1
   angle: 20
   distance: 6
-  dropChance: 0
   shootChance: 0
   waitUntilShoot: 0
+  spawnItem: {fileID: 11400000, guid: a0e5dbc231d47488d93821bfffcb5893, type: 2}

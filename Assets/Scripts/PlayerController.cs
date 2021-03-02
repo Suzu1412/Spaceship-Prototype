@@ -59,7 +59,7 @@ public class PlayerController : CharController
     // Start is called before the first frame update
     protected void Start()
     {
-        power = 1;
+        power = 0;
         
         if (bottomLeftCorner == null) bottomLeftCorner = GameObject.Find("bottomLeftCorner").transform;
         if (topRightCorner == null) topRightCorner = GameObject.Find("topRightCorner").transform;
@@ -168,26 +168,6 @@ public class PlayerController : CharController
         return input.isShooting;
     }
 
-    private void WeaponLevel()
-    {
-        if (power >= 1 && power <= 8)
-        {
-            currentLevel = 0;
-        }
-        else if (power >= 9 && power <= 16)
-        {
-            currentLevel = 1;
-        }
-        else if (power >= 17 && power <= 32)
-        {
-            currentLevel = 2;
-        }
-        else if (power >= 33 && power <= 64)
-        {
-            currentLevel = 3;
-        }
-    }
-
     void MoveToStartPosition()
     {
         if (!arrivedAtStartPosition)
@@ -219,4 +199,56 @@ public class PlayerController : CharController
         healthBar = image;
     }
 
+    public void AddPower(int amount)
+    {
+        if (power + amount > 50)
+        {
+            power = 50;
+        }
+        else
+        {
+            power += amount;
+        }
+
+        PlayerLevel();
+    }
+
+    void PlayerLevel()
+    {
+        if (power >= 0 && power <= 4)
+        {
+            currentLevel = 0;
+        }
+        else if (power >= 5 && power <= 20)
+        {
+            if (currentLevel < 1)
+            {
+                LevelUp();
+            }
+            currentLevel = 1;
+        }
+        else if (power >= 21 && power <= 49)
+        {
+            if (currentLevel < 2)
+            {
+                LevelUp();
+            }
+            currentLevel = 2;
+        }
+        else if(power == 50)
+        {
+            if (currentLevel < 3)
+            {
+                LevelUp();
+            }
+            currentLevel = 3;
+        }
+    }
+
+    void LevelUp()
+    {
+        Debug.Log("Level Up");
+        //Instanciar efecto de Level Up
+        //Hacer aparecer texto de Level Up sobre jugador
+    }
 }

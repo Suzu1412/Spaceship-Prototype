@@ -12,10 +12,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text textScorePlayer2;
     [SerializeField] private Text readyText;
     [SerializeField] private Text victoryText;
+    [SerializeField] private Text gameOverText;
     [SerializeField] private Text fpsCounter;
     [SerializeField] private Image healthBarP1;
     [SerializeField] Image healthBarP2;
     [SerializeField] private GameObject[] players;
+    [SerializeField] private List<ItemPickUp> itemList;
     private Transform path;
     private SceneManager sceneManager;
     private int numberOfEnemies;
@@ -24,7 +26,9 @@ public class GameManager : MonoBehaviour
     private bool gameStarted;
     private bool gamePlaying;
     private bool victory;
+    private bool gameOver;
     private bool lastWave;
+    private ObjectPooler _objectPooler;
 
 
     private void Awake()
@@ -38,7 +42,25 @@ public class GameManager : MonoBehaviour
         readyText.gameObject.SetActive(false);
         players = GameObject.FindGameObjectsWithTag("Player");
         sceneManager = GameObject.FindObjectOfType<SceneManager>();
-        
+        victoryText.gameObject.SetActive(false);
+        readyText.gameObject.SetActive(false);
+        gameOverText.gameObject.SetActive(false);
+        _objectPooler = ObjectPooler.Instance;
+
+        for (int i = 0; i < itemList.Count; i++)
+        {
+            ObjectPooler.Pool item = new ObjectPooler.Pool
+            {
+                prefab = itemList[i].itemSpawn.gameObject,
+                shouldExpandPool = true,
+                size = 30,
+                tag = itemList[i].itemSpawn.name,
+                isChild = true
+            };
+
+            _objectPooler.CreatePool(item);
+        }
+
         if (players.Length >= 1)
         {
             players[0].GetComponent<CharController>().SetScore(scorePlayer1);
@@ -200,7 +222,13 @@ public class GameManager : MonoBehaviour
 
     void GameOver()
     {
-        Debug.Log("Game Over");
+        if (!gameOver)
+        {
+            sceneManager.EndScene();
+            EnableGameOverText();
+            gameOver = true;
+        }
+        
     }
 
     void EnableReadyText()
@@ -214,6 +242,20 @@ public class GameManager : MonoBehaviour
     {
         readyText.gameObject.SetActive(false);
     }
+
+    void EnableGameOverText()
+    {
+        gameOverText.gameObject.SetActive(true);
+        gameOverText.canvasRenderer.SetAlpha(0f);
+        FadeOut(gameOverText);
+    }
+
+    void DisableGameOverText()
+    {
+        gameOverText.gameObject.SetActive(false);
+    }
+
+
 
     void EnableVictoryText()
     {

@@ -140,6 +140,7 @@ public class EnemyController : CharController
         {
             isDeath = true;
             if (score != null) score.SetScore(stats.score);
+            _stats.spawnItem.SpawnItem(this);
             this.gameObject.SetActive(false);
         }
         

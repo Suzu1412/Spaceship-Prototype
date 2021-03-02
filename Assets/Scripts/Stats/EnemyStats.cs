@@ -15,7 +15,8 @@ public class EnemyStats : Stats
     public float distance;
 
     [Header("Chance Based Stats")]
-    [Range(0f, 1f)] public float dropChance;
     [Range(0f, 1f)] public float shootChance;
     [Range(0f, 1f)] public float waitUntilShoot;
+
+    public DropTable spawnItem;
 }
