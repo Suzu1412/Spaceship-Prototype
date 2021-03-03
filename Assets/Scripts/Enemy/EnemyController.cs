@@ -73,10 +73,10 @@ public class EnemyController : CharController
         if (_stats == null) Debug.Log(this.gameObject.name + " missing Stats");
     }
 
-    void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         _currentHealth = stats.maxHealth;
-        isDeath = false;
         _currentState = _initialState;
         _currentState.Enter(this);
         _manager.AddEnemyCount();
@@ -138,9 +138,17 @@ public class EnemyController : CharController
 
         if (!isDeath)
         {
-            isDeath = true;
+            _isDeath = true;
             if (score != null) score.SetScore(stats.score);
-            _stats.spawnItem.SpawnItem(this);
+            if (_stats.spawnItem != null)
+            {
+                _stats.spawnItem.SpawnItem(this);
+            }
+            else
+            {
+                Debug.LogError(_stats.name + " has no attached Spawn Drop Table");
+            }
+            
             this.gameObject.SetActive(false);
         }
         

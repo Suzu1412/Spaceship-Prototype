@@ -5,12 +5,12 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     [SerializeField] ItemPickUp item;
-    [SerializeField] float speed = 2f;
+    [SerializeField] float speed = 3f;
     private bool arrivedAtEndPosition;
     private bool setEndMarker;
     [SerializeField] private Vector3 endMarker;
     
-    public float smoothTimeStart = 0.6F;
+    public float smoothTimeStart = 0.2F;
     private Vector3 velocity = Vector3.zero;
 
     public void UseItem(PlayerController player)

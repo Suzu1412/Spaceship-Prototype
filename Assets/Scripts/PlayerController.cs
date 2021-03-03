@@ -7,28 +7,27 @@ public class PlayerController : CharController
 {
     [Header("Player variables")]
     private InputController _input;
-    private BoxCollider2D _collider;
     private bool damaged;
     private bool healed;
 
     [Header("Health Bar variables")]
+    [SerializeField] float chipSpeed = 1f;
+    [SerializeField] float maxDelayChipTimer = 0.5f;
     private Image frontHealthBar;
     private Image healHealthBar;
     private Image damageHealthBar;
     float damageLerpTimer;
     float healLerpTimer;
-    [SerializeField] float chipSpeed = 1f;
-    [SerializeField] float maxDelayChipTimer = 0.5f;
     float damageTimer;
     float healTimer;
 
     [Header("Player Start Animation")]
-    bool arrivedAtStartPosition;
-    private Vector3 startMarker;
-    private Vector3 endMarker;
     public float smoothTimeStart = 0.6F;
     public float smoothTimeEnd = 0.6F;
     public float smoothVictory = 1.2f;
+    bool arrivedAtStartPosition;
+    private Vector3 startMarker;
+    private Vector3 endMarker;
     private Vector3 velocity = Vector3.zero;
 
     [Header("Player Attributes")]
@@ -52,7 +51,6 @@ public class PlayerController : CharController
     {
         base.Awake();
         _input = GetComponent<InputController>();
-        _collider = GetComponent<BoxCollider2D>();
         if (_input == null) Debug.LogError(this.gameObject.name + " missing InputController");
         if (_stats == null) Debug.Log(this.gameObject.name + " missing Stats");
     }
@@ -81,14 +79,15 @@ public class PlayerController : CharController
         FillHealthBar();
     }
 
-    void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         _currentHealth = stats.maxHealth;
         float fillAmount = (float)currentHealth / (float)stats.maxHealth;
         frontHealthBar.fillAmount = fillAmount;
         healHealthBar.fillAmount = 0f;
         damageHealthBar.fillAmount = 0f;
-        isDeath = false;
+        _isDeath = false;
     }
 
     // Update is called once per frame
@@ -162,6 +161,8 @@ public class PlayerController : CharController
     #region Implementing Ihealth
     public override void Heal(int amount)
     {
+        if (isDeath) return;
+
         healLerpTimer = 0f;
         healTimer = maxDelayChipTimer;
         healed = true;
@@ -177,6 +178,8 @@ public class PlayerController : CharController
 
     public override void Damage(int amount)
     {
+        if (isDeath) return;
+
         damageLerpTimer = 0f;
         damageTimer = maxDelayChipTimer;
         damaged = true;
@@ -194,7 +197,15 @@ public class PlayerController : CharController
 
     public override void Death()
     {
-        this.gameObject.SetActive(false);
+        if (!isDeath)
+        {
+            damageTimer = 0f;
+            _canShoot = false;
+            _collider.enabled = false;
+            _sprite.enabled = false;
+            _isDeath = true;
+            
+        }
     }
     #endregion
 
@@ -229,26 +240,29 @@ public class PlayerController : CharController
         float fillFront = frontHealthBar.fillAmount;
         float fillBack = damageHealthBar.fillAmount;
 
+        if (isDeath)
+        {
+            if (damageHealthBar.fillAmount == 0f && frontHealthBar.fillAmount == 0f)
+            {
+                this.gameObject.SetActive(false);
+            }
+        }
+
         if (damaged)
         {
-            if (damageHealthBar.fillAmount < frontHealthBar.fillAmount)
-                damageHealthBar.fillAmount = frontHealthBar.fillAmount;
+            if (damageHealthBar.fillAmount < frontHealthBar.fillAmount) damageHealthBar.fillAmount = frontHealthBar.fillAmount;
 
-            if (!healed)
-            {
-                frontHealthBar.fillAmount = fillAmount; //Remueve la salud tras ser atacado. A menos de que el player se haya curado.
-            }
+            if (!healed) frontHealthBar.fillAmount = fillAmount; //Remueve la salud tras ser atacado. A menos de que el player se haya curado.
             
-
             damageTimer -= Time.deltaTime;
             if (damageTimer <= 0)
             {
                 damageLerpTimer += Time.deltaTime;
                 float percentCompleteDamage = damageLerpTimer / chipSpeed;
-                percentCompleteDamage = percentCompleteDamage * percentCompleteDamage; //Al usar la potencia, se crea un efecto que hace que se mueva más rápido según pasa el tiempo
+                percentCompleteDamage = percentCompleteDamage * percentCompleteDamage; //Al usar la potencia, se crea un efecto que hace que se mueva m?s r?pido seg?n pasa el tiempo
                 damageHealthBar.fillAmount = Mathf.Lerp(damageHealthBar.fillAmount, fillAmount, percentCompleteDamage);
 
-                if (percentCompleteDamage == 100)
+                if (percentCompleteDamage >= 99)
                 {
                     damageHealthBar.fillAmount = 0f;
                     damaged = false;
@@ -258,11 +272,11 @@ public class PlayerController : CharController
 
         if (healed)
         {
-            if (healHealthBar.fillAmount < fillAmount) healHealthBar.fillAmount = fillAmount; //Si barra de curación es menor quiere decir que ha aumentado la cantidad.
+            if (healHealthBar.fillAmount < fillAmount) healHealthBar.fillAmount = fillAmount; //Si barra de curaci?n es menor quiere decir que ha aumentado la cantidad.
 
             if (damaged)
             {
-                healHealthBar.fillAmount = fillAmount; //Actualiza la barra de salud con el total tras recibir daño
+                healHealthBar.fillAmount = fillAmount; //Actualiza la barra de salud con el total tras recibir da?o
             }
 
             healTimer -= Time.deltaTime;

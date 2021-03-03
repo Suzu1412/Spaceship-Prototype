@@ -46,8 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 2f2a845aee68a48219dda5a673285259, type: 2}
-  speed: 1.7
-  smoothTimeStart: 0.6
+  speed: 2.5
+  endMarker: {x: 0, y: 0, z: 0}
+  smoothTimeStart: 0.4
 --- !u!61 &269670730473057452
 BoxCollider2D:
   m_ObjectHideFlags: 0

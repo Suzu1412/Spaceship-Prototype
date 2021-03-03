@@ -196,6 +196,14 @@ public class GameManager : MonoBehaviour
                 {
                     _state = GameState.GameOver;
                 }
+
+                if (players[0].activeSelf)
+                {
+                    if (players[0].GetComponent<PlayerController>().canShoot == false && !players[0].GetComponent<PlayerController>().isDeath)
+                    {
+                        Invoke("MakePlayerShoot", 0f);
+                    }
+                }
             }
         }
     }
@@ -217,8 +225,18 @@ public class GameManager : MonoBehaviour
             sceneManager.EndScene();
             EnableVictoryText();
             victory = true;
+            Invoke("StopTime", 1f);
         }
-        
+    }
+
+    void StopTime()
+    {
+        Time.timeScale = 0f;
+    }
+
+    void ResumeTime()
+    {
+        Time.timeScale = 1f;
     }
 
     void GameOver()
@@ -228,6 +246,7 @@ public class GameManager : MonoBehaviour
             sceneManager.EndScene();
             EnableGameOverText();
             gameOver = true;
+            Invoke("StopTime", 1f);
         }
         
     }
@@ -276,7 +295,7 @@ public class GameManager : MonoBehaviour
     void UpdateFPSCounter()
     {
         float fps = Mathf.Round(1f / Time.unscaledDeltaTime);
-        fpsCounter.text = "FPS: " + fps.ToString();
+        fpsCounter.text = fps.ToString();
     }
 
     public void AddEnemyCount()
