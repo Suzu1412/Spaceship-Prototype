@@ -1,13 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : CharController
 {
     [Header("Player variables")]
     private InputController _input;
-    private UnityEngine.UI.Image healthBar;
     private BoxCollider2D _collider;
+    private bool damaged;
+    private bool healed;
+
+    [Header("Health Bar variables")]
+    private Image frontHealthBar;
+    private Image healHealthBar;
+    private Image damageHealthBar;
+    float damageLerpTimer;
+    float healLerpTimer;
+    [SerializeField] float chipSpeed = 1f;
+    [SerializeField] float maxDelayChipTimer = 0.5f;
+    float damageTimer;
+    float healTimer;
 
     [Header("Player Start Animation")]
     bool arrivedAtStartPosition;
@@ -42,8 +55,6 @@ public class PlayerController : CharController
         _collider = GetComponent<BoxCollider2D>();
         if (_input == null) Debug.LogError(this.gameObject.name + " missing InputController");
         if (_stats == null) Debug.Log(this.gameObject.name + " missing Stats");
-        
-
     }
 
     public void Shoot()
@@ -73,6 +84,10 @@ public class PlayerController : CharController
     void OnEnable()
     {
         _currentHealth = stats.maxHealth;
+        float fillAmount = (float)currentHealth / (float)stats.maxHealth;
+        frontHealthBar.fillAmount = fillAmount;
+        healHealthBar.fillAmount = 0f;
+        damageHealthBar.fillAmount = 0f;
         isDeath = false;
     }
 
@@ -91,6 +106,21 @@ public class PlayerController : CharController
             case GameState.Victory:
                 Victory();
                 break;
+        }
+
+        if (healed || damaged)
+        {
+            FillHealthBar();
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Heal(Random.Range(5, 10));
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Damage(Random.Range(5, 10));
         }
     }
 
@@ -132,6 +162,9 @@ public class PlayerController : CharController
     #region Implementing Ihealth
     public override void Heal(int amount)
     {
+        healLerpTimer = 0f;
+        healTimer = maxDelayChipTimer;
+        healed = true;
         if (_currentHealth + amount > stats.maxHealth)
         {
             _currentHealth = stats.maxHealth;
@@ -140,11 +173,13 @@ public class PlayerController : CharController
         {
             _currentHealth += amount;
         }
-        FillHealthBar();
     }
 
     public override void Damage(int amount)
     {
+        damageLerpTimer = 0f;
+        damageTimer = maxDelayChipTimer;
+        damaged = true;
         if (_currentHealth - amount <= 0)
         {
             _currentHealth = 0;
@@ -154,7 +189,7 @@ public class PlayerController : CharController
         {
             _currentHealth -= amount;
         }
-        FillHealthBar();
+        //FillHealthBar();
     }
 
     public override void Death()
@@ -191,12 +226,68 @@ public class PlayerController : CharController
     void FillHealthBar()
     {
         float fillAmount = (float)currentHealth / (float)stats.maxHealth;
-        healthBar.fillAmount = fillAmount;
+        float fillFront = frontHealthBar.fillAmount;
+        float fillBack = damageHealthBar.fillAmount;
+
+        if (damaged)
+        {
+            if (damageHealthBar.fillAmount < frontHealthBar.fillAmount)
+                damageHealthBar.fillAmount = frontHealthBar.fillAmount;
+
+            if (!healed)
+            {
+                frontHealthBar.fillAmount = fillAmount; //Remueve la salud tras ser atacado. A menos de que el player se haya curado.
+            }
+            
+
+            damageTimer -= Time.deltaTime;
+            if (damageTimer <= 0)
+            {
+                damageLerpTimer += Time.deltaTime;
+                float percentCompleteDamage = damageLerpTimer / chipSpeed;
+                percentCompleteDamage = percentCompleteDamage * percentCompleteDamage; //Al usar la potencia, se crea un efecto que hace que se mueva más rápido según pasa el tiempo
+                damageHealthBar.fillAmount = Mathf.Lerp(damageHealthBar.fillAmount, fillAmount, percentCompleteDamage);
+
+                if (percentCompleteDamage == 100)
+                {
+                    damageHealthBar.fillAmount = 0f;
+                    damaged = false;
+                }
+            }
+        }
+
+        if (healed)
+        {
+            if (healHealthBar.fillAmount < fillAmount) healHealthBar.fillAmount = fillAmount; //Si barra de curación es menor quiere decir que ha aumentado la cantidad.
+
+            if (damaged)
+            {
+                healHealthBar.fillAmount = fillAmount; //Actualiza la barra de salud con el total tras recibir daño
+            }
+
+            healTimer -= Time.deltaTime;
+            if (healTimer <= 0)
+            {
+                healLerpTimer += Time.deltaTime;
+
+                float percentCompleteHeal = healLerpTimer / chipSpeed;
+                percentCompleteHeal = percentCompleteHeal * percentCompleteHeal;
+                frontHealthBar.fillAmount = Mathf.Lerp(frontHealthBar.fillAmount, healHealthBar.fillAmount, percentCompleteHeal);
+
+                if (percentCompleteHeal == 100)
+                {
+                    healHealthBar.fillAmount = 0;
+                    healed = false;
+                }
+            }
+        }
     }
 
-    public void SetHealhBar(UnityEngine.UI.Image image)
+    public void SetHealthBar(Image front, Image heal, Image damage)
     {
-        healthBar = image;
+        frontHealthBar = front;
+        healHealthBar = heal;
+        damageHealthBar = damage;
     }
 
     public void AddPower(int amount)

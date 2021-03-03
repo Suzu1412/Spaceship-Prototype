@@ -14,7 +14,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text victoryText;
     [SerializeField] private Text gameOverText;
     [SerializeField] private Text fpsCounter;
-    [SerializeField] private Image healthBarP1;
+    [SerializeField] private Image frontHealthBarP1;
+    [SerializeField] private Image healHealthBar;
+    [SerializeField] private Image damageHealthBar;
     [SerializeField] Image healthBarP2;
     [SerializeField] private GameObject[] players;
     [SerializeField] private List<ItemPickUp> itemList;
@@ -64,18 +66,17 @@ public class GameManager : MonoBehaviour
         if (players.Length >= 1)
         {
             players[0].GetComponent<CharController>().SetScore(scorePlayer1);
-            players[0].GetComponent<PlayerController>().SetHealhBar(healthBarP1);
-            scorePlayer1.player = "P1";
+            players[0].GetComponent<PlayerController>().SetHealthBar(frontHealthBarP1, healHealthBar, damageHealthBar);
             scorePlayer1.scoreText = textScorePlayer1;
             scorePlayer1.UpdateText();
 
             if (players.Length > 1)
             {
                 players[1].GetComponent<CharController>().SetScore(scorePlayer2);
-                players[1].GetComponent<PlayerController>().SetHealhBar(healthBarP2);
-                scorePlayer2.player = "P2";
-                scorePlayer2.scoreText = textScorePlayer2;
-                scorePlayer2.UpdateText();
+                //players[1].GetComponent<PlayerController>().SetHealhBar(healthBarP2);
+                //scorePlayer2.player = "P2";
+                //scorePlayer2.scoreText = textScorePlayer2;
+                //scorePlayer2.UpdateText();
             }
             else
             {
