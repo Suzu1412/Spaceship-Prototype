@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65d628b9be737f04e85623e00bab6248, type: 3}
   m_Name: Novice Warrior
   m_EditorClassIdentifier: 
-  maxHealth: 35
+  maxHealth: 30
   damage: 20
   moveSpeed: 2.5
   criticalChance: 0
@@ -23,7 +23,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   angle: 20
-  distance: 6
+  distance: 7
   shootChance: 0
   waitUntilShoot: 0
   spawnItem: {fileID: 11400000, guid: a0e5dbc231d47488d93821bfffcb5893, type: 2}

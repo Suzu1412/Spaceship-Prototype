@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65d628b9be737f04e85623e00bab6248, type: 3}
   m_Name: Berserker
   m_EditorClassIdentifier: 
-  maxHealth: 80
-  damage: 20
+  maxHealth: 150
+  damage: 15
   moveSpeed: 3
   criticalChance: 0
   dodgeChance: 0
@@ -24,6 +24,6 @@ MonoBehaviour:
     m_Bits: 1
   angle: 20
   distance: 6
-  dropChance: 0
   shootChance: 0
   waitUntilShoot: 0
+  spawnItem: {fileID: 11400000, guid: 6685622cd23b0e441a0ee4d2f79465ed, type: 2}

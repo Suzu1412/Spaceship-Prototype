@@ -35,6 +35,6 @@ public class SceneManager : MonoBehaviour
 
     void FadeOut()
     {
-        blackFade.CrossFadeAlpha(0f, 1f, false);
+        blackFade.CrossFadeAlpha(0f, 2.5f, false);
     }
 }

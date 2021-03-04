@@ -8,8 +8,10 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private ScoreManager scorePlayer1;
     [SerializeField] private ScoreManager scorePlayer2;
+    [SerializeField] private ScoreManager highScore;
     [SerializeField] private Text textScorePlayer1;
     [SerializeField] private Text textScorePlayer2;
+    [SerializeField] private Text textHighScore;
     [SerializeField] private Text readyText;
     [SerializeField] private Text victoryText;
     [SerializeField] private Text gameOverText;
@@ -65,9 +67,11 @@ public class GameManager : MonoBehaviour
         if (players.Length >= 1)
         {
             players[0].GetComponent<CharController>().SetScore(scorePlayer1);
+            players[0].GetComponent<CharController>().SetHighScore(highScore);
             playerHealthBar.SetCharacter(players[0].GetComponent<PlayerController>());
             scorePlayer1.scoreText = textScorePlayer1;
             scorePlayer1.UpdateText();
+            SetHighScore();
 
             if (players.Length > 1)
             {
@@ -220,11 +224,16 @@ public class GameManager : MonoBehaviour
                 players[i].GetComponent<PlayerController>().CanShoot(false);
             }
 
-            sceneManager.EndScene();
-            EnableVictoryText();
+            Invoke("EndScene", 1f);
+            Invoke("EnableVictoryText", 1f);
             victory = true;
-            Invoke("StopTime", 1f);
+            Invoke("StopTime", 2f);
         }
+    }
+
+    void EndScene()
+    {
+        sceneManager.EndScene();
     }
 
     void StopTime()
@@ -273,8 +282,6 @@ public class GameManager : MonoBehaviour
         gameOverText.gameObject.SetActive(false);
     }
 
-
-
     void EnableVictoryText()
     {
         victoryText.gameObject.SetActive(true);
@@ -310,9 +317,12 @@ public class GameManager : MonoBehaviour
             bool playerSurvive = false;
             for (int i=0; i < players.Length; i++)
             {
-                if (players[i].activeInHierarchy && players[i].GetComponent<PlayerController>().currentHealth > 0)
+                if (players[i].activeInHierarchy)
                 {
-                    playerSurvive = true;
+                    if (players[i].GetComponent<PlayerController>().currentHealth > 0)
+                    {
+                        playerSurvive = true;
+                    }
                 }
             }
 
@@ -346,6 +356,12 @@ public class GameManager : MonoBehaviour
     void FadeOut(Text text)
     {
         text.CrossFadeAlpha(1f, 0.5f, false);
+    }
+
+    void SetHighScore()
+    {
+        highScore.scoreText = textHighScore;
+        highScore.SetScore(PlayerPrefs.GetInt("HighScore"));
     }
 }
 

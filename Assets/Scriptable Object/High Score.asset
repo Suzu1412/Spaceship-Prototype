@@ -9,15 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4992b58d70190714a9cda2ddc97ffcc8, type: 3}
-  m_Name: Pegasus Stats
+  m_Script: {fileID: 11500000, guid: 0b48599c8e207b24aa60027db9c654e7, type: 3}
+  m_Name: High Score
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  damage: 5
-  moveSpeed: 4
-  criticalChance: 0
-  dodgeChance: 0
-  levels:
-  - experienceToNextLevel: 5
-  - experienceToNextLevel: 25
-  - experienceToNextLevel: 50
+  scoreText: {fileID: 0}

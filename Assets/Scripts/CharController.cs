@@ -15,6 +15,7 @@ public abstract class CharController : MonoBehaviour, IHealth
     protected BoxCollider2D _collider;
     protected ObjectPooler _objectPooler;
     [HideInInspector] protected ScoreManager score;
+    [HideInInspector] protected ScoreManager highScore;
     protected GameManager _manager;
     protected HealthBarManager _healthBar;
 
@@ -54,9 +55,10 @@ public abstract class CharController : MonoBehaviour, IHealth
     {
         this.score = score;
     }
-    public ScoreManager GetScore()
+
+    public void SetHighScore(ScoreManager highScore)
     {
-        return score;
+        this.highScore = highScore;
     }
 
     public void SetHealedFalse()

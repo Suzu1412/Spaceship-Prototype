@@ -7,7 +7,8 @@ public enum ItemType
     None,
     Health,
     Power,
-    Buff
+    Buff,
+    Score
 }
 
 [CreateAssetMenu(menuName = "DropItem/Item", fileName = "New Item")]

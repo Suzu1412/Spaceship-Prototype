@@ -69,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -723433181
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5d73b0eb1bf6d6d45ad9c51d8e809501, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -130,7 +130,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f461b1acf2d09d745a643312e4aa16f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentHealth: 0
   _stats: {fileID: 11400000, guid: f5c8a796493b3b648b4ed1e3b763558d, type: 2}
   _currentState: {fileID: 11400000, guid: 66287811296162a42950a82bfeada734, type: 2}
   _pathToTake: -1
@@ -200,7 +199,7 @@ MonoBehaviour:
   weaponList:
   - weaponType: {fileID: 11400000, guid: ac25e4df629eede418c388cb3f7359cc, type: 2}
     amountToShoot: 3
-    projectileSpeed: 7
+    projectileSpeed: 5
     timeBetweenShots: 0
     timeUntilNextShot: 0
     gunPosition: {fileID: 1976497844890677831}

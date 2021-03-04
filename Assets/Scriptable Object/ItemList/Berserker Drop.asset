@@ -10,17 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65313da3bb8df4be1a7479537fe52836, type: 3}
-  m_Name: Fighter Drop Table
+  m_Name: Berserker Drop
   m_EditorClassIdentifier: 
   drops:
+  - item: {fileID: 11400000, guid: f044a7d3460ac40febf9746e5bc457de, type: 2}
+    dropChance: 0.15
   - item: {fileID: 11400000, guid: 2f2a845aee68a48219dda5a673285259, type: 2}
-    dropChance: 1
+    dropChance: 0.5
   - item: {fileID: 11400000, guid: 2f2a845aee68a48219dda5a673285259, type: 2}
-    dropChance: 1
+    dropChance: 0.5
   - item: {fileID: 11400000, guid: 2f2a845aee68a48219dda5a673285259, type: 2}
-    dropChance: 0.25
-  - item: {fileID: 11400000, guid: 2f2a845aee68a48219dda5a673285259, type: 2}
-    dropChance: 0.1
+    dropChance: 0.5
+  - item: {fileID: 11400000, guid: cd2c2cd89ffc62244b591568252984a7, type: 2}
+    dropChance: 0.2
   - item: {fileID: 11400000, guid: e49a962ecb2cad54e948515ea195961d, type: 2}
     dropChance: 1
   - item: {fileID: 11400000, guid: e49a962ecb2cad54e948515ea195961d, type: 2}
@@ -29,3 +31,5 @@ MonoBehaviour:
     dropChance: 1
   - item: {fileID: 11400000, guid: e49a962ecb2cad54e948515ea195961d, type: 2}
     dropChance: 1
+  - item: {fileID: 11400000, guid: 8cf63fd44b0a13e42ab63a0d1c00cc15, type: 2}
+    dropChance: 0.3

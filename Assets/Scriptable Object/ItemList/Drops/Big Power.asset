@@ -9,15 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4992b58d70190714a9cda2ddc97ffcc8, type: 3}
-  m_Name: Pegasus Stats
+  m_Script: {fileID: 11500000, guid: d865f886f38e04336b2c282152971b82, type: 3}
+  m_Name: Big Power
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  damage: 5
-  moveSpeed: 4
-  criticalChance: 0
-  dodgeChance: 0
-  levels:
-  - experienceToNextLevel: 5
-  - experienceToNextLevel: 25
-  - experienceToNextLevel: 50
+  itemSpawn: {fileID: 3006975452830664272, guid: 81a8037963d0426489179f21ca50b46e, type: 3}
+  type: 2
+  amount: 5
+  offsetPositionX: 0.1
+  offsetPositionY: 0

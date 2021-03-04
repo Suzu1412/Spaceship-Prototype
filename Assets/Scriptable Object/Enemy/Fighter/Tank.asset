@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65d628b9be737f04e85623e00bab6248, type: 3}
   m_Name: Tank
   m_EditorClassIdentifier: 
-  maxHealth: 150
-  damage: 15
+  maxHealth: 300
+  damage: 20
   moveSpeed: 2
   criticalChance: 0
   dodgeChance: 0
@@ -24,6 +24,6 @@ MonoBehaviour:
     m_Bits: 1
   angle: 20
   distance: 6
-  dropChance: 0
   shootChance: 0
   waitUntilShoot: 0
+  spawnItem: {fileID: 11400000, guid: 7b2151e908b4ee246b0c476548a799ec, type: 2}

@@ -9,7 +9,7 @@ public class Projectile : MonoBehaviour
     public int damage;
     public float projectileSpeed;
     public Vector3 moveDirection;
-    [HideInInspector] public ScoreManager score;
+    [HideInInspector] public PlayerController playerWhoShot;
 
     private void OnDisable()
     {
@@ -51,9 +51,13 @@ public class Projectile : MonoBehaviour
         {
             other.GetComponent<IHealth>().Damage(damage);
 
-            if (score != null) //Only the Player can Set the score on Projectile
+            if (playerWhoShot != null) //Only the Player can Set on Projectile
             {
-                other.GetComponent<CharController>().SetScore(score);
+                if (other.GetComponent<EnemyController>() != null)
+                {
+                    other.GetComponent<EnemyController>().SetPlayer(playerWhoShot);
+                }
+                
             }
             this.gameObject.SetActive(false);
         }

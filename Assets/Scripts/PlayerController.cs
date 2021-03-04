@@ -6,7 +6,10 @@ using UnityEngine.UI;
 public class PlayerController : CharController
 {
     [Header("Player variables")]
+    
     private InputController _input;
+    private CircleCollider2D _magnetCollider;
+    private bool _victory;
 
     [Header("Player Start Animation")]
     public float smoothTimeStart = 0.6F;
@@ -19,8 +22,7 @@ public class PlayerController : CharController
 
     [Header("Player Attributes")]
     [SerializeField] private PlayerStats _stats;
-    [Range(0, 3)] public int currentLevel;
-    [Range(1, 64)] public int power;
+    private int _currentLevel;
 
     [Header("Decision Making")]
     private bool _canShoot = false;
@@ -33,13 +35,17 @@ public class PlayerController : CharController
     public InputController input { get { return _input; } }
     public bool canShoot { get { return _canShoot; } }
     public PlayerStats stats { get { return _stats; } }
+    public int currentLevel { get { return _currentLevel; } }
+    public bool victory { get { return _victory; } }
 
     protected override void Awake()
     {
         base.Awake();
         _input = GetComponent<InputController>();
+        _magnetCollider = GetComponentInChildren<CircleCollider2D>();
         if (_input == null) Debug.LogError(this.gameObject.name + " missing InputController");
         if (_stats == null) Debug.Log(this.gameObject.name + " missing Stats");
+        _victory = false;
     }
 
     public void Shoot()
@@ -55,8 +61,6 @@ public class PlayerController : CharController
     // Start is called before the first frame update
     protected void Start()
     {
-        power = 0;
-        
         if (bottomLeftCorner == null) bottomLeftCorner = GameObject.Find("bottomLeftCorner").transform;
         if (topRightCorner == null) topRightCorner = GameObject.Find("topRightCorner").transform;
         if (offset == 0) offset = 0.2f;
@@ -72,6 +76,7 @@ public class PlayerController : CharController
         _currentHealth = _maxHealth;
         float fillAmount = (float)currentHealth / (float)stats.maxHealth;
         _isDeath = false;
+        _invulnerable = false;
     }
 
     // Update is called once per frame
@@ -192,50 +197,16 @@ public class PlayerController : CharController
         }
     }
 
+    #region LevelUp
     public void AddPower(int amount)
     {
-        if (power + amount > 50)
-        {
-            power = 50;
-        }
-        else
-        {
-            power += amount;
-        }
+        int newLevel = _stats.AddExperience(amount);
 
-        PlayerLevel();
-    }
-
-    void PlayerLevel()
-    {
-        if (power >= 0 && power <= 4)
+        if (_currentLevel != newLevel)
         {
-            currentLevel = 0;
+            LevelUp();
         }
-        else if (power >= 5 && power <= 20)
-        {
-            if (currentLevel < 1)
-            {
-                LevelUp();
-            }
-            currentLevel = 1;
-        }
-        else if (power >= 21 && power <= 49)
-        {
-            if (currentLevel < 2)
-            {
-                LevelUp();
-            }
-            currentLevel = 2;
-        }
-        else if(power == 50)
-        {
-            if (currentLevel < 3)
-            {
-                LevelUp();
-            }
-            currentLevel = 3;
-        }
+        _currentLevel = newLevel;
     }
 
     void LevelUp()
@@ -244,10 +215,13 @@ public class PlayerController : CharController
         //Instanciar efecto de Level Up
         //Hacer aparecer texto de Level Up sobre jugador
     }
+    #endregion
 
     void Victory()
     {
-        _collider.enabled = false;
+        _invulnerable = true;
+        _magnetCollider.radius = 10f;
+        _victory = true;
         rb.velocity = Vector2.up * 5f;
     }
 
@@ -261,5 +235,16 @@ public class PlayerController : CharController
     {
         _invulnerable = false;
         _sprite.color = new Color(_sprite.color.r, _sprite.color.g, _sprite.color.b, 1f);
+    }
+
+    public void AddScore(int amount)
+    {
+        score.SetScore(amount);
+
+        if (highScore.GetScore() <= score.GetScore())
+        {
+            highScore.SetScore(score.GetScore() - highScore.GetScore());
+            PlayerPrefs.SetInt("HighScore", score.GetScore());
+        }
     }
 }

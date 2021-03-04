@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d865f886f38e04336b2c282152971b82, type: 3}
-  m_Name: Big Power
+  m_Name: Score Up
   m_EditorClassIdentifier: 
-  itemSpawn: {fileID: 0}
-  type: 2
-  amount: 5
-  offsetPositionX: 0
-  offsetPositionY: 0
+  itemSpawn: {fileID: 6635416888171999236, guid: 995b5a7064615c14cb685c40cbb08775, type: 3}
+  type: 4
+  amount: 10
+  offsetPositionX: 0.5
+  offsetPositionY: 0.5

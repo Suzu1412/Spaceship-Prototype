@@ -43,6 +43,10 @@ public class DropTable : ScriptableObject
                     controller.objectPooler.SpawnFromPool(item.itemSpawn.name, controller.transform.position + new Vector3(positionX, positionY, 0f), Quaternion.identity);
                     break;
 
+                case ItemType.Score:
+                    controller.objectPooler.SpawnFromPool(item.itemSpawn.name, controller.transform.position + new Vector3(positionX, positionY, 0f), Quaternion.identity);
+                    break;
+
                 default:
                     Instantiate(item.itemSpawn, controller.transform.position + new Vector3(positionX, positionY, 0f), Quaternion.identity);
                     break;

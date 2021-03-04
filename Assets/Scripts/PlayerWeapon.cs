@@ -44,7 +44,7 @@ public class PlayerWeapon : Weapon
         
         base.SetProjectileValues(gunPosition, xPos, yPos, angle, currentWeapon);
         currentProjectile.GetComponent<Projectile>().damage = controller.stats.damage;
-        currentProjectile.GetComponent<Projectile>().score = controller.GetScore();
+        currentProjectile.GetComponent<Projectile>().playerWhoShot = controller;
     }
         
 

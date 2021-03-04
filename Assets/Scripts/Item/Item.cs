@@ -10,8 +10,9 @@ public class Item : MonoBehaviour
     private bool setEndMarker;
     [SerializeField] private Vector3 endMarker;
     bool moveTowardsPlayer = false;
-    Transform player;
+    PlayerController player;
     Vector2 playerDirection;
+    private bool playerVictory = false;
     
     public float smoothTimeStart = 0.2F;
     private Vector3 velocity = Vector3.zero;
@@ -27,6 +28,10 @@ public class Item : MonoBehaviour
             case ItemType.Health:
                 player.Heal(item.amount);
                 break;
+
+            case ItemType.Score:
+                player.AddScore(item.amount);
+                break;
         }
     }
 
@@ -35,10 +40,17 @@ public class Item : MonoBehaviour
         arrivedAtEndPosition = false;
         setEndMarker = false;
         moveTowardsPlayer = false;
+        playerVictory = false;
     }
 
     private void Update()
     {
+        if (playerVictory)
+        {
+            playerDirection = (player.transform.position - transform.position).normalized;
+            transform.position += new Vector3(playerDirection.x, playerDirection.y, 0f) * 10 * Time.deltaTime;
+        }
+
         if (!setEndMarker)
         {
             endMarker = this.transform.position + Vector3.up * 1;
@@ -60,7 +72,7 @@ public class Item : MonoBehaviour
             }
             else
             {
-                playerDirection = (player.position - transform.position).normalized;
+                playerDirection = (player.transform.position - transform.position).normalized;
                 transform.position += new Vector3(playerDirection.x, playerDirection.y, 0f) * 5 * Time.deltaTime; 
             }
             
@@ -78,7 +90,12 @@ public class Item : MonoBehaviour
         if (collision.name == "ItemMagnet")
         {
             moveTowardsPlayer = true;
-            player = collision.GetComponentInParent<Transform>();
+            player = collision.GetComponentInParent<PlayerController>();
+
+            if (player.victory)
+            {
+                playerVictory = true;
+            }
         }
     }
     private void OnBecameInvisible()

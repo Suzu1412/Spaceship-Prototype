@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65313da3bb8df4be1a7479537fe52836, type: 3}
-  m_Name: Fighter Drop Table
+  m_Name: Suicide Unit
   m_EditorClassIdentifier: 
   drops:
-  - item: {fileID: 11400000, guid: 2f2a845aee68a48219dda5a673285259, type: 2}
+  - item: {fileID: 11400000, guid: e49a962ecb2cad54e948515ea195961d, type: 2}
+    dropChance: 1
+  - item: {fileID: 11400000, guid: e49a962ecb2cad54e948515ea195961d, type: 2}
     dropChance: 1
   - item: {fileID: 11400000, guid: 2f2a845aee68a48219dda5a673285259, type: 2}
     dropChance: 1
   - item: {fileID: 11400000, guid: 2f2a845aee68a48219dda5a673285259, type: 2}
-    dropChance: 0.25
+    dropChance: 1
   - item: {fileID: 11400000, guid: 2f2a845aee68a48219dda5a673285259, type: 2}
     dropChance: 0.1
   - item: {fileID: 11400000, guid: e49a962ecb2cad54e948515ea195961d, type: 2}
-    dropChance: 1
+    dropChance: 0.25
   - item: {fileID: 11400000, guid: e49a962ecb2cad54e948515ea195961d, type: 2}
-    dropChance: 1
+    dropChance: 0.25
   - item: {fileID: 11400000, guid: e49a962ecb2cad54e948515ea195961d, type: 2}
-    dropChance: 1
-  - item: {fileID: 11400000, guid: e49a962ecb2cad54e948515ea195961d, type: 2}
-    dropChance: 1
+    dropChance: 0.25

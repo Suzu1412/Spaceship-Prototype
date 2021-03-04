@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ScoreManager : ScriptableObject
 {
     private int _score;
-    [HideInInspector] public Text scoreText;
+     public Text scoreText;
     
     public void SetScore(int number)
     {
@@ -25,6 +25,11 @@ public class ScoreManager : ScriptableObject
     public void UpdateText()
     {
         scoreText.text = _score.ToString(); 
+    }
+
+    public int GetScore()
+    {
+        return _score;
     }
 
     private void OnEnable()

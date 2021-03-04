@@ -26,6 +26,7 @@ public class EnemyController : CharController
     private State _initialState;
     [SerializeField] private EnemyStats _stats;
     [SerializeField] private State _currentState;
+    private PlayerController _playerWhoShot;
 
     [Header("Decision Making")]
     private bool _canDetect = true;
@@ -86,6 +87,7 @@ public class EnemyController : CharController
     {
         _currentState.Exit(this);
         _manager.RemoveEnemyCount();
+        _waitForSeconds = 0f;
     }
 
     // Update is called once per frame
@@ -120,14 +122,13 @@ public class EnemyController : CharController
 
     public override void Damage(int amount)
     {
-        Debug.Log("Dañando: " + this.gameObject.name);
         if (_currentHealth - amount <= 0)
         {
+            _currentHealth = 0;
             Death();
         }
         else
         {
-            Debug.Log(_currentHealth + " " + this.gameObject.name);
             _currentHealth -= amount;
         }
     }
@@ -141,7 +142,7 @@ public class EnemyController : CharController
         if (!isDeath)
         {
             _isDeath = true;
-            if (score != null) score.SetScore(stats.score);
+            if (_playerWhoShot != null) _playerWhoShot.AddScore(stats.score);
             if (_stats.spawnItem != null)
             {
                 _stats.spawnItem.SpawnItem(this);
@@ -284,7 +285,7 @@ public class EnemyController : CharController
                 break;
 
             case ShootDecision.OnDetection:
-                InvokeRepeating("ShootOnDetection", 0f, 0.2f);
+                InvokeRepeating("ShootOnDetection", 0f, 0.1f);
                 break;
 
             case ShootDecision.RandomSeconds:
@@ -379,5 +380,10 @@ public class EnemyController : CharController
     {
         _canDetect = false;
         _canShoot = false;
+    }
+
+    public void SetPlayer(PlayerController player)
+    {
+        _playerWhoShot = player;
     }
 }

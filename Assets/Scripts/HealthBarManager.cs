@@ -25,7 +25,6 @@ public class HealthBarManager : MonoBehaviour
     float healLerpTimer;
 
     [Header("Danger anim")]
-    float dangerDelay = 0.5f;
     float dangerLerpTimer;
     bool dangerAnim;
     Color originalColor = Color.black;
@@ -88,7 +87,7 @@ public class HealthBarManager : MonoBehaviour
             if (dangerAnim)
             {
                 dangerLerpTimer += Time.deltaTime;
-                float percentCompleteDanger = dangerLerpTimer / 5;
+                float percentCompleteDanger = dangerLerpTimer / 4;
                 percentCompleteDanger = percentCompleteDanger * percentCompleteDanger;
                 backHealthBar.color = Color.Lerp(backHealthBar.color, dangerColor, percentCompleteDanger);
 
