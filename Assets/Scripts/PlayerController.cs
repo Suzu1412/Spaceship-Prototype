@@ -7,19 +7,6 @@ public class PlayerController : CharController
 {
     [Header("Player variables")]
     private InputController _input;
-    private bool damaged;
-    private bool healed;
-
-    [Header("Health Bar variables")]
-    [SerializeField] float chipSpeed = 1f;
-    [SerializeField] float maxDelayChipTimer = 0.5f;
-    private Image frontHealthBar;
-    private Image healHealthBar;
-    private Image damageHealthBar;
-    float damageLerpTimer;
-    float healLerpTimer;
-    float damageTimer;
-    float healTimer;
 
     [Header("Player Start Animation")]
     public float smoothTimeStart = 0.6F;
@@ -76,17 +63,14 @@ public class PlayerController : CharController
         arrivedAtStartPosition = false;
         startMarker = new Vector3(this.transform.position.x, -1.5f, 0f);
         endMarker = new Vector3(this.transform.position.x, -3.2f, 0f);
-        FillHealthBar();
     }
 
     protected override void OnEnable()
     {
         base.OnEnable();
-        _currentHealth = stats.maxHealth;
+        _maxHealth = stats.maxHealth;
+        _currentHealth = _maxHealth;
         float fillAmount = (float)currentHealth / (float)stats.maxHealth;
-        frontHealthBar.fillAmount = fillAmount;
-        healHealthBar.fillAmount = 0f;
-        damageHealthBar.fillAmount = 0f;
         _isDeath = false;
     }
 
@@ -106,21 +90,6 @@ public class PlayerController : CharController
                 Victory();
                 break;
         }
-
-        if (healed || damaged)
-        {
-            FillHealthBar();
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Heal(Random.Range(5, 10));
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Damage(Random.Range(5, 10));
-        }
     }
 
     private void FixedUpdate()
@@ -129,12 +98,6 @@ public class PlayerController : CharController
         {
             Move();
         }
-    }
-
-    void Victory()
-    {
-        _collider.enabled = false;
-        rb.velocity = Vector2.up * 5f;
     }
 
     private void Move()
@@ -163,9 +126,8 @@ public class PlayerController : CharController
     {
         if (isDeath) return;
 
-        healLerpTimer = 0f;
-        healTimer = maxDelayChipTimer;
-        healed = true;
+        _healthBar.ResetHeal();
+        _healed = true;
         if (_currentHealth + amount > stats.maxHealth)
         {
             _currentHealth = stats.maxHealth;
@@ -179,32 +141,33 @@ public class PlayerController : CharController
     public override void Damage(int amount)
     {
         if (isDeath) return;
+        if (isInvulnerable) return;
 
-        damageLerpTimer = 0f;
-        damageTimer = maxDelayChipTimer;
-        damaged = true;
+        _healthBar.ResetDamage();
+        _damaged = true;
+        
         if (_currentHealth - amount <= 0)
         {
             _currentHealth = 0;
             Death();
         }
         else
-        {
+            {
+            Invoke("Invulnerability", 0f);
+            Invoke("RemoveInvulnerability", 1.5f);
             _currentHealth -= amount;
         }
-        //FillHealthBar();
     }
 
     public override void Death()
     {
         if (!isDeath)
         {
-            damageTimer = 0f;
             _canShoot = false;
             _collider.enabled = false;
             _sprite.enabled = false;
             _isDeath = true;
-            
+            Invoke("SetActiveFalse", 1f);
         }
     }
     #endregion
@@ -219,89 +182,14 @@ public class PlayerController : CharController
         if (!arrivedAtStartPosition)
         {
             Vector3 targetPosition = startMarker;
-
-            // Smoothly move the camera towards that target position
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTimeStart);
-
             if (Vector3.Distance(transform.position, startMarker) < 0.2f) arrivedAtStartPosition = true;
         }
         else
         {
             Vector3 targetPosition = endMarker;
-
-            // Smoothly move the camera towards that target position
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTimeEnd);
         }
-    }
-
-    void FillHealthBar()
-    {
-        float fillAmount = (float)currentHealth / (float)stats.maxHealth;
-        float fillFront = frontHealthBar.fillAmount;
-        float fillBack = damageHealthBar.fillAmount;
-
-        if (isDeath)
-        {
-            if (damageHealthBar.fillAmount == 0f && frontHealthBar.fillAmount == 0f)
-            {
-                this.gameObject.SetActive(false);
-            }
-        }
-
-        if (damaged)
-        {
-            if (damageHealthBar.fillAmount < frontHealthBar.fillAmount) damageHealthBar.fillAmount = frontHealthBar.fillAmount;
-
-            if (!healed) frontHealthBar.fillAmount = fillAmount; //Remueve la salud tras ser atacado. A menos de que el player se haya curado.
-            
-            damageTimer -= Time.deltaTime;
-            if (damageTimer <= 0)
-            {
-                damageLerpTimer += Time.deltaTime;
-                float percentCompleteDamage = damageLerpTimer / chipSpeed;
-                percentCompleteDamage = percentCompleteDamage * percentCompleteDamage; //Al usar la potencia, se crea un efecto que hace que se mueva m?s r?pido seg?n pasa el tiempo
-                damageHealthBar.fillAmount = Mathf.Lerp(damageHealthBar.fillAmount, fillAmount, percentCompleteDamage);
-
-                if (percentCompleteDamage >= 99)
-                {
-                    damageHealthBar.fillAmount = 0f;
-                    damaged = false;
-                }
-            }
-        }
-
-        if (healed)
-        {
-            if (healHealthBar.fillAmount < fillAmount) healHealthBar.fillAmount = fillAmount; //Si barra de curaci?n es menor quiere decir que ha aumentado la cantidad.
-
-            if (damaged)
-            {
-                healHealthBar.fillAmount = fillAmount; //Actualiza la barra de salud con el total tras recibir da?o
-            }
-
-            healTimer -= Time.deltaTime;
-            if (healTimer <= 0)
-            {
-                healLerpTimer += Time.deltaTime;
-
-                float percentCompleteHeal = healLerpTimer / chipSpeed;
-                percentCompleteHeal = percentCompleteHeal * percentCompleteHeal;
-                frontHealthBar.fillAmount = Mathf.Lerp(frontHealthBar.fillAmount, healHealthBar.fillAmount, percentCompleteHeal);
-
-                if (percentCompleteHeal == 100)
-                {
-                    healHealthBar.fillAmount = 0;
-                    healed = false;
-                }
-            }
-        }
-    }
-
-    public void SetHealthBar(Image front, Image heal, Image damage)
-    {
-        frontHealthBar = front;
-        healHealthBar = heal;
-        damageHealthBar = damage;
     }
 
     public void AddPower(int amount)
@@ -355,5 +243,23 @@ public class PlayerController : CharController
         Debug.Log("Level Up");
         //Instanciar efecto de Level Up
         //Hacer aparecer texto de Level Up sobre jugador
+    }
+
+    void Victory()
+    {
+        _collider.enabled = false;
+        rb.velocity = Vector2.up * 5f;
+    }
+
+    void Invulnerability()
+    {
+        _invulnerable = true;
+        _sprite.color = new Color(_sprite.color.r, _sprite.color.g, _sprite.color.b, 0.3f);
+    }
+
+    void RemoveInvulnerability()
+    {
+        _invulnerable = false;
+        _sprite.color = new Color(_sprite.color.r, _sprite.color.g, _sprite.color.b, 1f);
     }
 }

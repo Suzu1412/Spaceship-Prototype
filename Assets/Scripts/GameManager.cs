@@ -14,12 +14,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text victoryText;
     [SerializeField] private Text gameOverText;
     [SerializeField] private Text fpsCounter;
-    [SerializeField] private Image frontHealthBarP1;
-    [SerializeField] private Image healHealthBar;
-    [SerializeField] private Image damageHealthBar;
-    [SerializeField] Image healthBarP2;
     [SerializeField] private GameObject[] players;
     [SerializeField] private List<ItemPickUp> itemList;
+    [SerializeField] private HealthBarManager playerHealthBar;
+    [SerializeField] private HealthBarManager bossHealthBar;
     private Transform path;
     private SceneManager sceneManager;
     private int numberOfEnemies;
@@ -40,6 +38,7 @@ public class GameManager : MonoBehaviour
         if (textScorePlayer1 == null) Debug.LogError("Text UI Score player 1 Empty");
         if (textScorePlayer2 == null) Debug.LogError("Text UI Score player 2 Empty");
         if (readyText == null) Debug.LogError("Ready Text Empty");
+        if (playerHealthBar == null) Debug.LogError("Player health bar not assigned");
 
         readyText.gameObject.SetActive(false);
         players = GameObject.FindGameObjectsWithTag("Player");
@@ -66,7 +65,7 @@ public class GameManager : MonoBehaviour
         if (players.Length >= 1)
         {
             players[0].GetComponent<CharController>().SetScore(scorePlayer1);
-            players[0].GetComponent<PlayerController>().SetHealthBar(frontHealthBarP1, healHealthBar, damageHealthBar);
+            playerHealthBar.SetCharacter(players[0].GetComponent<PlayerController>());
             scorePlayer1.scoreText = textScorePlayer1;
             scorePlayer1.UpdateText();
 
@@ -81,7 +80,6 @@ public class GameManager : MonoBehaviour
             else
             {
                 textScorePlayer2.gameObject.SetActive(false);
-                healthBarP2.gameObject.transform.parent.parent.gameObject.SetActive(false);
             }
         }
         else
@@ -246,7 +244,7 @@ public class GameManager : MonoBehaviour
             sceneManager.EndScene();
             EnableGameOverText();
             gameOver = true;
-            Invoke("StopTime", 1f);
+            //Invoke("StopTime", 1f);
         }
         
     }

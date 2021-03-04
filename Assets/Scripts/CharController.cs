@@ -5,16 +5,25 @@ using UnityEngine;
 public abstract class CharController : MonoBehaviour, IHealth
 {
     protected int _currentHealth;
+    protected int _maxHealth;
+    protected bool _healed;
+    protected bool _damaged;
+    protected bool _isDeath;
+    protected bool _invulnerable;
     protected Rigidbody2D _rb;
     protected SpriteRenderer _sprite;
     protected BoxCollider2D _collider;
     protected ObjectPooler _objectPooler;
     [HideInInspector] protected ScoreManager score;
-    protected bool _isDeath;
     protected GameManager _manager;
+    protected HealthBarManager _healthBar;
 
     public int currentHealth { get { return _currentHealth; } }
+    public int maxHealth { get { return _maxHealth; } }
+    public bool isHealed { get { return _healed; } }
+    public bool isDamaged { get { return _damaged; } }
     public bool isDeath { get { return _isDeath; } }
+    public bool isInvulnerable { get { return _invulnerable; } }
     public Rigidbody2D rb { get { return _rb; } }
     public ObjectPooler objectPooler { get { return _objectPooler; } }
 
@@ -32,6 +41,7 @@ public abstract class CharController : MonoBehaviour, IHealth
     {
         _collider.enabled = true;
         _sprite.enabled = true;
+        _isDeath = false;
     }
 
     public abstract void Damage(int amount);
@@ -47,5 +57,25 @@ public abstract class CharController : MonoBehaviour, IHealth
     public ScoreManager GetScore()
     {
         return score;
+    }
+
+    public void SetHealedFalse()
+    {
+        _healed = false;
+    }
+
+    public void SetDamageFalse()
+    {
+        _damaged = false;
+    }
+
+    public void SetHealthBar(HealthBarManager manager)
+    {
+        _healthBar = manager;
+    }
+
+    protected void SetActiveFalse()
+    {
+        this.gameObject.SetActive(false);
     }
 }

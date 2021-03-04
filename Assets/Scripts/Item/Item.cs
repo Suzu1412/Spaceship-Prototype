@@ -9,6 +9,9 @@ public class Item : MonoBehaviour
     private bool arrivedAtEndPosition;
     private bool setEndMarker;
     [SerializeField] private Vector3 endMarker;
+    bool moveTowardsPlayer = false;
+    Transform player;
+    Vector2 playerDirection;
     
     public float smoothTimeStart = 0.2F;
     private Vector3 velocity = Vector3.zero;
@@ -31,6 +34,7 @@ public class Item : MonoBehaviour
     {
         arrivedAtEndPosition = false;
         setEndMarker = false;
+        moveTowardsPlayer = false;
     }
 
     private void Update()
@@ -49,8 +53,17 @@ public class Item : MonoBehaviour
             if (Vector3.Distance(transform.position, endMarker) < 0.01f) arrivedAtEndPosition = true;
         }
         else
-        { 
-            transform.position += Vector3.down * speed * Time.deltaTime;
+        {
+            if (!moveTowardsPlayer)
+            {
+                transform.position += Vector3.down * speed * Time.deltaTime;
+            }
+            else
+            {
+                playerDirection = (player.position - transform.position).normalized;
+                transform.position += new Vector3(playerDirection.x, playerDirection.y, 0f) * 5 * Time.deltaTime; 
+            }
+            
         }
     }
 
@@ -60,6 +73,12 @@ public class Item : MonoBehaviour
         {
             UseItem(collision.GetComponent<PlayerController>());
             this.gameObject.SetActive(false);
+        }
+
+        if (collision.name == "ItemMagnet")
+        {
+            moveTowardsPlayer = true;
+            player = collision.GetComponentInParent<Transform>();
         }
     }
     private void OnBecameInvisible()

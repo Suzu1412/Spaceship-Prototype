@@ -120,12 +120,14 @@ public class EnemyController : CharController
 
     public override void Damage(int amount)
     {
+        Debug.Log("Dañando: " + this.gameObject.name);
         if (_currentHealth - amount <= 0)
         {
             Death();
         }
         else
         {
+            Debug.Log(_currentHealth + " " + this.gameObject.name);
             _currentHealth -= amount;
         }
     }

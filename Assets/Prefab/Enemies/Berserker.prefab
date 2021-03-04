@@ -130,6 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f461b1acf2d09d745a643312e4aa16f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentHealth: 0
   _stats: {fileID: 11400000, guid: f5c8a796493b3b648b4ed1e3b763558d, type: 2}
   _currentState: {fileID: 11400000, guid: 66287811296162a42950a82bfeada734, type: 2}
   _pathToTake: -1
