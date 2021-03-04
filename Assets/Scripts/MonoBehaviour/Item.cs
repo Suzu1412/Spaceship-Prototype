@@ -22,7 +22,7 @@ public class Item : MonoBehaviour
         switch (item.type)
         {
             case ItemType.Power:
-                player.AddPower(item.amount);
+                player.AddExperience(item.amount);
                 break;
 
             case ItemType.Health:
@@ -75,7 +75,11 @@ public class Item : MonoBehaviour
                 playerDirection = (player.transform.position - transform.position).normalized;
                 transform.position += new Vector3(playerDirection.x, playerDirection.y, 0f) * 5 * Time.deltaTime; 
             }
-            
+        }
+
+        if (transform.position.y < -10f)
+        {
+            this.gameObject.SetActive(false);
         }
     }
 
@@ -97,9 +101,5 @@ public class Item : MonoBehaviour
                 playerVictory = true;
             }
         }
-    }
-    private void OnBecameInvisible()
-    {
-        this.gameObject.SetActive(false);
     }
 }

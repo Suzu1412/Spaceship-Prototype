@@ -6,10 +6,10 @@ using UnityEngine.UI;
 public class PlayerController : CharController
 {
     [Header("Player variables")]
-    
     private InputController _input;
     private CircleCollider2D _magnetCollider;
     private bool _victory;
+    private ExperienceManager _experienceBar;
 
     [Header("Player Start Animation")]
     public float smoothTimeStart = 0.6F;
@@ -32,11 +32,11 @@ public class PlayerController : CharController
     [SerializeField] private Transform topRightCorner;
     [SerializeField] private float offset;
 
-    public InputController input { get { return _input; } }
+    public InputController Input { get { return _input; } }
     public bool canShoot { get { return _canShoot; } }
     public PlayerStats stats { get { return _stats; } }
-    public int currentLevel { get { return _currentLevel; } }
     public bool victory { get { return _victory; } }
+    public ExperienceManager ExperienceBar { get { return _experienceBar; } }
 
     protected override void Awake()
     {
@@ -82,12 +82,13 @@ public class PlayerController : CharController
     // Update is called once per frame
     void Update()
     {
-        switch(_manager.state){
+        switch(_manager.State){
             case GameState.Start:
                 MoveToStartPosition();
                 break;
 
             case GameState.Playing:
+                LimitBreakStats();
                 RestrictMovement();
                 break;
 
@@ -99,7 +100,7 @@ public class PlayerController : CharController
 
     private void FixedUpdate()
     {
-        if (_manager.state == GameState.Playing)
+        if (_manager.State == GameState.Playing)
         {
             Move();
         }
@@ -107,7 +108,7 @@ public class PlayerController : CharController
 
     private void Move()
     {
-        Vector2 movement = new Vector2(input.horizontal * stats.moveSpeed, input.vertical * stats.moveSpeed);
+        Vector2 movement = new Vector2(Input.horizontal * stats.moveSpeed, Input.vertical * stats.moveSpeed);
         _rb.velocity = movement;
     }
 
@@ -149,6 +150,7 @@ public class PlayerController : CharController
         if (isInvulnerable) return;
 
         _healthBar.ResetDamage();
+        stats.ReduceLimitBreak();
         _damaged = true;
         
         if (_currentHealth - amount <= 0)
@@ -179,7 +181,7 @@ public class PlayerController : CharController
 
     public bool IsShooting()
     {
-        return input.isShooting;
+        return Input.isShooting;
     }
 
     void MoveToStartPosition()
@@ -198,11 +200,12 @@ public class PlayerController : CharController
     }
 
     #region LevelUp
-    public void AddPower(int amount)
+    public void AddExperience(int amount)
     {
         int newLevel = _stats.AddExperience(amount);
 
-        if (_currentLevel != newLevel)
+        ExperienceBar.UpdateExpBar();
+        if (_currentLevel < newLevel)
         {
             LevelUp();
         }
@@ -245,6 +248,23 @@ public class PlayerController : CharController
         {
             highScore.SetScore(score.GetScore() - highScore.GetScore());
             PlayerPrefs.SetInt("HighScore", score.GetScore());
+        }
+    }
+
+    public void SetExperienceBar(ExperienceManager experience)
+    {
+        _experienceBar = experience;
+    }
+
+    public void LimitBreakStats()
+    {
+        if (stats.LimitBreak )
+        {
+            _magnetCollider.radius = 1.3f;
+        }
+        else
+        {
+            _magnetCollider.radius = 1f;
         }
     }
 }

@@ -102,7 +102,6 @@ public class HealthBarManager : MonoBehaviour
             backHealthBar.color = originalColor;
             dangerAnim = false;
         }
-        
     }
 
     void UpdateHealthBar()

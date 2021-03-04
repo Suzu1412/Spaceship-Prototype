@@ -37,4 +37,9 @@ public class SceneManager : MonoBehaviour
     {
         blackFade.CrossFadeAlpha(0f, 2.5f, false);
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }

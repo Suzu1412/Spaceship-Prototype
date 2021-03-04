@@ -19,5 +19,5 @@ MonoBehaviour:
   dodgeChance: 0
   levels:
   - experienceToNextLevel: 5
-  - experienceToNextLevel: 25
-  - experienceToNextLevel: 50
+  - experienceToNextLevel: 10
+  - experienceToNextLevel: 20

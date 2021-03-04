@@ -21,19 +21,19 @@ public class PlayerWeapon : Weapon
 
     protected override void FireWeapon()
     {
-        weaponList[controller.currentLevel].timeUntilNextShot -= Time.deltaTime;
+        weaponList[controller.stats.Level].timeUntilNextShot -= Time.deltaTime;
 
-        if (weaponList[controller.currentLevel].timeUntilNextShot <= 0f)
+        if (weaponList[controller.stats.Level].timeUntilNextShot <= 0f)
         {
-            weaponList[controller.currentLevel].timeUntilNextShot = weaponList[controller.currentLevel].timeBetweenShots + weaponList[controller.currentLevel].weaponType.shootRate;
+            weaponList[controller.stats.Level].timeUntilNextShot = weaponList[controller.stats.Level].timeBetweenShots + weaponList[controller.stats.Level].weaponType.shootRate;
 
-            for (int i = 0; i < weaponList[controller.currentLevel].amountToShoot; i++)
+            for (int i = 0; i < weaponList[controller.stats.Level].amountToShoot; i++)
             {
-                currentProjectile = objectPooler.SpawnFromPool(weaponList[controller.currentLevel].weaponType.projectile.name, new Vector3(0f, 0f, 0f), Quaternion.identity);
+                currentProjectile = objectPooler.SpawnFromPool(weaponList[controller.stats.Level].weaponType.projectile.name, new Vector3(0f, 0f, 0f), Quaternion.identity);
 
                 if (currentProjectile != null)
                 {
-                    ShootPattern(controller.currentLevel, i);
+                    ShootPattern(controller.stats.Level, i);
                 }
             }
         }

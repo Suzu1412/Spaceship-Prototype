@@ -66,7 +66,7 @@ public class WaveManager : MonoBehaviour
     private void Update()
     {
         waves[_currentWave].timeToSpawn -= Time.deltaTime;
-        if (_manager.state == GameState.Playing && canSpawnWaves && waves[_currentWave].timeToSpawn <= 0f)
+        if (_manager.State == GameState.Playing && canSpawnWaves && waves[_currentWave].timeToSpawn <= 0f)
         {
             for (int i = 0; i < waves[_currentWave].theWave.enemyList.Count; i++)
             {
@@ -114,7 +114,7 @@ public class WaveManager : MonoBehaviour
             }
         }
 
-        //Acelera la aparición de la próxima oleada si todos están muertos
+        //Acelera la aparici?n de la pr?xima oleada si todos est?n muertos
         if (_currentWave - 1 >= 0)
         {
             if (waves[_currentWave - 1].enemySpawned == waves[_currentWave - 1].theWave.enemyList.Count && _manager.GetEnemyCount() == 0)

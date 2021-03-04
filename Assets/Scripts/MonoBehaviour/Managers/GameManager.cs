@@ -20,11 +20,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<ItemPickUp> itemList;
     [SerializeField] private HealthBarManager playerHealthBar;
     [SerializeField] private HealthBarManager bossHealthBar;
+    [SerializeField] private ExperienceManager playerExperience;
     private Transform path;
     private SceneManager sceneManager;
     private int numberOfEnemies;
     private GameState _state;
-    public GameState state { get { return _state; } }
+    public GameState State { get { return _state; } }
     private bool gameStarted;
     private bool gamePlaying;
     private bool victory;
@@ -69,6 +70,7 @@ public class GameManager : MonoBehaviour
             players[0].GetComponent<CharController>().SetScore(scorePlayer1);
             players[0].GetComponent<CharController>().SetHighScore(highScore);
             playerHealthBar.SetCharacter(players[0].GetComponent<PlayerController>());
+            playerExperience.SetPlayer(players[0].GetComponent<PlayerController>());
             scorePlayer1.scoreText = textScorePlayer1;
             scorePlayer1.UpdateText();
             SetHighScore();
@@ -109,6 +111,11 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         UpdateState();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            sceneManager.QuitGame();
+        }
     }
 
     void EnablePath()
@@ -133,7 +140,7 @@ public class GameManager : MonoBehaviour
 
     void UpdateState()
     {
-        switch (state)
+        switch (State)
         {
             case GameState.Start:
                 StartGame();
@@ -184,7 +191,6 @@ public class GameManager : MonoBehaviour
         {
             for (int i= 0; i < players.Length; i++)
             {
-                //players[i].GetComponent<PlayerController>().CanShoot(true);
                 Invoke("MakePlayerShoot", 1f);
             }
 
@@ -317,7 +323,7 @@ public class GameManager : MonoBehaviour
             bool playerSurvive = false;
             for (int i=0; i < players.Length; i++)
             {
-                if (players[i].activeInHierarchy)
+                if (players[i].activeSelf)
                 {
                     if (players[i].GetComponent<PlayerController>().currentHealth > 0)
                     {
