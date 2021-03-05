@@ -37,7 +37,7 @@ public class EnemyController : CharController
 
     [Header("Follow Path Attributes")]
     private Transform _path;
-    private Transform _waypoints;
+    [SerializeField] private Transform _waypoints;
     //SerializeField private List<int> _waypointToShoot = new List<int>(); //If on Waypoint shoot, else don't
     private int _currentWaypoint;
     private bool _followPath;

@@ -45,6 +45,7 @@ public class PlayerController : CharController
         _magnetCollider = GetComponentInChildren<CircleCollider2D>();
         if (_input == null) Debug.LogError(this.gameObject.name + " missing InputController");
         if (_stats == null) Debug.Log(this.gameObject.name + " missing Stats");
+        _stats.ResetValues();
         _victory = false;
     }
 
@@ -102,7 +103,16 @@ public class PlayerController : CharController
     {
         if (_manager.State == GameState.Playing)
         {
-            Move();
+            if (!isDeath)
+            {
+                Move();
+            }
+            else
+            {
+                rb.velocity = Vector2.zero;
+            }
+            
+
         }
     }
 
@@ -260,7 +270,7 @@ public class PlayerController : CharController
     {
         if (stats.LimitBreak )
         {
-            _magnetCollider.radius = 1.3f;
+            _magnetCollider.radius = 1.5f;
         }
         else
         {

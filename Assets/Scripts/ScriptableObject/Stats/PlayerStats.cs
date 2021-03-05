@@ -119,6 +119,11 @@ public class PlayerStats : Stats
 
     private void OnEnable()
     {
+        ResetValues();
+    }
+
+    public void ResetValues()
+    {
         _level = 0;
         _experience = 0;
         _limitBreakDuration = 0f;

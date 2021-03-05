@@ -34,6 +34,11 @@ public class ScoreManager : ScriptableObject
 
     private void OnEnable()
     {
+        ResetValues();
+    }
+
+    public void ResetValues()
+    {
         _score = 0;
         scoreText = null;
     }

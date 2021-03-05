@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5d73b0eb1bf6d6d45ad9c51d8e809501, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.6901961, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 1976497843880245787}
   - component: {fileID: 6440018992800156493}
   m_Layer: 6
-  m_Name: Berserker
+  m_Name: Berserker Alpha
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f461b1acf2d09d745a643312e4aa16f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stats: {fileID: 11400000, guid: f5c8a796493b3b648b4ed1e3b763558d, type: 2}
+  _stats: {fileID: 11400000, guid: 5417cb5e6c4a84247b3a66ad6e94f834, type: 2}
   _currentState: {fileID: 11400000, guid: 66287811296162a42950a82bfeada734, type: 2}
   _waypoints: {fileID: 0}
   _pathToTake: -1
@@ -151,7 +151,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.00610134, y: -0.0035628676}
+  m_Offset: {x: 0.00022858381, y: -0.0035628676}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -162,7 +162,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.78040105, y: 0.5938276}
+  m_Size: {x: 0.81837976, y: 0.5938276}
   m_EdgeRadius: 0
 --- !u!50 &1976497843880245787
 Rigidbody2D:
@@ -199,12 +199,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponList:
   - weaponType: {fileID: 11400000, guid: ac25e4df629eede418c388cb3f7359cc, type: 2}
-    amountToShoot: 3
-    projectileSpeed: 5
+    amountToShoot: 4
+    projectileSpeed: 7
     timeBetweenShots: 0
     timeUntilNextShot: 0
     gunPosition: {fileID: 1976497844890677831}
     pattern: 3
+    increaseAngle: 0
+  - weaponType: {fileID: 11400000, guid: 2379af4ec53907b47a25a9a7cb45e849, type: 2}
+    amountToShoot: 1
+    projectileSpeed: 5
+    timeBetweenShots: 0.2
+    timeUntilNextShot: 0
+    gunPosition: {fileID: 1976497844890677831}
+    pattern: 4
     increaseAngle: 0
 --- !u!1 &1976497844890677830
 GameObject:

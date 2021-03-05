@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private HealthBarManager bossHealthBar;
     [SerializeField] private ExperienceManager playerExperience;
     private Transform path;
-    private SceneManager sceneManager;
+    private SceneLoaderManager sceneManager;
     private int numberOfEnemies;
     private GameState _state;
     public GameState State { get { return _state; } }
@@ -33,9 +33,10 @@ public class GameManager : MonoBehaviour
     private bool lastWave;
     private ObjectPooler _objectPooler;
 
-
     private void Awake()
     {
+        SetRatio(9, 16);
+
         if (scorePlayer1 == null) Debug.LogError("Score player 1 Empty");
         if (scorePlayer2 == null) Debug.LogError("Score player 2 Empty");
         if (textScorePlayer1 == null) Debug.LogError("Text UI Score player 1 Empty");
@@ -45,7 +46,7 @@ public class GameManager : MonoBehaviour
 
         readyText.gameObject.SetActive(false);
         players = GameObject.FindGameObjectsWithTag("Player");
-        sceneManager = GameObject.FindObjectOfType<SceneManager>();
+        sceneManager = GameObject.FindObjectOfType<SceneLoaderManager>();
         victoryText.gameObject.SetActive(false);
         readyText.gameObject.SetActive(false);
         gameOverText.gameObject.SetActive(false);
@@ -71,6 +72,7 @@ public class GameManager : MonoBehaviour
             players[0].GetComponent<CharController>().SetHighScore(highScore);
             playerHealthBar.SetCharacter(players[0].GetComponent<PlayerController>());
             playerExperience.SetPlayer(players[0].GetComponent<PlayerController>());
+            scorePlayer1.ResetValues();
             scorePlayer1.scoreText = textScorePlayer1;
             scorePlayer1.UpdateText();
             SetHighScore();
@@ -115,6 +117,11 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             sceneManager.QuitGame();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            sceneManager.RestartScene();
         }
     }
 
@@ -366,8 +373,21 @@ public class GameManager : MonoBehaviour
 
     void SetHighScore()
     {
+        highScore.ResetValues();
         highScore.scoreText = textHighScore;
         highScore.SetScore(PlayerPrefs.GetInt("HighScore"));
+    }
+
+    void SetRatio(float w, float h)
+    {
+        if ((((float)Screen.width) / ((float)Screen.height)) > w / h)
+        {
+            Screen.SetResolution((int)(((float)Screen.height) * (w / h)), Screen.height, FullScreenMode.FullScreenWindow);
+        }
+        else
+        {
+            Screen.SetResolution(Screen.width, (int)(((float)Screen.width) * (h / w)), FullScreenMode.FullScreenWindow);
+        }
     }
 }
 

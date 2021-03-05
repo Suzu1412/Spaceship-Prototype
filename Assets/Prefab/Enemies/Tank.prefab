@@ -50,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stats: {fileID: 11400000, guid: 179ddea4b5919c7498a5fcb1d5e25008, type: 2}
   _currentState: {fileID: 11400000, guid: 66287811296162a42950a82bfeada734, type: 2}
+  _waypoints: {fileID: 0}
   _pathToTake: -1
   shootDecision: 1
   _minRandomShoot: 1
@@ -116,7 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponList:
   - weaponType: {fileID: 11400000, guid: ac25e4df629eede418c388cb3f7359cc, type: 2}
-    amountToShoot: 1
+    amountToShoot: 2
     projectileSpeed: 9
     timeBetweenShots: 0
     timeUntilNextShot: 0

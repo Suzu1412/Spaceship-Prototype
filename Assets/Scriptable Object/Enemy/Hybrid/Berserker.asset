@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Berserker
   m_EditorClassIdentifier: 
   maxHealth: 150
-  damage: 15
+  damage: 20
   moveSpeed: 3
   criticalChance: 0
   dodgeChance: 0
@@ -22,7 +22,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 1
-  angle: 20
+  angle: 30
   distance: 6
   shootChance: 0
   waitUntilShoot: 0

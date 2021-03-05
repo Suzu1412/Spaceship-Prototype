@@ -36,6 +36,7 @@ public abstract class Weapon : MonoBehaviour
         for (int i=0; i < weaponList.Count; i++)
         {
             weaponList[i].increaseAngle = 0f; //weaponList[i].weaponType.increaseAngle;
+            weaponList[i].timeUntilNextShot = 0f;
         }
     }
 
@@ -150,7 +151,7 @@ public abstract class Weapon : MonoBehaviour
             direction.Normalize();
             float rotation = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-            SetProjectileValues(weaponList[i].gunPosition, position.x, position.y, rotation, i);
+            SetProjectileValues(weaponList[i].gunPosition, position.x, position.y, -rotation, i);
         }
         else
         {
@@ -163,9 +164,11 @@ public abstract class Weapon : MonoBehaviour
     private Vector3 CalculatebulletPosition(int i, int pointer)
     {
         float xPosition = 0f;
+        float yPosition = 0f;
         if (weaponList[i].amountToShoot == 1)
         {
             xPosition = 0f;
+            yPosition = 0f;
         }
         else if (weaponList[i].amountToShoot > 1)
         {
@@ -174,10 +177,12 @@ public abstract class Weapon : MonoBehaviour
                 if (pointer < weaponList[i].amountToShoot / 2)
                 {
                     xPosition = weaponList[i].weaponType.initialOffsetX - weaponList[i].weaponType.offsetXBetweenShots * (weaponList[i].amountToShoot / 2 - pointer);
+                    yPosition = weaponList[i].weaponType.initialOffsetY;
                 }
                 else
                 {
                     xPosition = -weaponList[i].weaponType.initialOffsetX + weaponList[i].weaponType.offsetXBetweenShots * (pointer + 1 - weaponList[i].amountToShoot / 2);
+                    yPosition = weaponList[i].weaponType.initialOffsetY;
                 }
             }
             else
@@ -187,19 +192,22 @@ public abstract class Weapon : MonoBehaviour
                 if (pointer < weaponList[i].amountToShoot / 2)
                 {
                     xPosition = -weaponList[i].weaponType.offsetXBetweenShots * (weaponList[i].amountToShoot / 2 - pointer);
+                    yPosition = -weaponList[i].weaponType.offsetYBetweenShots * (weaponList[i].amountToShoot / 2 - pointer);
+   
                 }
                 else if (pointer == centerBullet)
                 {
                     xPosition = 0f;
+                    yPosition = 0f;
                 }
                 else
                 {
                     xPosition = weaponList[i].weaponType.offsetXBetweenShots * (pointer - weaponList[i].amountToShoot / 2);
+                    yPosition = -weaponList[i].weaponType.offsetYBetweenShots * (pointer - weaponList[i].amountToShoot / 2);
                 }
             }
         }
-
-        return new Vector3(xPosition, 0f, 0f);
+        return new Vector3(xPosition, yPosition, 0f);
     }
 
     protected abstract Transform PointTowardsClosestEnemy();

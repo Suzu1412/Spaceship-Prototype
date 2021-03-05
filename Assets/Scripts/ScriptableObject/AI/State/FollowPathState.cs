@@ -16,6 +16,7 @@ public class FollowPathState : State
     public override void LogicUpdate(EnemyController controller)
     {
         base.LogicUpdate(controller);
+
         if (Vector3.Distance(controller.transform.position, controller.waypoints.GetChild(controller.currentWayPoint).transform.position) < 0.2f)
         {
             controller.UpdatePath();

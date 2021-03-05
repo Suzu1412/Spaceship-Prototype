@@ -13,6 +13,8 @@ public class WeaponType : ScriptableObject
     [Header("Straight Bullet Variables")]
     public float initialOffsetX = 0.15f;
     public float offsetXBetweenShots = 0.3f;
+    public float initialOffsetY = 0f;
+    public float offsetYBetweenShots = 0f;
 
     [Header("Radius Bullet Variables")]
     [Range(0f, 360f)] public float startAngle = 0f;

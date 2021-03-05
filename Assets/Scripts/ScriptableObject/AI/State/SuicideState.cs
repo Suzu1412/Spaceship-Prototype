@@ -28,11 +28,11 @@ public class SuicideState: State
         {
             if (controller.EnemyDirection().x <= -0.1f)
             {
-                controller.rb.velocity = new Vector2(-controller.stats.moveSpeed * 0.75f, -controller.stats.moveSpeed * 2);
+                controller.rb.velocity = new Vector2(-controller.stats.moveSpeed * 0.75f, -controller.stats.moveSpeed * 3);
             }
             else if (controller.EnemyDirection().x >= 0.1f)
             {
-                controller.rb.velocity = new Vector2(controller.stats.moveSpeed * 0.75f, -controller.stats.moveSpeed * 2);
+                controller.rb.velocity = new Vector2(controller.stats.moveSpeed * 0.75f, -controller.stats.moveSpeed * 3);
             }
             else
             {

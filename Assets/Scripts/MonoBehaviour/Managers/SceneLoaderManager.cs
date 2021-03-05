@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class SceneManager : MonoBehaviour
+public class SceneLoaderManager : MonoBehaviour
 {
     [SerializeField] private Image blackFade;
 
@@ -30,7 +30,7 @@ public class SceneManager : MonoBehaviour
 
     void FadeIn()
     {
-        blackFade.CrossFadeAlpha(1f,1f, false);
+        blackFade.CrossFadeAlpha(1f, 1f, false);
     }
 
     void FadeOut()
@@ -41,5 +41,11 @@ public class SceneManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void RestartScene()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

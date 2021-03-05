@@ -24,7 +24,6 @@ public class ObjectPooler : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
