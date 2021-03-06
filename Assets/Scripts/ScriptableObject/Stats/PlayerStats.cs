@@ -99,7 +99,7 @@ public class PlayerStats : Stats
 
         if (LimitBreak)
         {
-            _limitBreakDuration -=  3.5f * Time.deltaTime;
+            _limitBreakDuration -=  4f * Time.deltaTime;
 
             if (_limitBreakDuration <= 0)
             {

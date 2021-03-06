@@ -10,6 +10,8 @@ public class PlayerController : CharController
     private CircleCollider2D _magnetCollider;
     private bool _victory;
     private ExperienceManager _experienceBar;
+    private bool _levelUp;
+    [SerializeField] private GameObject explosion;
 
     [Header("Player Start Animation")]
     public float smoothTimeStart = 0.6F;
@@ -36,11 +38,13 @@ public class PlayerController : CharController
     public bool canShoot { get { return _canShoot; } }
     public PlayerStats stats { get { return _stats; } }
     public bool victory { get { return _victory; } }
+    public bool LevelUp { get { return _levelUp; } }
     public ExperienceManager ExperienceBar { get { return _experienceBar; } }
 
     protected override void Awake()
     {
         base.Awake();
+        explosion.SetActive(false);
         _input = GetComponent<InputController>();
         _magnetCollider = GetComponentInChildren<CircleCollider2D>();
         if (_input == null) Debug.LogError(this.gameObject.name + " missing InputController");
@@ -183,6 +187,9 @@ public class PlayerController : CharController
             _canShoot = false;
             _collider.enabled = false;
             _sprite.enabled = false;
+            GameObject obj = Instantiate(explosion);
+            obj.transform.position = this.transform.position;
+            obj.SetActive(true);
             _isDeath = true;
             Invoke("SetActiveFalse", 1f);
         }
@@ -217,16 +224,9 @@ public class PlayerController : CharController
         ExperienceBar.UpdateExpBar();
         if (_currentLevel < newLevel)
         {
-            LevelUp();
+            _levelUp = true;
         }
         _currentLevel = newLevel;
-    }
-
-    void LevelUp()
-    {
-        Debug.Log("Level Up");
-        //Instanciar efecto de Level Up
-        //Hacer aparecer texto de Level Up sobre jugador
     }
     #endregion
 
@@ -276,5 +276,15 @@ public class PlayerController : CharController
         {
             _magnetCollider.radius = 1f;
         }
+    }
+
+    public void EndLevelUp()
+    {
+        _levelUp = false;
+    }
+
+    public void OnDestroy()
+    {
+        
     }
 }

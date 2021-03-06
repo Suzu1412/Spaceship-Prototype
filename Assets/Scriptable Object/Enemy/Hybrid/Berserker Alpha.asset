@@ -26,4 +26,4 @@ MonoBehaviour:
   distance: 6
   shootChance: 0
   waitUntilShoot: 0
-  spawnItem: {fileID: 11400000, guid: 6685622cd23b0e441a0ee4d2f79465ed, type: 2}
+  spawnItem: {fileID: 11400000, guid: cfee1668cac552a4e8c542cdfc75fcc0, type: 2}

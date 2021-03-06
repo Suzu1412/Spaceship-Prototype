@@ -5,7 +5,7 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     [SerializeField] ItemPickUp item;
-    [SerializeField] float speed = 3f;
+    [SerializeField] float speed = 4f;
     private bool arrivedAtEndPosition;
     private bool setEndMarker;
     [SerializeField] private Vector3 endMarker;
@@ -73,7 +73,7 @@ public class Item : MonoBehaviour
             else
             {
                 playerDirection = (player.transform.position - transform.position).normalized;
-                transform.position += new Vector3(playerDirection.x, playerDirection.y, 0f) * 5 * Time.deltaTime; 
+                transform.position += new Vector3(playerDirection.x, playerDirection.y, 0f) * 7f * Time.deltaTime; 
             }
         }
 

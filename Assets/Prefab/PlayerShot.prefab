@@ -77,7 +77,7 @@ MonoBehaviour:
   damage: 0
   projectileSpeed: 0
   moveDirection: {x: 0, y: 0, z: 0}
-  score: {fileID: 0}
+  playerWhoShot: {fileID: 0}
 --- !u!50 &-5930507176285849076
 Rigidbody2D:
   serializedVersion: 4
@@ -168,10 +168,10 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -167605087
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f3bf4db56bcb67544bd6a07e8ce388e7, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.9490196, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

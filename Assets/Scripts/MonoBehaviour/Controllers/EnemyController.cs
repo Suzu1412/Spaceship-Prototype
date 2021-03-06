@@ -151,7 +151,8 @@ public class EnemyController : CharController
             {
                 Debug.LogError(_stats.name + " has no attached Spawn Drop Table");
             }
-            
+
+            _objectPooler.SpawnFromPool("Enemy Explosion", this.transform.position, Quaternion.identity);
             this.gameObject.SetActive(false);
         }
         

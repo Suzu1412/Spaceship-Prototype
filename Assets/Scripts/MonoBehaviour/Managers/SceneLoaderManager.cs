@@ -43,6 +43,19 @@ public class SceneLoaderManager : MonoBehaviour
         Application.Quit();
     }
 
+    public void PauseGame()
+    {
+        if (Time.timeScale > 0)
+        {
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
+        
+    }
+
     public void RestartScene()
     {
         Time.timeScale = 1;

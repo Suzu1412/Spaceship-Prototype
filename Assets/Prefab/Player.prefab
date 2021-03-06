@@ -109,13 +109,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa891c751b5d5645b533029fb42cee7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentHealth: 0
   smoothTimeStart: 0.5
   smoothTimeEnd: 0.4
   smoothVictory: 1.2
   _stats: {fileID: 11400000, guid: 787d98992fe934f45a325c23406d73c5, type: 2}
-  currentLevel: 0
-  power: 0
   bottomLeftCorner: {fileID: 0}
   topRightCorner: {fileID: 0}
   offset: 0.2
@@ -180,6 +177,14 @@ MonoBehaviour:
   - weaponType: {fileID: 11400000, guid: 1a487383f0b405d40a774522e89856b4, type: 2}
     amountToShoot: 5
     projectileSpeed: 10
+    timeBetweenShots: 0
+    timeUntilNextShot: 0
+    gunPosition: {fileID: 3670162174601098063}
+    pattern: 0
+    increaseAngle: 0
+  - weaponType: {fileID: 11400000, guid: 1a487383f0b405d40a774522e89856b4, type: 2}
+    amountToShoot: 7
+    projectileSpeed: 12
     timeBetweenShots: 0
     timeUntilNextShot: 0
     gunPosition: {fileID: 3670162174601098063}

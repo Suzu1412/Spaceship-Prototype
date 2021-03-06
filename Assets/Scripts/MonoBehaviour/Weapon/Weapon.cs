@@ -51,8 +51,8 @@ public abstract class Weapon : MonoBehaviour
     {
         currentProjectile.transform.position = new Vector3(gunPosition.position.x + xPos, gunPosition.position.y + yPos, 0);
 
-        bulDirX = currentProjectile.transform.position.x + Mathf.Cos((angle * Mathf.PI) / 180f);
-        bulDirY = currentProjectile.transform.position.y + Mathf.Sin((angle * Mathf.PI) / 180f);
+        bulDirX = currentProjectile.transform.position.x + Mathf.Cos(angle * Mathf.PI / 180f);
+        bulDirY = currentProjectile.transform.position.y + Mathf.Sin(angle * Mathf.PI / 180f);
 
         bulMoveVector = new Vector3(bulDirX, bulDirY, 0f);
         bulletDirection = (bulMoveVector - currentProjectile.transform.position).normalized;
@@ -86,7 +86,7 @@ public abstract class Weapon : MonoBehaviour
                 break;
 
             case BulletPattern.DirectionToPlayer:
-                DirectionToPlayerBullet(index, pointer);
+                DirectionTowardsEnemyBullet(index, pointer);
                 break;
         }
     }
@@ -140,28 +140,9 @@ public abstract class Weapon : MonoBehaviour
         SetProjectileValues(weaponList[i].gunPosition, 0f, 0f, angle, i);
     }
 
-    public void DirectionToPlayerBullet(int i, int pointer)
-    {
-        Transform enemyPosition = PointTowardsClosestEnemy();
-        if (enemyPosition != null)
-        {
-            Vector3 position = CalculatebulletPosition(i, pointer);
+    protected abstract void DirectionTowardsEnemyBullet(int i, int pointer);
 
-            Vector3 direction = enemyPosition.position - (weaponList[i].gunPosition.position);
-            direction.Normalize();
-            float rotation = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-            SetProjectileValues(weaponList[i].gunPosition, position.x, position.y, -rotation, i);
-        }
-        else
-        {
-            StraightBullet(i, pointer);
-        }
-
-
-    }
-
-    private Vector3 CalculatebulletPosition(int i, int pointer)
+    protected Vector3 CalculatebulletPosition(int i, int pointer)
     {
         float xPosition = 0f;
         float yPosition = 0f;

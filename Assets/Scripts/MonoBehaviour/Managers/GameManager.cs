@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,11 +17,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text victoryText;
     [SerializeField] private Text gameOverText;
     [SerializeField] private Text fpsCounter;
-    [SerializeField] private GameObject[] players;
-    [SerializeField] private List<ItemPickUp> itemList;
+    private GameObject[] players;
+    [SerializeField] private List<ItemPickUp> smallitemList;
+    [SerializeField] private List<ItemPickUp> bigItemList;
     [SerializeField] private HealthBarManager playerHealthBar;
     [SerializeField] private HealthBarManager bossHealthBar;
     [SerializeField] private ExperienceManager playerExperience;
+    [SerializeField] private List<Explosion> explosions;
     private Transform path;
     private SceneLoaderManager sceneManager;
     private int numberOfEnemies;
@@ -52,14 +55,42 @@ public class GameManager : MonoBehaviour
         gameOverText.gameObject.SetActive(false);
         _objectPooler = ObjectPooler.Instance;
 
-        for (int i = 0; i < itemList.Count; i++)
+        for (int i = 0; i < smallitemList.Count; i++)
         {
             ObjectPooler.Pool item = new ObjectPooler.Pool
             {
-                prefab = itemList[i].itemSpawn.gameObject,
+                prefab = smallitemList[i].itemSpawn.gameObject,
                 shouldExpandPool = true,
                 size = 30,
-                tag = itemList[i].itemSpawn.name,
+                tag = smallitemList[i].itemSpawn.name,
+                isChild = true
+            };
+
+            _objectPooler.CreatePool(item);
+        }
+
+        for (int i = 0; i < bigItemList.Count; i++)
+        {
+            ObjectPooler.Pool item = new ObjectPooler.Pool
+            {
+                prefab = bigItemList[i].itemSpawn.gameObject,
+                shouldExpandPool = true,
+                size = 5,
+                tag = bigItemList[i].itemSpawn.name,
+                isChild = true
+            };
+
+            _objectPooler.CreatePool(item);
+        }
+
+        for (int i = 0; i < explosions.Count; i++)
+        {
+            ObjectPooler.Pool item = new ObjectPooler.Pool
+            {
+                prefab = explosions[i].explosion.gameObject,
+                shouldExpandPool = true,
+                size = 3,
+                tag = explosions[i].explosion.name,
                 isChild = true
             };
 
@@ -122,6 +153,11 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             sceneManager.RestartScene();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            sceneManager.PauseGame();
         }
     }
 
@@ -328,14 +364,14 @@ public class GameManager : MonoBehaviour
         if (lastWave && numberOfEnemies == 0)
         {
             bool playerSurvive = false;
+
+            players = GameObject.FindGameObjectsWithTag("Player");
+
             for (int i=0; i < players.Length; i++)
             {
-                if (players[i].activeSelf)
+                if (players[i].GetComponent<PlayerController>().currentHealth > 0)
                 {
-                    if (players[i].GetComponent<PlayerController>().currentHealth > 0)
-                    {
-                        playerSurvive = true;
-                    }
+                    playerSurvive = true;
                 }
             }
 

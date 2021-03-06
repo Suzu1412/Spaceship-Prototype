@@ -10,10 +10,16 @@ public class Projectile : MonoBehaviour
     public float projectileSpeed;
     public Vector3 moveDirection;
     [HideInInspector] public PlayerController playerWhoShot;
+    private ObjectPooler _objectPooler;
 
     private void OnDisable()
     {
         fired = false;
+    }
+
+    private void Awake()
+    {
+        _objectPooler = ObjectPooler.Instance;
     }
 
     // Update is called once per frame
@@ -59,6 +65,9 @@ public class Projectile : MonoBehaviour
                 }
                 
             }
+
+            _objectPooler.SpawnFromPool("Impact", transform.position, Quaternion.identity);
+            
             this.gameObject.SetActive(false);
         }
     }

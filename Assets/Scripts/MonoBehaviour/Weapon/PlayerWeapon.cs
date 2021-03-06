@@ -73,4 +73,23 @@ public class PlayerWeapon : Weapon
 
         return enemyPosition;
     }
+
+    protected override void DirectionTowardsEnemyBullet(int i, int pointer)
+    {
+        Transform enemyPosition = PointTowardsClosestEnemy();
+        if (enemyPosition != null)
+        {
+            Vector3 position = CalculatebulletPosition(i, pointer);
+
+            Vector3 direction = enemyPosition.position - weaponList[i].gunPosition.position;
+            direction.Normalize();
+            float rotation = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            SetProjectileValues(weaponList[i].gunPosition, position.x, position.y, rotation, i);
+        }
+        else
+        {
+            StraightBullet(i, pointer);
+        }
+    }
 }
