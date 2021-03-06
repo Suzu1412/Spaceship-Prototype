@@ -18,6 +18,6 @@ MonoBehaviour:
   criticalChance: 0
   dodgeChance: 0
   levels:
-  - experienceToNextLevel: 1
-  - experienceToNextLevel: 2
+  - experienceToNextLevel: 5
+  - experienceToNextLevel: 10
   - experienceToNextLevel: 20
