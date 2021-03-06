@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65d628b9be737f04e85623e00bab6248, type: 3}
   m_Name: Suicide Unit Alpha
   m_EditorClassIdentifier: 
-  maxHealth: 200
+  maxHealth: 150
   damage: 0
   moveSpeed: 2
   criticalChance: 0
   dodgeChance: 0
-  collissionDamage: 50
+  collissionDamage: 40
   score: 250
   playerLayer:
     serializedVersion: 2

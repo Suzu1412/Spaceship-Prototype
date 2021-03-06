@@ -25,7 +25,11 @@ public abstract class Weapon : MonoBehaviour
                 shouldExpandPool = true,
                 size = weaponList[i].weaponType.amountToPool,
                 tag = weaponList[i].weaponType.projectile.name,
-                isChild = true
+                #if !UNITY_EDITOR
+                    isChild = false
+                #else
+                    isChild = true
+                #endif
             };
             objectPooler.CreatePool(item);
         }

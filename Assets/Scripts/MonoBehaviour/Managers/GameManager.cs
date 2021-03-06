@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private HealthBarManager bossHealthBar;
     [SerializeField] private ExperienceManager playerExperience;
     [SerializeField] private List<Explosion> explosions;
+    [SerializeField] private List<Explosion> impacts;
     private Transform path;
     private SceneLoaderManager sceneManager;
     private int numberOfEnemies;
@@ -54,48 +55,7 @@ public class GameManager : MonoBehaviour
         readyText.gameObject.SetActive(false);
         gameOverText.gameObject.SetActive(false);
         _objectPooler = ObjectPooler.Instance;
-
-        for (int i = 0; i < smallitemList.Count; i++)
-        {
-            ObjectPooler.Pool item = new ObjectPooler.Pool
-            {
-                prefab = smallitemList[i].itemSpawn.gameObject,
-                shouldExpandPool = true,
-                size = 30,
-                tag = smallitemList[i].itemSpawn.name,
-                isChild = true
-            };
-
-            _objectPooler.CreatePool(item);
-        }
-
-        for (int i = 0; i < bigItemList.Count; i++)
-        {
-            ObjectPooler.Pool item = new ObjectPooler.Pool
-            {
-                prefab = bigItemList[i].itemSpawn.gameObject,
-                shouldExpandPool = true,
-                size = 5,
-                tag = bigItemList[i].itemSpawn.name,
-                isChild = true
-            };
-
-            _objectPooler.CreatePool(item);
-        }
-
-        for (int i = 0; i < explosions.Count; i++)
-        {
-            ObjectPooler.Pool item = new ObjectPooler.Pool
-            {
-                prefab = explosions[i].explosion.gameObject,
-                shouldExpandPool = true,
-                size = 3,
-                tag = explosions[i].explosion.name,
-                isChild = true
-            };
-
-            _objectPooler.CreatePool(item);
-        }
+        SpawnPoolObjects();
 
         if (players.Length >= 1)
         {
@@ -127,11 +87,11 @@ public class GameManager : MonoBehaviour
         }
 
         EnablePath();
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
             _state = GameState.Start;
-        #else
+#else
             _state = GameState.Playing;
-        #endif
+#endif
         }
 
     private void Start()
@@ -423,6 +383,82 @@ public class GameManager : MonoBehaviour
         else
         {
             Screen.SetResolution(Screen.width, (int)(((float)Screen.width) * (h / w)), FullScreenMode.FullScreenWindow);
+        }
+    }
+
+    private void SpawnPoolObjects()
+    {
+
+        for (int i = 0; i < smallitemList.Count; i++)
+        {
+            ObjectPooler.Pool item = new ObjectPooler.Pool
+            {
+                prefab = smallitemList[i].itemSpawn.gameObject,
+                shouldExpandPool = true,
+                size = 40,
+                tag = smallitemList[i].itemSpawn.name,
+                #if !UNITY_EDITOR
+                    isChild = false
+                #else
+                    isChild = true            
+                #endif
+            };
+
+            _objectPooler.CreatePool(item);
+        }
+
+        for (int i = 0; i < bigItemList.Count; i++)
+        {
+            ObjectPooler.Pool item = new ObjectPooler.Pool
+            {
+                prefab = bigItemList[i].itemSpawn.gameObject,
+                shouldExpandPool = true,
+                size = 7,
+                tag = bigItemList[i].itemSpawn.name,
+                #if !UNITY_EDITOR
+                    isChild = false
+                #else
+                    isChild = true
+                #endif
+            };
+
+            _objectPooler.CreatePool(item);
+        }
+
+        for (int i = 0; i < explosions.Count; i++)
+        {
+            ObjectPooler.Pool item = new ObjectPooler.Pool
+            {
+                prefab = explosions[i].explosion.gameObject,
+                shouldExpandPool = true,
+                size = 7,
+                tag = explosions[i].explosion.name,
+                #if !UNITY_EDITOR
+                    isChild = false
+                #else
+                    isChild = true
+                #endif
+            };
+
+            _objectPooler.CreatePool(item);
+        }
+
+        for (int i = 0; i < impacts.Count; i++)
+        {
+            ObjectPooler.Pool item = new ObjectPooler.Pool
+            {
+                prefab = impacts[i].explosion.gameObject,
+                shouldExpandPool = true,
+                size = 30,
+                tag = impacts[i].explosion.name,
+                #if !UNITY_EDITOR
+                    isChild = false
+                #else
+                    isChild = true
+                #endif
+            };
+
+            _objectPooler.CreatePool(item);
         }
     }
 }

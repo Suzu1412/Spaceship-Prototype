@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7983015232411466643}
   - component: {fileID: 7983015232411466642}
   - component: {fileID: 7983015232411466645}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: BigScoreUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}

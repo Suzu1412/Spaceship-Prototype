@@ -93,7 +93,6 @@ GameObject:
   - component: {fileID: 7321851205745762315}
   - component: {fileID: 7321851205745762314}
   - component: {fileID: 3984705777629216056}
-  - component: {fileID: 2285352631214711346}
   m_Layer: 8
   m_Name: MiniBossShot
   m_TagString: PlayerShot
@@ -160,24 +159,3 @@ MonoBehaviour:
   projectileSpeed: 0
   moveDirection: {x: 0, y: 0, z: 0}
   playerWhoShot: {fileID: 0}
---- !u!50 &2285352631214711346
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7321851205745762313}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0

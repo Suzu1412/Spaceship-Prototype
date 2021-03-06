@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb49b5c65e792bc4e8e361830bfa1794, type: 3}
-  m_Name: Basic Bullet 1
+  m_Name: Basic Bullet Mini Boss
   m_EditorClassIdentifier: 
   projectile: {fileID: 7321851205745762313, guid: ac0528bd6c9c1df428a1fe7f5f674bb3, type: 3}
-  amountToPool: 50
+  amountToPool: 15
   shootRate: 0.1
   lifeTime: 2
   initialOffsetX: 0.2

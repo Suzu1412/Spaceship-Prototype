@@ -101,6 +101,7 @@ public class ObjectPooler : MonoBehaviour
         {
             if (pool.tag.Equals(tag) && pool.shouldExpandPool)
             {
+                Debug.Log("Not enough items in pool: " + pool.tag);
                 GameObject objectToSpawn = Instantiate(pool.prefab);
 
 

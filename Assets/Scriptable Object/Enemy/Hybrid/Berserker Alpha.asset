@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Berserker Alpha
   m_EditorClassIdentifier: 
   maxHealth: 500
-  damage: 35
+  damage: 25
   moveSpeed: 3
   criticalChance: 0
   dodgeChance: 0
-  collissionDamage: 70
+  collissionDamage: 50
   score: 1000
   playerLayer:
     serializedVersion: 2

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Novice Warrior
   m_EditorClassIdentifier: 
   maxHealth: 30
-  damage: 20
+  damage: 15
   moveSpeed: 3.5
   criticalChance: 0
   dodgeChance: 0

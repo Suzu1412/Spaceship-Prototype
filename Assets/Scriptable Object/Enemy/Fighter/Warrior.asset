@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65d628b9be737f04e85623e00bab6248, type: 3}
-  m_Name: Berserker
+  m_Name: Warrior
   m_EditorClassIdentifier: 
-  maxHealth: 150
-  damage: 15
-  moveSpeed: 3
+  maxHealth: 50
+  damage: 20
+  moveSpeed: 3.5
   criticalChance: 0
   dodgeChance: 0
-  collissionDamage: 30
-  score: 250
+  collissionDamage: 40
+  score: 120
   playerLayer:
     serializedVersion: 2
     m_Bits: 1
-  angle: 30
-  distance: 6
+  angle: 90
+  distance: 7
   shootChance: 0
   waitUntilShoot: 0
-  spawnItem: {fileID: 11400000, guid: 6685622cd23b0e441a0ee4d2f79465ed, type: 2}
+  spawnItem: {fileID: 11400000, guid: a0e5dbc231d47488d93821bfffcb5893, type: 2}
