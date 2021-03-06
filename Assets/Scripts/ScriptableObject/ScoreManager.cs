@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 [CreateAssetMenu(menuName = "Game Manager/Score")]
 public class ScoreManager : ScriptableObject
 {
     private int _score;
-     public Text scoreText;
+     public TextMeshProUGUI scoreText;
     
     public void SetScore(int number)
     {

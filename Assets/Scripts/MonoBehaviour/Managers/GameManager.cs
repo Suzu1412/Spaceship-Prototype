@@ -10,12 +10,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ScoreManager scorePlayer1;
     [SerializeField] private ScoreManager scorePlayer2;
     [SerializeField] private ScoreManager highScore;
-    [SerializeField] private Text textScorePlayer1;
-    [SerializeField] private Text textScorePlayer2;
-    [SerializeField] private Text textHighScore;
-    [SerializeField] private Text readyText;
-    [SerializeField] private Text victoryText;
-    [SerializeField] private Text gameOverText;
+    [SerializeField] private TextMeshProUGUI textScorePlayer1;
+    [SerializeField] private TextMeshProUGUI textScorePlayer2;
+    [SerializeField] private TextMeshProUGUI textHighScore;
+    [SerializeField] private TextMeshProUGUI readyText;
+    [SerializeField] private TextMeshProUGUI victoryText;
+    [SerializeField] private TextMeshProUGUI gameOverText;
     [SerializeField] private Text fpsCounter;
     private GameObject[] players;
     [SerializeField] private List<ItemPickUp> smallitemList;
@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         if (scorePlayer1 == null) Debug.LogError("Score player 1 Empty");
         if (scorePlayer2 == null) Debug.LogError("Score player 2 Empty");
         if (textScorePlayer1 == null) Debug.LogError("Text UI Score player 1 Empty");
-        if (textScorePlayer2 == null) Debug.LogError("Text UI Score player 2 Empty");
+        //if (textScorePlayer2 == null) Debug.LogError("Text UI Score player 2 Empty");
         if (readyText == null) Debug.LogError("Ready Text Empty");
         if (playerHealthBar == null) Debug.LogError("Player health bar not assigned");
 
@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                textScorePlayer2.gameObject.SetActive(false);
+                //textScorePlayer2.gameObject.SetActive(false);
             }
         }
         else
@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour
         }
 
         EnablePath();
-        #if !UNITY_EDITOR
+        #if UNITY_EDITOR
             _state = GameState.Start;
         #else
             _state = GameState.Playing;
@@ -397,12 +397,12 @@ public class GameManager : MonoBehaviour
         return numberOfEnemies;
     }
 
-    void FadeIn(Text text)
+    void FadeIn(TextMeshProUGUI text)
     {
         text.CrossFadeAlpha(0f, 0.2f, false);
     }
 
-    void FadeOut(Text text)
+    void FadeOut(TextMeshProUGUI text)
     {
         text.CrossFadeAlpha(1f, 0.5f, false);
     }
