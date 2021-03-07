@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI readyText;
     [SerializeField] private TextMeshProUGUI victoryText;
     [SerializeField] private TextMeshProUGUI gameOverText;
+    [SerializeField] private TextMeshProUGUI tutorialText;
     [SerializeField] private Text fpsCounter;
     private GameObject[] players;
     [SerializeField] private List<ItemPickUp> smallitemList;
@@ -54,6 +55,7 @@ public class GameManager : MonoBehaviour
         victoryText.gameObject.SetActive(false);
         readyText.gameObject.SetActive(false);
         gameOverText.gameObject.SetActive(false);
+        tutorialText.gameObject.SetActive(false);
         _objectPooler = ObjectPooler.Instance;
         SpawnPoolObjects();
 
@@ -287,11 +289,13 @@ public class GameManager : MonoBehaviour
     void DisableReadyText()
     {
         readyText.gameObject.SetActive(false);
+        tutorialText.gameObject.SetActive(false);
     }
 
     void EnableGameOverText()
     {
         gameOverText.gameObject.SetActive(true);
+        tutorialText.gameObject.SetActive(true);
         gameOverText.canvasRenderer.SetAlpha(0f);
         FadeOut(gameOverText);
     }
@@ -299,11 +303,13 @@ public class GameManager : MonoBehaviour
     void DisableGameOverText()
     {
         gameOverText.gameObject.SetActive(false);
+        tutorialText.gameObject.SetActive(false);
     }
 
     void EnableVictoryText()
     {
         victoryText.gameObject.SetActive(true);
+        tutorialText.gameObject.SetActive(true);
         victoryText.canvasRenderer.SetAlpha(0f);
         FadeOut(victoryText);
     }
