@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65d628b9be737f04e85623e00bab6248, type: 3}
   m_Name: Tank
   m_EditorClassIdentifier: 
-  maxHealth: 300
+  maxHealth: 350
   damage: 25
   moveSpeed: 2
   criticalChance: 0

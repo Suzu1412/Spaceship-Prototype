@@ -87,17 +87,17 @@ public class GameManager : MonoBehaviour
         }
 
         EnablePath();
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
             _state = GameState.Start;
 #else
-            _state = GameState.Playing;
+            _state = GameState.Start;
 #endif
         }
 
     private void Start()
     {
         UpdateState();
-        InvokeRepeating("UpdateFPSCounter", 0f, 0.1f);
+        //InvokeRepeating("UpdateFPSCounter", 0f, 0.1f);
     }
 
     // Update is called once per frame
@@ -107,7 +107,15 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            sceneManager.QuitGame();
+            if (sceneManager.isPaused && !sceneManager.isQuitting)
+            {
+                sceneManager.PauseGame();
+            }
+            else
+            {
+                sceneManager.QuitPrompt();
+            }
+            
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -119,6 +127,8 @@ public class GameManager : MonoBehaviour
         {
             sceneManager.PauseGame();
         }
+
+        UpdateFPSCounter();
     }
 
     void EnablePath()
@@ -449,7 +459,7 @@ public class GameManager : MonoBehaviour
             {
                 prefab = impacts[i].explosion.gameObject,
                 shouldExpandPool = true,
-                size = 30,
+                size = 50,
                 tag = impacts[i].explosion.name,
                 #if !UNITY_EDITOR
                     isChild = false

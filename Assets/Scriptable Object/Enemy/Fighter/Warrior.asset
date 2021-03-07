@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65d628b9be737f04e85623e00bab6248, type: 3}
   m_Name: Warrior
   m_EditorClassIdentifier: 
-  maxHealth: 50
+  maxHealth: 60
   damage: 20
   moveSpeed: 3.5
   criticalChance: 0
@@ -22,7 +22,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 1
-  angle: 90
+  angle: 60
   distance: 7
   shootChance: 0
   waitUntilShoot: 0

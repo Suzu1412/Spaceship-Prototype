@@ -32,7 +32,7 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: e49a962ecb2cad54e948515ea195961d, type: 2}
     dropChance: 1
   - item: {fileID: 11400000, guid: 8cf63fd44b0a13e42ab63a0d1c00cc15, type: 2}
-    dropChance: 0.3
+    dropChance: 0.25
   - item: {fileID: 11400000, guid: 2f2a845aee68a48219dda5a673285259, type: 2}
     dropChance: 0.5
   - item: {fileID: 11400000, guid: 2f2a845aee68a48219dda5a673285259, type: 2}
