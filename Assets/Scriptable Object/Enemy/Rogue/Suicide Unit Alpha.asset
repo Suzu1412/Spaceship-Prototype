@@ -23,7 +23,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   angle: 180
-  distance: 7.5
+  distance: 6.5
   shootChance: 0
   waitUntilShoot: 0
   spawnItem: {fileID: 11400000, guid: b0ca6a4ab4eb1ed44887473737277588, type: 2}

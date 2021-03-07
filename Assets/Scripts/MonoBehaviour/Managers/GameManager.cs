@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ExperienceManager playerExperience;
     [SerializeField] private List<Explosion> explosions;
     [SerializeField] private List<Explosion> impacts;
+    [SerializeField] private List<AudioClip> clips;
     private Transform path;
     private SceneLoaderManager sceneManager;
     private int numberOfEnemies;
@@ -37,6 +38,9 @@ public class GameManager : MonoBehaviour
     private bool gameOver;
     private bool lastWave;
     private ObjectPooler _objectPooler;
+    private AudioSource _audio;
+    private bool _audioActive;
+    private float _volume = 0.25f;
 
     private void Awake()
     {
@@ -53,6 +57,9 @@ public class GameManager : MonoBehaviour
         players = GameObject.FindGameObjectsWithTag("Player");
         sceneManager = GameObject.FindObjectOfType<SceneLoaderManager>();
         victoryText.gameObject.SetActive(false);
+        _audio = GetComponent<AudioSource>();
+        _audioActive = true;
+        SetVolume();
         readyText.gameObject.SetActive(false);
         gameOverText.gameObject.SetActive(false);
         tutorialText.gameObject.SetActive(false);
@@ -125,6 +132,30 @@ public class GameManager : MonoBehaviour
             sceneManager.RestartScene();
         }
 
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            if (_audioActive)
+            {
+                _audioActive = false;
+                _audio.volume = 0f;
+            }
+            else
+            {
+                _audioActive = true;
+                _audio.volume = 0.25f;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Minus) || Input.GetKeyDown(KeyCode.KeypadMinus))
+        {
+            ChangeVolume(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Plus) || Input.GetKeyDown(KeyCode.KeypadPlus))
+        {
+            ChangeVolume(true);
+        }
+
         if (Input.GetKeyDown(KeyCode.Return))
         {
             sceneManager.PauseGame();
@@ -188,6 +219,9 @@ public class GameManager : MonoBehaviour
             {
                 players[0].transform.position = new Vector2(0f, -7);
             }
+
+            _audio.clip = clips[Random.Range(0,  clips.Count)];
+            _audio.Play();
 
             sceneManager.StartScene();
 
@@ -476,6 +510,28 @@ public class GameManager : MonoBehaviour
 
             _objectPooler.CreatePool(item);
         }
+    }
+
+    public void SetVolume()
+    {
+        _volume = PlayerPrefs.GetFloat("Volume", 0.25f);
+        _audio.volume = _volume;
+    }
+
+    public void ChangeVolume(bool addVolume)
+    {
+        if (addVolume)
+        {
+            _volume += 5f;
+        }
+        else
+        {
+            _volume -= 5f;
+        }
+
+        _audio.volume = _volume;
+        PlayerPrefs.SetFloat("Volume", _volume);
+
     }
 }
 

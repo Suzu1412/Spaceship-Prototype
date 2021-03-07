@@ -909,8 +909,12 @@ MonoBehaviour:
         maxXPosition: 0
         spawnXPosition: 1.5
         alreadySpawned: 0
+    enemySpawned: 0
+  - timeToSpawn: 20
+    theWave:
+      enemyList:
       - enemy: {fileID: 1976497843880245780, guid: ec7ab594fd6da544884d5ad095061fc4, type: 3}
-        spawnTimeOffset: 12
+        spawnTimeOffset: 0
         wayPoint: {fileID: 0}
         randomXPosition: 0
         minXPosition: 0
@@ -7895,6 +7899,9 @@ MonoBehaviour:
   - {fileID: 7656257490786266463, guid: cf814aa26148d254395a3c906ec0fd5c, type: 3}
   impacts:
   - {fileID: 4093910898044030297, guid: a916ab5607eaf3d4db6f4c3160b9b822, type: 3}
+  clips:
+  - {fileID: 8300000, guid: 76d0bce0d997a3b488311a891b12d091, type: 3}
+  - {fileID: 8300000, guid: 3a1037464199ffd45bd4ddd19a914a78, type: 3}
 --- !u!4 &748667470
 Transform:
   m_ObjectHideFlags: 0
@@ -7919,8 +7926,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 76d0bce0d997a3b488311a891b12d091, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
   m_Volume: 0.25
   m_Pitch: 1
   Loop: 1

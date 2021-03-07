@@ -22,7 +22,6 @@ public class SceneLoaderManager : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log(Time.timeScale);
         if (blackFade != null)
         {
             blackFade.canvasRenderer.SetAlpha(0f);
