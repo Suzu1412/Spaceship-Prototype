@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemSpawn: {fileID: 5463801512127836732, guid: 5f70da8d933ad274a8f2e7856992c0bc, type: 3}
   type: 1
-  amount: 25
+  amount: 15
   offsetPositionX: 0
   offsetPositionY: 0.1

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb49b5c65e792bc4e8e361830bfa1794, type: 3}
+  m_Name: PhoenixWeapon
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 31976236136422334, guid: 512d2ec867b5f50489198e0340157db3, type: 3}
+  amountToPool: 100
+  shootRate: 0.12
+  lifeTime: 1
+  addDamage: 0
+  initialOffsetX: 0.15
+  offsetXBetweenShots: 0.3
+  initialOffsetY: 0
+  offsetYBetweenShots: 0.2
+  startAngle: 170
+  endAngle: 190
+  increaseAngle: 10

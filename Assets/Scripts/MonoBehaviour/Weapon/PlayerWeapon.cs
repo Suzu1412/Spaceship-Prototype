@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerWeapon : Weapon
 {
     private PlayerController controller;
+    private GameObject closestEnemy;
 
     protected override void Awake()
     {
@@ -43,8 +44,9 @@ public class PlayerWeapon : Weapon
     {
         
         base.SetProjectileValues(gunPosition, xPos, yPos, angle, currentWeapon);
-        currentProjectile.GetComponent<Projectile>().damage = controller.stats.damage;
+        currentProjectile.GetComponent<Projectile>().damage = controller.stats.damage + weaponList[currentWeapon].weaponType.addDamage;
         currentProjectile.GetComponent<Projectile>().playerWhoShot = controller;
+        if (closestEnemy != null) currentProjectile.GetComponent<ChaserProjectile>()?.SetEnemyPosition(closestEnemy.transform);
     }
         
 
@@ -52,7 +54,7 @@ public class PlayerWeapon : Weapon
     {
         Transform enemyPosition = null;
         float distanceToClosestEnemy = Mathf.Infinity;
-        GameObject closestEnemy = null;
+        closestEnemy = null;
         GameObject[] allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
 
         if (allEnemies.Length > 0)

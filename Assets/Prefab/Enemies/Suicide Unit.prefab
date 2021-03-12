@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f461b1acf2d09d745a643312e4aa16f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sprite: {fileID: 0}
   _stats: {fileID: 11400000, guid: 9018be4c428a68a449019be9e2a00642, type: 2}
   _currentState: {fileID: 11400000, guid: 945ab2ab981828045985e51cd3a9ef82, type: 2}
   _waypoints: {fileID: 0}

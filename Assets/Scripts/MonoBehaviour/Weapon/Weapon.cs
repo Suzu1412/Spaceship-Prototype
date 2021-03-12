@@ -107,9 +107,9 @@ public abstract class Weapon : MonoBehaviour
         float angleStep = 0f;
         float angle = 0f;
 
-        if (weaponList[i].amountToShoot >= 2)
+        if (weaponList[i].amountToShoot > 2)
         {
-            angleStep = (weaponList[i].weaponType.endAngle - weaponList[i].weaponType.startAngle) / (weaponList[i].amountToShoot);
+            angleStep = (weaponList[i].weaponType.endAngle - weaponList[i].weaponType.startAngle) / (weaponList[i].amountToShoot - 1);
 
             angle = weaponList[i].weaponType.startAngle + (angleStep * pointer);
         }
@@ -118,7 +118,7 @@ public abstract class Weapon : MonoBehaviour
             angle = 180f;
         }
 
-        SetProjectileValues(weaponList[i].gunPosition, 0f, 0f, angle  - 90, i);
+        SetProjectileValues(weaponList[i].gunPosition, 0f, 0f, angle -90, i);
     }
 
     public void SpiralBullet(int i, int pointer)

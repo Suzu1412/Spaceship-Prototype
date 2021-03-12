@@ -14,11 +14,13 @@ public class SceneLoaderManager : MonoBehaviour
     [SerializeField] private SpriteRenderer background2;
     [SerializeField] private SpriteRenderer stars1;
     [SerializeField] private SpriteRenderer stars2;
+    [SerializeField] PlayerPreferences playerPreferences;
     private bool pausedGame;
     private bool quitGame;
 
     public bool isPaused { get { return pausedGame; } }
     public bool isQuitting { get { return quitGame; } }
+    public PlayerPreferences PlayerPreferences { get { return playerPreferences; } }
 
     private void Awake()
     {
@@ -39,9 +41,15 @@ public class SceneLoaderManager : MonoBehaviour
         }
     }
 
+    public void CharacterSelection()
+    {
+        SceneManager.LoadScene("CharacterSelect");
+    }
+
     public void FirstStage()
     {
         Time.timeScale = 1f;
+        playerPreferences.SetScene(SceneManager.GetSceneByName("FirstLevel").buildIndex);
         SceneManager.LoadScene("FirstLevel");
     }
 
@@ -59,7 +67,6 @@ public class SceneLoaderManager : MonoBehaviour
             blackFade.gameObject.SetActive(true);
             blackFade.canvasRenderer.SetAlpha(1f);
             FadeOut();
-
         }
     }
 
@@ -165,5 +172,23 @@ public class SceneLoaderManager : MonoBehaviour
     {
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void NextScene()
+    {
+        if (SceneManager.sceneCount < PlayerPreferences.GetScene())
+        {
+            SceneManager.LoadScene(PlayerPreferences.GetScene());
+        }
+        else
+        {
+            MainMenu();
+        }
+        
+    }
+
+    public GameObject SpawnPlayer()
+    {
+        return Instantiate(playerPreferences.GetCharacter().gameObject, transform.position, Quaternion.identity);
     }
 }

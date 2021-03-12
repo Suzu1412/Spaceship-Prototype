@@ -12,6 +12,7 @@ public class PlayerController : CharController
     private ExperienceManager _experienceBar;
     private bool _levelUp;
     [SerializeField] private GameObject explosion;
+    [SerializeField] private CharacterDescription _description;
 
     [Header("Player Start Animation")]
     public float smoothTimeStart = 0.6F;
@@ -30,8 +31,8 @@ public class PlayerController : CharController
     private bool _canShoot = false;
 
     [Header("Movement Constraint")]
-    [SerializeField] private Transform bottomLeftCorner;
-    [SerializeField] private Transform topRightCorner;
+    private float rightCorner;
+    private float topCorner;
     [SerializeField] private float offset;
 
     public InputController Input { get { return _input; } }
@@ -40,6 +41,8 @@ public class PlayerController : CharController
     public bool victory { get { return _victory; } }
     public bool LevelUp { get { return _levelUp; } }
     public ExperienceManager ExperienceBar { get { return _experienceBar; } }
+    public CharacterDescription Description { get { return _description; } }
+    public SpriteRenderer Sprite { get { return _sprite; } }
 
     protected override void Awake()
     {
@@ -66,8 +69,8 @@ public class PlayerController : CharController
     // Start is called before the first frame update
     protected void Start()
     {
-        if (bottomLeftCorner == null) bottomLeftCorner = GameObject.Find("bottomLeftCorner").transform;
-        if (topRightCorner == null) topRightCorner = GameObject.Find("topRightCorner").transform;
+        rightCorner = 2.8f;
+        topCorner = 5f;
         if (offset == 0) offset = 0.2f;
         arrivedAtStartPosition = false;
         startMarker = new Vector3(this.transform.position.x, -1.5f, 0f);
@@ -128,17 +131,17 @@ public class PlayerController : CharController
 
     private void RestrictMovement()
     {
-        if (transform.position.x <= bottomLeftCorner.position.x + offset) 
-            transform.position = new Vector3(bottomLeftCorner.position.x + offset, transform.position.y);
+        if (transform.position.x <= -rightCorner + offset) 
+            transform.position = new Vector3(-rightCorner + offset, transform.position.y);
 
-        if (transform.position.x >= topRightCorner.position.x - offset)
-            transform.position = new Vector3(topRightCorner.position.x - offset, transform.position.y);
+        if (transform.position.x >= rightCorner - offset)
+            transform.position = new Vector3(rightCorner - offset, transform.position.y);
 
-        if (transform.position.y <= bottomLeftCorner.position.y + offset)
-            transform.position = new Vector3(transform.position.x, bottomLeftCorner.position.y + offset);
+        if (transform.position.y <= -topCorner + offset)
+            transform.position = new Vector3(transform.position.x, -topCorner + offset);
 
-        if (transform.position.y >= topRightCorner.position.y - offset)
-            transform.position = new Vector3(transform.position.x, topRightCorner.position.y - offset);
+        if (transform.position.y >= topCorner - offset)
+            transform.position = new Vector3(transform.position.x, topCorner - offset);
     }
 
     #region Implementing Ihealth
@@ -287,4 +290,31 @@ public class PlayerController : CharController
     {
         
     }
+}
+
+[System.Serializable]
+public class CharacterDescription{
+    public string name;
+    public statDescription attack;
+    public statDescription attackSpeed;
+    public statDescription movementSpeed;
+    public statDescription defense;
+    public specialDescription special;
+
+    public enum statDescription
+    {
+        Lowest,
+        Low,
+        Normal,
+        High,
+        Max
+    }
+
+    public enum specialDescription
+    {
+        None,
+        Homing,
+        Pierce
+    }
+
 }

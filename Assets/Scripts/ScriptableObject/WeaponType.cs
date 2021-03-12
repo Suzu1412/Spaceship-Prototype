@@ -9,6 +9,7 @@ public class WeaponType : ScriptableObject
     public int amountToPool = 30;
     public float shootRate = 0.2f;
     public float lifeTime = 2f;
+    public int addDamage = 0;
 
     [Header("Straight Bullet Variables")]
     public float initialOffsetX = 0.15f;

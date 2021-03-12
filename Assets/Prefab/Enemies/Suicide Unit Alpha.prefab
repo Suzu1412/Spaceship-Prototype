@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f461b1acf2d09d745a643312e4aa16f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sprite: {fileID: 0}
   _stats: {fileID: 11400000, guid: 42bd3123f74efc640b186788d68d6e9e, type: 2}
   _currentState: {fileID: 11400000, guid: 945ab2ab981828045985e51cd3a9ef82, type: 2}
   _waypoints: {fileID: 0}

@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[DefaultExecutionOrder(10)]
 public class ExperienceManager : MonoBehaviour
 {
     private PlayerController player;
@@ -33,14 +34,20 @@ public class ExperienceManager : MonoBehaviour
 
     private void Update()
     {
-        LevelUpAnimation();
-        MaxLevelAnimation();
-        SetLimitBreakBar();
+        if (player != null)
+        {
+            LevelUpAnimation();
+            MaxLevelAnimation();
+            SetLimitBreakBar();
+        }
     }
 
     private void FixedUpdate()
     {
-        player.stats.ReleaseLimitBreak();
+        if (player != null)
+        {
+            player.stats.ReleaseLimitBreak();
+        }
     }
 
     public void SetPlayer(PlayerController player)

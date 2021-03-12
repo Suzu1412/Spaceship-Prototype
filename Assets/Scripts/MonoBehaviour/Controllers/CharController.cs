@@ -11,7 +11,7 @@ public abstract class CharController : MonoBehaviour, IHealth
     protected bool _isDeath;
     protected bool _invulnerable;
     protected Rigidbody2D _rb;
-    protected SpriteRenderer _sprite;
+    [SerializeField] protected SpriteRenderer _sprite;
     protected BoxCollider2D _collider;
     protected ObjectPooler _objectPooler;
     [HideInInspector] protected ScoreManager score;

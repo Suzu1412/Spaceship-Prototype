@@ -10,20 +10,20 @@ public class Projectile : MonoBehaviour
     public float projectileSpeed;
     public Vector3 moveDirection;
     [HideInInspector] public PlayerController playerWhoShot;
-    private ObjectPooler _objectPooler;
+    protected ObjectPooler _objectPooler;
 
-    private void OnDisable()
+    protected void OnDisable()
     {
         fired = false;
     }
 
-    private void Awake()
+    protected void Awake()
     {
         _objectPooler = ObjectPooler.Instance;
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
         if (fired)
         {
@@ -32,7 +32,7 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    private void DisableProjectile()
+    protected void DisableProjectile()
     {
         projectileLifeTime -= Time.deltaTime;
         if (projectileLifeTime <= 0)
@@ -41,7 +41,7 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    private void Movement()
+    protected virtual void Movement()
     {
         transform.Translate(moveDirection * projectileSpeed * Time.deltaTime);
     }
@@ -51,7 +51,7 @@ public class Projectile : MonoBehaviour
         moveDirection = direction;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (other.GetComponent<IHealth>() != null)
         {
@@ -63,7 +63,6 @@ public class Projectile : MonoBehaviour
                 {
                     other.GetComponent<EnemyController>().SetPlayer(playerWhoShot);
                 }
-                
             }
 
             _objectPooler.SpawnFromPool("Impact", transform.position, Quaternion.identity);
@@ -72,7 +71,7 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    private void OnBecameInvisible()
+    protected void OnBecameInvisible()
     {
         this.gameObject.SetActive(false);
     }

@@ -599,6 +599,7 @@ MonoBehaviour:
   background2: {fileID: 0}
   stars1: {fileID: 0}
   stars2: {fileID: 0}
+  playerPreferences: {fileID: 0}
 --- !u!114 &1649941915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -886,6 +887,7 @@ MonoBehaviour:
   background2: {fileID: 0}
   stars1: {fileID: 0}
   stars2: {fileID: 0}
+  playerPreferences: {fileID: 0}
 --- !u!114 &1907215589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -932,7 +934,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1907215588}
         m_TargetAssemblyTypeName: SceneLoaderManager, Assembly-CSharp
-        m_MethodName: FirstStage
+        m_MethodName: CharacterSelection
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[DefaultExecutionOrder(-2)]
+[DefaultExecutionOrder(-10)]
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private ScoreManager scorePlayer1;
@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameOverText;
     [SerializeField] private TextMeshProUGUI tutorialText;
     [SerializeField] private Text fpsCounter;
-    private GameObject[] players;
+    [SerializeField] private GameObject[] players;
     [SerializeField] private List<ItemPickUp> smallitemList;
     [SerializeField] private List<ItemPickUp> bigItemList;
     [SerializeField] private HealthBarManager playerHealthBar;
@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ExperienceManager playerExperience;
     [SerializeField] private List<Explosion> explosions;
     [SerializeField] private List<Explosion> impacts;
-    [SerializeField] private List<AudioClip> clips;
+    
     private Transform path;
     private SceneLoaderManager sceneManager;
     private int numberOfEnemies;
@@ -38,9 +38,7 @@ public class GameManager : MonoBehaviour
     private bool gameOver;
     private bool lastWave;
     private ObjectPooler _objectPooler;
-    private AudioSource _audio;
-    private bool _audioActive;
-    private float _volume = 0.25f;
+    
 
     private void Awake()
     {
@@ -54,12 +52,11 @@ public class GameManager : MonoBehaviour
         if (playerHealthBar == null) Debug.LogError("Player health bar not assigned");
 
         readyText.gameObject.SetActive(false);
-        players = GameObject.FindGameObjectsWithTag("Player");
         sceneManager = GameObject.FindObjectOfType<SceneLoaderManager>();
+        sceneManager.SpawnPlayer();
+        players = GameObject.FindGameObjectsWithTag("Player");
         victoryText.gameObject.SetActive(false);
-        _audio = GetComponent<AudioSource>();
-        _audioActive = true;
-        SetVolume();
+        
         readyText.gameObject.SetActive(false);
         gameOverText.gameObject.SetActive(false);
         tutorialText.gameObject.SetActive(false);
@@ -130,35 +127,16 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             sceneManager.RestartScene();
-        }
-
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            if (_audioActive)
-            {
-                _audioActive = false;
-                _audio.volume = 0f;
-            }
-            else
-            {
-                _audioActive = true;
-                _audio.volume = 0.25f;
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Minus) || Input.GetKeyDown(KeyCode.KeypadMinus))
-        {
-            ChangeVolume(false);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Plus) || Input.GetKeyDown(KeyCode.KeypadPlus))
-        {
-            ChangeVolume(true);
-        }
+        }  
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
             sceneManager.PauseGame();
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            sceneManager.CharacterSelection();
         }
 
         UpdateFPSCounter();
@@ -220,9 +198,6 @@ public class GameManager : MonoBehaviour
                 players[0].transform.position = new Vector2(0f, -7);
             }
 
-            _audio.clip = clips[Random.Range(0,  clips.Count)];
-            _audio.Play();
-
             sceneManager.StartScene();
 
             Invoke("EnableReadyText", 0.6f);
@@ -249,12 +224,12 @@ public class GameManager : MonoBehaviour
         {
             if (players.Length >= 1)
             {
-                if (!players[0].activeSelf)
+                if (!players[0].gameObject.activeSelf)
                 {
                     _state = GameState.GameOver;
                 }
 
-                if (players[0].activeSelf)
+                if (players[0].gameObject.activeSelf)
                 {
                     if (players[0].GetComponent<PlayerController>().canShoot == false && !players[0].GetComponent<PlayerController>().isDeath)
                     {
@@ -282,7 +257,6 @@ public class GameManager : MonoBehaviour
             Invoke("EndScene", 1f);
             Invoke("EnableVictoryText", 1f);
             victory = true;
-            Invoke("StopTime", 2f);
         }
     }
 
@@ -445,7 +419,7 @@ public class GameManager : MonoBehaviour
             {
                 prefab = smallitemList[i].itemSpawn.gameObject,
                 shouldExpandPool = true,
-                size = 40,
+                size = 50,
                 tag = smallitemList[i].itemSpawn.name,
                 #if !UNITY_EDITOR
                     isChild = false
@@ -512,27 +486,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SetVolume()
-    {
-        _volume = PlayerPrefs.GetFloat("Volume", 0.25f);
-        _audio.volume = _volume;
-    }
-
-    public void ChangeVolume(bool addVolume)
-    {
-        if (addVolume)
-        {
-            _volume += 5f;
-        }
-        else
-        {
-            _volume -= 5f;
-        }
-
-        _audio.volume = _volume;
-        PlayerPrefs.SetFloat("Volume", _volume);
-
-    }
+    
 }
 
 public enum GameState

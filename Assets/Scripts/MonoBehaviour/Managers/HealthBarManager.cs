@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[DefaultExecutionOrder(10)]
 public class HealthBarManager : MonoBehaviour
 {
     private CharController character;
@@ -10,6 +12,7 @@ public class HealthBarManager : MonoBehaviour
     [SerializeField] private Image healedAmount;
     [SerializeField] private Image damagedAmount;
     [SerializeField] private Image backHealthBar;
+    [SerializeField] private TextMeshProUGUI healthAmountText;
     private bool healthBarAssigned = false;
 
     [Header("Chip")]
@@ -39,11 +42,15 @@ public class HealthBarManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (character.isHealed || character.isDamaged) { 
-            UpdateHealthBar();
-        }
+        if (character != null)
+        {
+            if (character.isHealed || character.isDamaged)
+            {
+                UpdateHealthBar();
+            }
 
-        DangerAnimation();
+            DangerAnimation();
+        }
     }
 
     public void SetCharacter(CharController character)
@@ -63,13 +70,14 @@ public class HealthBarManager : MonoBehaviour
             healthBar.fillAmount = (float)character.currentHealth / (float)character.maxHealth;
             damagedAmount.fillAmount = 0f;
             healedAmount.fillAmount = 0f;
+            healthAmountText.text = character.currentHealth.ToString();
             healthBarAssigned = true;
         }
     }
 
     void DangerAnimation()
     {
-        if (character.currentHealth <= character.maxHealth * 0.3)
+        if (character.currentHealth <= Mathf.Round(character.maxHealth * 0.33f))
         {
             if (character.currentHealth == 0)
             {
@@ -106,6 +114,7 @@ public class HealthBarManager : MonoBehaviour
 
     void UpdateHealthBar()
     {
+        healthAmountText.text = character.currentHealth.ToString();
         float fillAmount = (float)character.currentHealth / (float)character.maxHealth;
 
         if (character.isDeath)
