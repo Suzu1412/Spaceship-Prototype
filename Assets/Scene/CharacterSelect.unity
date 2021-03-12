@@ -559,6 +559,7 @@ MonoBehaviour:
   - {fileID: 3670162173120998942, guid: 628291c0305c38c4c8bfac71f45d1801, type: 3}
   - {fileID: 3013156470097962225, guid: 8ef80b5545ea8944fb10f5b9743ef715, type: 3}
   - {fileID: 4026901034862198921, guid: 7b88d9948a1089f4089f83d7628b9fd3, type: 3}
+  - {fileID: 3022246159671495006, guid: c27635ed29d0142b782106d65708d4c5, type: 3}
   playerName: {fileID: 596324410}
   attack: {fileID: 1592958334}
   attackSpeed: {fileID: 1074551718}
@@ -2296,11 +2297,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
+  m_ReferenceResolution: {x: 600, y: 800}
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -2543,7 +2544,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

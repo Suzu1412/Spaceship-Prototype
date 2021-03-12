@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb49b5c65e792bc4e8e361830bfa1794, type: 3}
+  m_Name: BasyliskWeapon
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 1013681522446197455, guid: c0534f43bba8748a5b78a7ed2498c523, type: 3}
+  amountToPool: 50
+  shootRate: 0.35
+  lifeTime: 2.5
+  addDamage: 0
+  initialOffsetX: 0.15
+  offsetXBetweenShots: 0.3
+  initialOffsetY: 0
+  offsetYBetweenShots: 0
+  startAngle: 150
+  endAngle: 210
+  increaseAngle: 10

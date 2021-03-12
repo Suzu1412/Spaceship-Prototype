@@ -227,7 +227,7 @@ MonoBehaviour:
     name: Phoenix
     attack: 0
     attackSpeed: 4
-    movementSpeed: 3
+    movementSpeed: 4
     defense: 0
     special: 1
   smoothTimeStart: 0.5

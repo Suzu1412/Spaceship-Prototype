@@ -228,7 +228,7 @@ MonoBehaviour:
     attack: 3
     attackSpeed: 0
     movementSpeed: 1
-    defense: 3
+    health: 3
     special: 2
   smoothTimeStart: 0.5
   smoothTimeEnd: 0.4

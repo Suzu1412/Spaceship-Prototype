@@ -106,7 +106,7 @@ public class CharacterSelectionManager : MonoBehaviour
         attack.text = playerList[currentCharacter].Description.attack.ToString();
         attackSpeed.text = playerList[currentCharacter].Description.attackSpeed.ToString();
         movementSpeed.text = playerList[currentCharacter].Description.movementSpeed.ToString();
-        defense.text = playerList[currentCharacter].Description.defense.ToString();
+        defense.text = playerList[currentCharacter].Description.health.ToString();
         special.text = playerList[currentCharacter].Description.special.ToString();
     }
 }

@@ -298,7 +298,7 @@ public class CharacterDescription{
     public statDescription attack;
     public statDescription attackSpeed;
     public statDescription movementSpeed;
-    public statDescription defense;
+    public statDescription health;
     public specialDescription special;
 
     public enum statDescription

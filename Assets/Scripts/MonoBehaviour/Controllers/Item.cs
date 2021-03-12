@@ -66,14 +66,14 @@ public class Item : MonoBehaviour
         }
         else
         {
-            if (!moveTowardsPlayer)
+            if (moveTowardsPlayer && player != null && !player.isDeath)
             {
-                transform.position += Vector3.down * speed * Time.deltaTime;
+                playerDirection = (player.transform.position - transform.position).normalized;
+                transform.position += new Vector3(playerDirection.x, playerDirection.y, 0f) * 7f * Time.deltaTime;
             }
             else
             {
-                playerDirection = (player.transform.position - transform.position).normalized;
-                transform.position += new Vector3(playerDirection.x, playerDirection.y, 0f) * 7f * Time.deltaTime; 
+                transform.position += Vector3.down * speed * Time.deltaTime;
             }
         }
 
