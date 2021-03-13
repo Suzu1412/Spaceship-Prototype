@@ -113,11 +113,11 @@ MonoBehaviour:
   explosion: {fileID: 6555115720632836931, guid: 257b981821060db4d87e8fc1c8a9977b, type: 3}
   _description:
     name: Pegasus
-    attack: 1
+    attack: 2
     attackSpeed: 3
     movementSpeed: 3
     health: 2
-    special: 0
+    special: 3
   smoothTimeStart: 0.5
   smoothTimeEnd: 0.4
   smoothVictory: 1.2
@@ -173,7 +173,15 @@ MonoBehaviour:
     gunPosition: {fileID: 3670162174601098063}
     pattern: 0
     increaseAngle: 0
-  - weaponType: {fileID: 11400000, guid: 1a487383f0b405d40a774522e89856b4, type: 2}
+  - weaponType: {fileID: 11400000, guid: 1a31efb0c05e1134f8b59191aafd63c1, type: 2}
+    amountToShoot: 2
+    projectileSpeed: 10
+    timeBetweenShots: 0
+    timeUntilNextShot: 0
+    gunPosition: {fileID: 3670162174601098063}
+    pattern: 0
+    increaseAngle: 0
+  - weaponType: {fileID: 11400000, guid: 1a31efb0c05e1134f8b59191aafd63c1, type: 2}
     amountToShoot: 3
     projectileSpeed: 10
     timeBetweenShots: 0
@@ -181,18 +189,10 @@ MonoBehaviour:
     gunPosition: {fileID: 3670162174601098063}
     pattern: 0
     increaseAngle: 0
-  - weaponType: {fileID: 11400000, guid: 1a487383f0b405d40a774522e89856b4, type: 2}
-    amountToShoot: 5
-    projectileSpeed: 10
-    timeBetweenShots: 0
-    timeUntilNextShot: 0
-    gunPosition: {fileID: 3670162174601098063}
-    pattern: 0
-    increaseAngle: 0
-  - weaponType: {fileID: 11400000, guid: 1a487383f0b405d40a774522e89856b4, type: 2}
-    amountToShoot: 7
+  - weaponType: {fileID: 11400000, guid: c5ee5c7809ad5ad49898a0d33eff7c66, type: 2}
+    amountToShoot: 3
     projectileSpeed: 15
-    timeBetweenShots: 0
+    timeBetweenShots: -0.05
     timeUntilNextShot: 0
     gunPosition: {fileID: 3670162174601098063}
     pattern: 0

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6312322471829764148}
   - component: {fileID: 6238684557591041439}
   m_Layer: 7
-  m_Name: PlayerShot
+  m_Name: PlayerShotV2
   m_TagString: PlayerShot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ MonoBehaviour:
   moveDirection: {x: 0, y: 0, z: 0}
   playerWhoShot: {fileID: 0}
   bounceMax: 1
-  maxBounceDistance: 5
+  maxBounceDistance: 7
   enemyPosition: {fileID: 0}
 --- !u!1 &6312322472898821865
 GameObject:

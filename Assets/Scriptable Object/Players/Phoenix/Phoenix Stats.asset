@@ -20,4 +20,5 @@ MonoBehaviour:
   levels:
   - experienceToNextLevel: 3
   - experienceToNextLevel: 8
-  - experienceToNextLevel: 30
+  - experienceToNextLevel: 20
+  - experienceToNextLevel: 50

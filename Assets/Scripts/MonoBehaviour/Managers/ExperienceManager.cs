@@ -161,6 +161,11 @@ public class ExperienceManager : MonoBehaviour
             {
                 levelUpText.text = "LIMIT BREAK!";
             }
+            else if (player.stats.MaxLevel)
+            {
+                levelUpText.text = "MAX LEVEL!";
+                currentLevelText.text = player.stats.Level.ToString();
+            }
             else
             {
                 levelUpText.text = "LEVEL UP!";

@@ -77,7 +77,8 @@ public class EnemyController : CharController
     protected override void OnEnable()
     {
         base.OnEnable();
-        _currentHealth = stats.maxHealth;
+        _maxHealth = stats.maxHealth;
+        _currentHealth = _maxHealth;
         _currentState = _initialState;
         _currentState.Enter(this);
         _manager.AddEnemyCount();

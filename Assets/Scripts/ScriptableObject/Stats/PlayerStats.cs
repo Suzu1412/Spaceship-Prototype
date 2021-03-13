@@ -22,11 +22,20 @@ public class PlayerStats : Stats
     }
     public bool LimitBreak { get { return _limitBreak; } }
 
+    public bool MaxLevel { get { return _maxLevel;  } }
+
     public int Experience
     {
         get
         {
-            return _experience;
+            if (_maxLevel)
+            {
+                return ExperienceToNextLevel;
+            }
+            else
+            {
+                return _experience;
+            }
         }
     }
 
@@ -34,15 +43,7 @@ public class PlayerStats : Stats
     {
         get
         {
-            if (_level < levels.Count)
-            {
-                return levels[_level].experienceToNextLevel;
-            }
-            else
-            {
-                return levels[_level - 1].experienceToNextLevel;
-            }
-            
+            return levels[_level].experienceToNextLevel;
         }
     }
 
@@ -54,9 +55,9 @@ public class PlayerStats : Stats
         {
             _limitBreakDuration += amount;
 
-            if (_limitBreakDuration >= levels[_level - 1].experienceToNextLevel)
+            if (_limitBreakDuration >= levels[_level].experienceToNextLevel)
             {
-                _limitBreakDuration = levels[_level - 1].experienceToNextLevel;
+                _limitBreakDuration = levels[_level].experienceToNextLevel;
 
                 if (!LimitBreak)
                 {
@@ -77,13 +78,14 @@ public class PlayerStats : Stats
             }
             else
             {
-                if (Level + 1 < levels.Count)
+                if (Level + 2 < levels.Count)
                 {
                     _experience -= levels[i].experienceToNextLevel;
                     _level++;
                 }
                 else
                 {
+                    _experience -= levels[i].experienceToNextLevel;
                     _level++;
                     _maxLevel = true;
                 }
@@ -99,7 +101,7 @@ public class PlayerStats : Stats
 
         if (LimitBreak)
         {
-            _limitBreakDuration -=  4f * Time.deltaTime;
+            _limitBreakDuration -=  5f * Time.deltaTime;
 
             if (_limitBreakDuration <= 0)
             {
@@ -109,11 +111,15 @@ public class PlayerStats : Stats
         }
     }
 
-    public void ReduceLimitBreak()
+    public void DamageLimitBreak(int amount)
     {
         if (LimitBreak)
         {
-            _limitBreakDuration -= levels[_level - 1].experienceToNextLevel / 5;
+            _limitBreakDuration -= levels[_level].experienceToNextLevel / 4;
+        }
+        else if (_maxLevel)
+        {
+            AddExperience(amount);
         }
     }
 

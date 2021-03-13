@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb49b5c65e792bc4e8e361830bfa1794, type: 3}
-  m_Name: BasyliskWeapon
+  m_Name: BasyliskWeaponV2
   m_EditorClassIdentifier: 
-  projectile: {fileID: 1013681522446197455, guid: c0534f43bba8748a5b78a7ed2498c523, type: 3}
+  projectile: {fileID: 1013681522446197455, guid: 0d16acb6716681e40af60ef75605eb52, type: 3}
   amountToPool: 75
   shootRate: 0.3
   lifeTime: 2.5

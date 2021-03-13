@@ -167,7 +167,7 @@ public class PlayerController : CharController
         if (isInvulnerable) return;
 
         _healthBar.ResetDamage();
-        stats.ReduceLimitBreak();
+        stats.DamageLimitBreak(amount);
         _damaged = true;
         
         if (_currentHealth - amount <= 0)
@@ -285,11 +285,6 @@ public class PlayerController : CharController
     {
         _levelUp = false;
     }
-
-    public void OnDestroy()
-    {
-        
-    }
 }
 
 [System.Serializable]
@@ -314,7 +309,9 @@ public class CharacterDescription{
     {
         None,
         Homing,
-        Pierce
+        Pierce,
+        Rebound,
+        Instakill
     }
 
 }

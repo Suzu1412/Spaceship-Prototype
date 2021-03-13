@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 78fd8dd6fb97af746ae74694bda3067f, type: 3}
-  m_Color: {r: 0, g: 1, b: 0.02998209, a: 0.5882353}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 1013681522446197452}
   - component: {fileID: 8123937183756013039}
   m_Layer: 7
-  m_Name: BasyliskShot
+  m_Name: BasyliskShotV2
   m_TagString: PlayerShot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -159,4 +159,4 @@ MonoBehaviour:
   projectileSpeed: 0
   moveDirection: {x: 0, y: 0, z: 0}
   playerWhoShot: {fileID: 0}
-  chanceToInstakill: 0.05
+  chanceToInstakill: 0.15

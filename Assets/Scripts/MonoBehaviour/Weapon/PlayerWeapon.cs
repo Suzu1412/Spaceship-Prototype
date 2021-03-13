@@ -70,7 +70,6 @@ public class PlayerWeapon : Weapon
                 }
             }
             enemyPosition = closestEnemy.transform;
-            //Debug.DrawLine(this.transform.position, closestPlayer.transform.position); // Show Player Detection
         }
 
         return enemyPosition;

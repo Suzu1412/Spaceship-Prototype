@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Pegasus Stats
   m_EditorClassIdentifier: 
   maxHealth: 50
-  damage: 5
+  damage: 8
   moveSpeed: 3.5
   criticalChance: 0
   dodgeChance: 0
@@ -21,3 +21,4 @@ MonoBehaviour:
   - experienceToNextLevel: 5
   - experienceToNextLevel: 10
   - experienceToNextLevel: 20
+  - experienceToNextLevel: 35

@@ -113,11 +113,11 @@ MonoBehaviour:
   explosion: {fileID: 6555115720632836931, guid: 257b981821060db4d87e8fc1c8a9977b, type: 3}
   _description:
     name: Basylisk
-    attack: 2
+    attack: 1
     attackSpeed: 2
     movementSpeed: 4
     health: 1
-    special: 0
+    special: 4
   smoothTimeStart: 0.5
   smoothTimeEnd: 0.4
   smoothVictory: 1.2
@@ -168,7 +168,7 @@ MonoBehaviour:
   - weaponType: {fileID: 11400000, guid: 5062337ad7d0b431eab4d451ac087ad2, type: 2}
     amountToShoot: 2
     projectileSpeed: 15
-    timeBetweenShots: -0.015
+    timeBetweenShots: 0
     timeUntilNextShot: 0
     gunPosition: {fileID: 3022246160608629775}
     pattern: 0
@@ -176,7 +176,7 @@ MonoBehaviour:
   - weaponType: {fileID: 11400000, guid: 5062337ad7d0b431eab4d451ac087ad2, type: 2}
     amountToShoot: 3
     projectileSpeed: 15
-    timeBetweenShots: -0.03
+    timeBetweenShots: 0
     timeUntilNextShot: 0
     gunPosition: {fileID: 3022246160608629775}
     pattern: 0
@@ -184,15 +184,15 @@ MonoBehaviour:
   - weaponType: {fileID: 11400000, guid: 5062337ad7d0b431eab4d451ac087ad2, type: 2}
     amountToShoot: 4
     projectileSpeed: 15
-    timeBetweenShots: -0.05
+    timeBetweenShots: 0
     timeUntilNextShot: 0
     gunPosition: {fileID: 3022246160608629775}
     pattern: 0
     increaseAngle: 0
-  - weaponType: {fileID: 11400000, guid: 5062337ad7d0b431eab4d451ac087ad2, type: 2}
-    amountToShoot: 4
+  - weaponType: {fileID: 11400000, guid: 4779668474424de429a42a8b5d296380, type: 2}
+    amountToShoot: 5
     projectileSpeed: 15
-    timeBetweenShots: -0.1
+    timeBetweenShots: 0
     timeUntilNextShot: 0
     gunPosition: {fileID: 3022246160608629775}
     pattern: 0

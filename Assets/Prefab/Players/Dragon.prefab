@@ -304,7 +304,7 @@ MonoBehaviour:
   - weaponType: {fileID: 11400000, guid: 69c4e6046874364418e6bf08c986bba5, type: 2}
     amountToShoot: 3
     projectileSpeed: 12
-    timeBetweenShots: -0.1
+    timeBetweenShots: -0.05
     timeUntilNextShot: 0
     gunPosition: {fileID: 4026901033665093080}
     pattern: 1

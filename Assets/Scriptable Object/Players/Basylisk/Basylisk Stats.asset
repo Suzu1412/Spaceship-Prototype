@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4992b58d70190714a9cda2ddc97ffcc8, type: 3}
   m_Name: Basylisk Stats
   m_EditorClassIdentifier: 
-  maxHealth: 45
-  damage: 8
+  maxHealth: 50
+  damage: 6
   moveSpeed: 4
   criticalChance: 0
   dodgeChance: 0
@@ -21,3 +21,4 @@ MonoBehaviour:
   - experienceToNextLevel: 5
   - experienceToNextLevel: 10
   - experienceToNextLevel: 20
+  - experienceToNextLevel: 30
