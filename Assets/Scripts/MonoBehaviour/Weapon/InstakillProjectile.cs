@@ -33,7 +33,7 @@ public class InstakillProjectile : Projectile
 
     private bool InstakillChance(CharController enemy)
     {
-        if (enemy != null && enemy.maxHealth < 200)
+        if (enemy != null && enemy.maxHealth < 150)
         {
             float randomChance = Random.Range(0f, 1f);
 
@@ -44,9 +44,9 @@ public class InstakillProjectile : Projectile
             }
         }
 
-        if (enemy != null && enemy.maxHealth >= 200)
+        if (enemy != null && enemy.maxHealth >= 150)
         {
-            if (enemy.currentHealth / enemy.maxHealth > 0.33f)
+            if ((float)enemy.currentHealth / enemy.maxHealth < 0.5f)
             {
                 float randomChance = Random.Range(0f, 1f);
 

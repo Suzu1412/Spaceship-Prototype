@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4992b58d70190714a9cda2ddc97ffcc8, type: 3}
   m_Name: Pegasus Stats
   m_EditorClassIdentifier: 
-  maxHealth: 50
-  damage: 8
+  maxHealth: 60
+  damage: 7
   moveSpeed: 3.5
   criticalChance: 0
   dodgeChance: 0
   levels:
   - experienceToNextLevel: 5
-  - experienceToNextLevel: 10
-  - experienceToNextLevel: 20
+  - experienceToNextLevel: 15
+  - experienceToNextLevel: 30
   - experienceToNextLevel: 35

@@ -31,7 +31,7 @@ public class EnemyWeapon : Weapon
             {
                 for (int j = 0; j < weaponList[i].amountToShoot; j++)
                 {
-                    currentProjectile = objectPooler.SpawnFromPool(weaponList[i].weaponType.projectile.name, new Vector3(0f, 0f, 0f), Quaternion.identity);
+                    currentProjectile = objectPooler.SpawnFromPool(weaponList[i].weaponType.projectile.name, new Vector3(0f, 0f, 0f), Quaternion.identity).GetComponent<Projectile>();
 
                     if (currentProjectile != null)
                     {

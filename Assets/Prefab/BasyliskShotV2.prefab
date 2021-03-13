@@ -159,4 +159,4 @@ MonoBehaviour:
   projectileSpeed: 0
   moveDirection: {x: 0, y: 0, z: 0}
   playerWhoShot: {fileID: 0}
-  chanceToInstakill: 0.15
+  chanceToInstakill: 0.1

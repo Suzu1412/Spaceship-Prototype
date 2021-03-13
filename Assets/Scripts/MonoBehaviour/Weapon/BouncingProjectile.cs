@@ -74,7 +74,6 @@ public class BouncingProjectile : Projectile
         if (!bounce)
         {
             bounce = true;
-            damage = (int)Mathf.Round(damage / 2);
             projectileSpeed = projectileSpeed / 2;
         }
     }
@@ -118,6 +117,14 @@ public class BouncingProjectile : Projectile
 
     private void ChaseTarget()
     {
+        Vector3 moveDirection = enemyPosition.position - transform.position;
+
+        if (moveDirection != Vector3.zero)
+        {
+            float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg - 90;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
+
         transform.position = Vector3.MoveTowards(transform.position, enemyPosition.position, projectileSpeed * Time.deltaTime);
     }
 }

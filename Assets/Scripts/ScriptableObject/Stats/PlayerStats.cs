@@ -5,6 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Stats/Player Stats")]
 public class PlayerStats : Stats
 {
+    [Header("Player Stats")]
+    [Range(5f, 10f)] public float homingRange;
+
+
+    [Header("Level Stats")]
     public List<Levels> levels = new List<Levels>();
     private int _level;
     private int _experience;

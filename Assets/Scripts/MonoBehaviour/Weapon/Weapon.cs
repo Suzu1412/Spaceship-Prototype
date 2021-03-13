@@ -5,7 +5,8 @@ using UnityEngine;
 public abstract class Weapon : MonoBehaviour
 {
     [SerializeField] protected List<WeaponList> weaponList;
-    protected GameObject currentProjectile;
+    [SerializeField] protected List<WeaponList> subWeaponList;
+    protected Projectile currentProjectile;
     protected ObjectPooler objectPooler;
     protected float timeUntilNextShoot;
     private Vector3 bulMoveVector;
@@ -39,7 +40,7 @@ public abstract class Weapon : MonoBehaviour
     {
         for (int i=0; i < weaponList.Count; i++)
         {
-            weaponList[i].increaseAngle = 0f; //weaponList[i].weaponType.increaseAngle;
+            weaponList[i].increaseAngle = 0f;
             weaponList[i].timeUntilNextShot = 0f;
         }
     }
@@ -65,7 +66,7 @@ public abstract class Weapon : MonoBehaviour
         currentProjectile.GetComponent<Projectile>().projectileLifeTime = weaponList[currentWeapon].weaponType.lifeTime;
         currentProjectile.GetComponent<Projectile>().projectileSpeed = weaponList[currentWeapon].projectileSpeed;
         currentProjectile.GetComponent<Projectile>().SetMoveDirection(bulletDirection);
-        currentProjectile.SetActive(true);
+        currentProjectile.gameObject.SetActive(true);
     }
 
     #region ShootPattern
@@ -204,7 +205,9 @@ public class WeaponList
 {
     public WeaponType weaponType;
     public int amountToShoot = 1;
-    public float projectileSpeed = 80;
+    public int addDamage;
+    public int addResistance;
+    public float projectileSpeed = 5;
     public float timeBetweenShots;
     [HideInInspector] public float timeUntilNextShot;
     public Transform gunPosition;

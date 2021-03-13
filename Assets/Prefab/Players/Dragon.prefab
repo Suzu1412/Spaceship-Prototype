@@ -230,6 +230,7 @@ MonoBehaviour:
     movementSpeed: 1
     health: 3
     special: 2
+  effectList: []
   smoothTimeStart: 0.5
   smoothTimeEnd: 0.4
   smoothVictory: 1.2
@@ -271,6 +272,8 @@ MonoBehaviour:
   weaponList:
   - weaponType: {fileID: 11400000, guid: 6673bda5815d3b944809f38b37d45557, type: 2}
     amountToShoot: 1
+    addDamage: 0
+    addResistance: 0
     projectileSpeed: 8
     timeBetweenShots: 0
     timeUntilNextShot: 0
@@ -279,6 +282,8 @@ MonoBehaviour:
     increaseAngle: 0
   - weaponType: {fileID: 11400000, guid: 6673bda5815d3b944809f38b37d45557, type: 2}
     amountToShoot: 3
+    addDamage: 0
+    addResistance: 0
     projectileSpeed: 8
     timeBetweenShots: 0
     timeUntilNextShot: 0
@@ -287,6 +292,8 @@ MonoBehaviour:
     increaseAngle: 0
   - weaponType: {fileID: 11400000, guid: 69c4e6046874364418e6bf08c986bba5, type: 2}
     amountToShoot: 1
+    addDamage: 10
+    addResistance: 1
     projectileSpeed: 8
     timeBetweenShots: 0
     timeUntilNextShot: 0
@@ -295,6 +302,8 @@ MonoBehaviour:
     increaseAngle: 0
   - weaponType: {fileID: 11400000, guid: 69c4e6046874364418e6bf08c986bba5, type: 2}
     amountToShoot: 3
+    addDamage: 10
+    addResistance: 1
     projectileSpeed: 8
     timeBetweenShots: 0
     timeUntilNextShot: 0
@@ -303,12 +312,15 @@ MonoBehaviour:
     increaseAngle: 0
   - weaponType: {fileID: 11400000, guid: 69c4e6046874364418e6bf08c986bba5, type: 2}
     amountToShoot: 3
+    addDamage: 10
+    addResistance: 1
     projectileSpeed: 12
     timeBetweenShots: -0.05
     timeUntilNextShot: 0
     gunPosition: {fileID: 4026901033665093080}
     pattern: 1
     increaseAngle: 0
+  subWeaponList: []
 --- !u!61 &364057279775658025
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -102,12 +102,15 @@ MonoBehaviour:
   weaponList:
   - weaponType: {fileID: 11400000, guid: ac25e4df629eede418c388cb3f7359cc, type: 2}
     amountToShoot: 1
+    addDamage: 0
+    addResistance: 0
     projectileSpeed: 8
     timeBetweenShots: 0.5
     timeUntilNextShot: 0
     gunPosition: {fileID: 4835599195163399791}
     pattern: 0
     increaseAngle: 0
+  subWeaponList: []
 --- !u!61 &4835599196174622256
 BoxCollider2D:
   m_ObjectHideFlags: 0

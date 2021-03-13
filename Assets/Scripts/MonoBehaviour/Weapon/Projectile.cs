@@ -4,17 +4,35 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public bool fired;
-    public float projectileLifeTime;
-    public int damage;
-    public float projectileSpeed;
-    public Vector3 moveDirection;
+    [HideInInspector] public bool fired;
+    [HideInInspector] public float projectileLifeTime;
+    [HideInInspector] public int damage;
+    [HideInInspector] public float projectileSpeed;
+    [HideInInspector] public Vector3 moveDirection;
     [HideInInspector] public PlayerController playerWhoShot;
+    [HideInInspector] public int maxResistance = 0;
+    [HideInInspector] public float homingRange;
+    private int _currentResistance;
     protected ObjectPooler _objectPooler;
+    public List<SpecialEffectSO> effectList;
 
     protected void OnDisable()
     {
         fired = false;
+    }
+
+    private void OnEnable()
+    {
+        _currentResistance = maxResistance;
+    }
+
+    public void ActivateEffect()
+    {
+        if (effectList.Count == 0) return;
+        for (int i=0; i < effectList.Count; i++)
+        {
+            effectList[i].Initialize(this);
+        }
     }
 
     protected void Awake()
@@ -43,12 +61,17 @@ public class Projectile : MonoBehaviour
 
     protected virtual void Movement()
     {
-        transform.Translate(moveDirection * projectileSpeed * Time.deltaTime);
+        transform.Translate(Vector3.up * projectileSpeed * Time.deltaTime);
     }
 
     public void SetMoveDirection(Vector3 direction)
     {
         moveDirection = direction;
+        if (moveDirection != Vector3.zero)
+        {
+            float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg - 90;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
@@ -66,13 +89,28 @@ public class Projectile : MonoBehaviour
             }
 
             _objectPooler.SpawnFromPool("Impact", transform.position, Quaternion.identity);
-            
-            this.gameObject.SetActive(false);
+
+            ReduceResistance();
         }
     }
 
     protected void OnBecameInvisible()
     {
         this.gameObject.SetActive(false);
+    }
+
+    public void AddResistance(int amount)
+    {
+        _currentResistance += amount;
+    }
+
+    private void ReduceResistance()
+    {
+        _currentResistance--;
+
+        if (_currentResistance < 0)
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Tank
   m_EditorClassIdentifier: 
   maxHealth: 350
-  damage: 25
+  damage: 20
   moveSpeed: 2
   criticalChance: 0
   dodgeChance: 0

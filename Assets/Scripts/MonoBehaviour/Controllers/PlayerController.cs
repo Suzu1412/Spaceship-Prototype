@@ -13,6 +13,7 @@ public class PlayerController : CharController
     private bool _levelUp;
     [SerializeField] private GameObject explosion;
     [SerializeField] private CharacterDescription _description;
+    public List<SpecialEffectSO> effectList;
 
     [Header("Player Start Animation")]
     public float smoothTimeStart = 0.6F;
@@ -118,8 +119,6 @@ public class PlayerController : CharController
             {
                 rb.velocity = Vector2.zero;
             }
-            
-
         }
     }
 
@@ -290,13 +289,13 @@ public class PlayerController : CharController
 [System.Serializable]
 public class CharacterDescription{
     public string name;
-    public statDescription attack;
-    public statDescription attackSpeed;
-    public statDescription movementSpeed;
-    public statDescription health;
-    public specialDescription special;
+    public StatDescription attack;
+    public StatDescription attackSpeed;
+    public StatDescription movementSpeed;
+    public StatDescription health;
+    public SpecialDescription special;
 
-    public enum statDescription
+    public enum StatDescription
     {
         Lowest,
         Low,
@@ -305,13 +304,23 @@ public class CharacterDescription{
         Max
     }
 
-    public enum specialDescription
+    public enum SpecialDescription
     {
         None,
         Homing,
+        Charge,
         Pierce,
-        Rebound,
-        Instakill
+        Bounce,
+        Instakill,
+        Lifesteal,
+        Boomerang,
+        Freeze,
+        Burn,
+        Cut,
+        Spread,
+        Dark,
+        Explode,
+        Drone
     }
 
 }

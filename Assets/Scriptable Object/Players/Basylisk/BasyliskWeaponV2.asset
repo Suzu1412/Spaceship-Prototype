@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 1013681522446197455, guid: 0d16acb6716681e40af60ef75605eb52, type: 3}
   amountToPool: 75
-  shootRate: 0.3
+  shootRate: 0.25
   lifeTime: 2.5
   addDamage: 0
   initialOffsetX: 0.15

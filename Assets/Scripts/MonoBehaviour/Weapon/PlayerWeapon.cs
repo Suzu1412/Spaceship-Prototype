@@ -30,7 +30,7 @@ public class PlayerWeapon : Weapon
 
             for (int i = 0; i < weaponList[controller.stats.Level].amountToShoot; i++)
             {
-                currentProjectile = objectPooler.SpawnFromPool(weaponList[controller.stats.Level].weaponType.projectile.name, new Vector3(0f, 0f, 0f), Quaternion.identity);
+                currentProjectile = objectPooler.SpawnFromPool(weaponList[controller.stats.Level].weaponType.projectile.name, new Vector3(0f, 0f, 0f), Quaternion.identity).GetComponent<Projectile>();
 
                 if (currentProjectile != null)
                 {
@@ -44,8 +44,11 @@ public class PlayerWeapon : Weapon
     {
         
         base.SetProjectileValues(gunPosition, xPos, yPos, angle, currentWeapon);
-        currentProjectile.GetComponent<Projectile>().damage = controller.stats.damage + weaponList[currentWeapon].weaponType.addDamage;
+        currentProjectile.GetComponent<Projectile>().damage = controller.stats.damage + weaponList[currentWeapon].addDamage;
+        currentProjectile.GetComponent<Projectile>().AddResistance(weaponList[currentWeapon].addResistance);
         currentProjectile.GetComponent<Projectile>().playerWhoShot = controller;
+        currentProjectile.GetComponent<Projectile>().effectList = controller.effectList;
+        currentProjectile.GetComponent<Projectile>().ActivateEffect();
         if (closestEnemy != null) currentProjectile.GetComponent<ChaserProjectile>()?.SetEnemyPosition(closestEnemy.transform);
     }
         

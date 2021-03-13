@@ -10,5 +10,5 @@ public abstract class Stats : ScriptableObject
     public float moveSpeed;
     [Header("Probability")]
     [Range(0f, 1f)] public float criticalChance;
-    [Range(0f, 1f)] public float dodgeChance; 
+    [Range(0f, 1f)] public float dodgeChance;
 }

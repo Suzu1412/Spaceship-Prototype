@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6312322471829764148}
   - component: {fileID: 6238684557591041439}
   m_Layer: 7
-  m_Name: PlayerShotV2
+  m_Name: PegasusShot
   m_TagString: PlayerShot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
