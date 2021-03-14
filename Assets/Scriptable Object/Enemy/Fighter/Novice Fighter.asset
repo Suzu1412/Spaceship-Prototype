@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Novice Fighter
   m_EditorClassIdentifier: 
   maxHealth: 15
-  damage: 10
+  damage: 15
   moveSpeed: 3
   criticalChance: 0
   dodgeChance: 0

@@ -473,7 +473,7 @@ public class GameManager : MonoBehaviour
             {
                 prefab = impacts[i].explosion.gameObject,
                 shouldExpandPool = true,
-                size = 50,
+                size = 60,
                 tag = impacts[i].explosion.name,
                 #if !UNITY_EDITOR
                     isChild = false

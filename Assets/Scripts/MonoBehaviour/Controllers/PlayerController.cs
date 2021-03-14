@@ -93,6 +93,7 @@ public class PlayerController : CharController
         float fillAmount = (float)currentHealth / (float)stats.maxHealth;
         _isDeath = false;
         _invulnerable = false;
+        DisableShield();
     }
 
     // Update is called once per frame
@@ -334,7 +335,10 @@ public class PlayerController : CharController
     public void ActivateShield(int amount)
     {
         _shieldActive = true;
-        _shieldResistance = amount;
+        if (_shieldResistance < amount)
+        {
+            _shieldResistance = amount;
+        }
         _shield.gameObject.SetActive(true);
     }
 
@@ -361,21 +365,24 @@ public class PlayerController : CharController
         buff.Initialize(this);
         buffList.Add(buff);
 
-        yield return new WaitForSeconds(buff.duration);
-        buffList.Remove(buff);
-        for(int i=0; i < buffList.Count; i++)
+        if (!buff.permanent)
         {
-            if (buffList[i] == buff)
+            yield return new WaitForSeconds(buff.duration);
+            buffList.Remove(buff);
+            for (int i = 0; i < buffList.Count; i++)
             {
-                isAdded = true;
-                break;
+                if (buffList[i] == buff)
+                {
+                    isAdded = true;
+                    break;
+                }
+            }
+
+            if (!isAdded)
+            {
+                buff.RemoveBuff(this);
             }
         }
-
-        if (!isAdded)
-        {
-            buff.RemoveBuff(this);
-        }        
     }
 }
 

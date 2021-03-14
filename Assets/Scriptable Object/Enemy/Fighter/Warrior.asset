@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Warrior
   m_EditorClassIdentifier: 
   maxHealth: 60
-  damage: 15
+  damage: 20
   moveSpeed: 3.5
   criticalChance: 0
   dodgeChance: 0
@@ -26,4 +26,4 @@ MonoBehaviour:
   distance: 7
   shootChance: 0
   waitUntilShoot: 0
-  spawnItem: {fileID: 11400000, guid: a0e5dbc231d47488d93821bfffcb5893, type: 2}
+  spawnItem: {fileID: 11400000, guid: 042a0e11d79d02b4aac9ffbb9936e07a, type: 2}
