@@ -29,6 +29,10 @@ public class Item : MonoBehaviour
                 player.Heal(item.amount);
                 break;
 
+            case ItemType.Buff:
+                player.StartCoroutine(player.BuffDuration(item.buff));
+                break;
+
             case ItemType.Score:
                 player.AddScore(item.amount);
                 break;

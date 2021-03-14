@@ -48,9 +48,9 @@ public class PlayerWeapon : Weapon
         currentProjectile.AddResistance(weaponList[currentWeapon].addResistance);
         currentProjectile.playerWhoShot = controller;
         currentProjectile.effectList = controller.effectList;
-        currentProjectile.homingRange = controller.stats.homingRange;
-        currentProjectile.chanceToInstakill = controller.stats.chanceToInstakill;
-        currentProjectile.ActivateEffect();
+        currentProjectile.bouncingRange = controller.stats.BouncingRange;
+        currentProjectile.chanceToInstakill = controller.stats.InstakillChance;
+        currentProjectile.InitializeEffect();
     }
         
 

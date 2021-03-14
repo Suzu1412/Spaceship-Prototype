@@ -10,17 +10,26 @@ public class Projectile : MonoBehaviour
     [HideInInspector] public float projectileSpeed;
     [HideInInspector] public Vector3 moveDirection;
     [HideInInspector] public PlayerController playerWhoShot;
-    [HideInInspector] public int maxResistance = 0;
-    [HideInInspector] public float homingRange;
+    [HideInInspector] public float bouncingRange;
     [HideInInspector] public float chanceToInstakill;
-    public bool chaseTarget;
-    public bool bounceTarget;
-    protected ObjectPooler _objectPooler;
-    public List<SpecialEffectSO> effectList;
-    public GameObject closestEnemy;
-    public GameObject currentEnemy;
+    [HideInInspector] public bool chaseTarget;
+    [HideInInspector] public bool bounceTarget;
+    [HideInInspector] public List<SpecialEffectSO> effectList;
+    [HideInInspector] public GameObject closestEnemy;
+    [HideInInspector] public GameObject currentEnemy;
+    [HideInInspector] public int maxResistance = 0;
     private int _currentResistance;
+    private ObjectPooler _objectPooler;
 
+    void Awake()
+    {
+        _objectPooler = ObjectPooler.Instance;
+    }
+
+    private void OnEnable()
+    {
+        _currentResistance = maxResistance;
+    }
 
     protected void OnDisable()
     {
@@ -30,27 +39,8 @@ public class Projectile : MonoBehaviour
         currentEnemy = null;
     }
 
-    private void OnEnable()
-    {
-        _currentResistance = maxResistance;
-    }
-
-    public void ActivateEffect()
-    {
-        if (effectList.Count == 0) return;
-        for (int i=0; i < effectList.Count; i++)
-        {
-            effectList[i].Initialize(this);
-        }
-    }
-
-    protected void Awake()
-    {
-        _objectPooler = ObjectPooler.Instance;
-    }
-
     // Update is called once per frame
-    protected void Update()
+    void Update()
     {
         if (fired)
         {
@@ -59,7 +49,7 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    protected void DisableProjectile()
+    void DisableProjectile()
     {
         projectileLifeTime -= Time.deltaTime;
         if (projectileLifeTime <= 0)
@@ -68,13 +58,13 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    protected virtual void Movement()
+    void Movement()
     {
         if (chaseTarget && closestEnemy != null && closestEnemy.activeInHierarchy)
         {
             ChaseTarget();
         }
-        else if (bounceTarget && closestEnemy != null && !closestEnemy.activeInHierarchy)
+        else if (bounceTarget && closestEnemy != null && !closestEnemy.activeInHierarchy) //If projectile bounced and has no valid target then disable
         {
                 gameObject.SetActive(false);
         }
@@ -94,47 +84,28 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    protected virtual void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
         if (other.GetComponent<IHealth>() != null)
         {
-            if (effectList.Count != 0)
-            {
-                for (int i = 0; i < effectList.Count; i++)
-                {
-                    effectList[i].BeforeHit(this, other.GetComponent<EnemyController>());
-                }
-            }
-
+            BeforeHitEffect(other);
             other.GetComponent<IHealth>().Damage(damage);
 
-            if (playerWhoShot != null) //Only the Player can Set on Projectile
-            {
-                if (other.GetComponent<EnemyController>() != null)
-                {
-                    other.GetComponent<EnemyController>().SetPlayer(playerWhoShot);
-                }
-            }
+            //Only the Player can Set on Projectile
+            if (playerWhoShot != null) other.GetComponent<EnemyController>().SetPlayer(playerWhoShot);
 
             _objectPooler.SpawnFromPool("Impact", transform.position, Quaternion.identity);
-
-            if (effectList.Count != 0)
-            {
-                for (int i = 0; i < effectList.Count; i++)
-                {
-                    effectList[i].AfterHit(this, other.GetComponent<EnemyController>());
-                }
-            }
-
+            AfterHitEffect(other);
             ReduceResistance();
         }
     }
 
-    protected void OnBecameInvisible()
+    void OnBecameInvisible()
     {
         this.gameObject.SetActive(false);
     }
 
+    #region Resistance
     public void AddResistance(int amount)
     {
         _currentResistance += amount;
@@ -149,7 +120,9 @@ public class Projectile : MonoBehaviour
             this.gameObject.SetActive(false);
         }
     }
+    #endregion
 
+    #region Move Towards enemy
     public GameObject PointTowardsClosestEnemy()
     {
         GameObject enemyPosition = null;
@@ -199,4 +172,38 @@ public class Projectile : MonoBehaviour
 
         transform.position = Vector3.MoveTowards(transform.position, closestEnemy.transform.position, projectileSpeed * Time.deltaTime);
     }
+    #endregion
+
+    #region Special Effect
+    public void InitializeEffect()
+    {
+        if (effectList.Count == 0) return;
+        for (int i = 0; i < effectList.Count; i++)
+        {
+            effectList[i].Initialize(this);
+        }
+    }
+
+    void BeforeHitEffect(Collider2D other)
+    {
+        if (effectList.Count != 0)
+        {
+            for (int i = 0; i < effectList.Count; i++)
+            {
+                effectList[i].BeforeHit(this, other.GetComponent<EnemyController>());
+            }
+        }
+    }
+
+    void AfterHitEffect(Collider2D other)
+    {
+        if (effectList.Count != 0)
+        {
+            for (int i = 0; i < effectList.Count; i++)
+            {
+                effectList[i].AfterHit(this, other.GetComponent<EnemyController>());
+            }
+        }
+    }
+    #endregion
 }

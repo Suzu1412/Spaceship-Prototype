@@ -6,10 +6,17 @@ using UnityEngine;
 public class PlayerStats : Stats
 {
     [Header("Player Stats")]
-    [Range(5f, 15f)] public float homingRange;
-    [Range(0.01f, 0.1f)] public float chanceToInstakill;
+    [Range(5f, 10f)] [SerializeField] [Tooltip("Used when bullet bounce between targets")] float _bounceRange = 7f;
+    [Range(0.01f, 0.05f)] [SerializeField] float _instakillChance = 0.03f;
 
+    public float BouncingRange { get { if (LimitBreak) { return _bounceRange + _addBouncingRange; } else { return _bounceRange; } } }
+    public float InstakillChance { get { if (LimitBreak) { return _instakillChance + _addInstakillChance; } else { return _instakillChance; } } }
 
+    [Header("Limit break Stats")]
+    [Range(0f, 5f)] [SerializeField] private float _addBouncingRange;
+    [Range(0f, 0.05f)] [SerializeField] private float _addInstakillChance;
+
+    #region Level variables and Getters
     [Header("Level Stats")]
     public List<Levels> levels = new List<Levels>();
     private int _level;
@@ -17,6 +24,11 @@ public class PlayerStats : Stats
     private bool _maxLevel;
     private bool _limitBreak;
     private float _limitBreakDuration;
+    public bool LimitBreak { get { return _limitBreak; } }
+    public bool MaxLevel { get { return _maxLevel; } }
+    public int ExperienceToNextLevel { get { return levels[_level].experienceToNextLevel; } }
+    public float LimitBreakDuration { get { return _limitBreakDuration; } }
+
     public int Level {
         get {
             if (LimitBreak)
@@ -26,9 +38,6 @@ public class PlayerStats : Stats
             return _level;
         }
     }
-    public bool LimitBreak { get { return _limitBreak; } }
-
-    public bool MaxLevel { get { return _maxLevel;  } }
 
     public int Experience
     {
@@ -44,36 +53,18 @@ public class PlayerStats : Stats
             }
         }
     }
+    #endregion
 
-    public int ExperienceToNextLevel
-    {
-        get
-        {
-            return levels[_level].experienceToNextLevel;
-        }
-    }
-
-    public float LimitBreakDuration { get { return _limitBreakDuration; } }
-
+    #region Add Experience
     public int AddExperience(int amount)
     {
-        if (_maxLevel)
-        {
-            _limitBreakDuration += amount;
+        if (_maxLevel) return MaxLevelExperience(amount);
 
-            if (_limitBreakDuration >= levels[_level].experienceToNextLevel)
-            {
-                _limitBreakDuration = levels[_level].experienceToNextLevel;
+        return LevelExperience(amount);
+    }
 
-                if (!LimitBreak)
-                {
-                    _limitBreak = true;
-                }
-            }
-
-            return Level;
-        }
-
+    private int LevelExperience(int amount)
+    {
         _experience += amount;
 
         for (int i = _level; i < levels.Count; i++)
@@ -101,6 +92,25 @@ public class PlayerStats : Stats
         return Level;
     }
 
+    private int MaxLevelExperience(int amount)
+    {
+        _limitBreakDuration += amount;
+
+        if (_limitBreakDuration >= levels[_level].experienceToNextLevel)
+        {
+            _limitBreakDuration = levels[_level].experienceToNextLevel;
+
+            if (!LimitBreak)
+            {
+                _limitBreak = true;
+            }
+        }
+
+        return Level;
+    }
+    #endregion
+
+    #region Limit Break
     public void ReleaseLimitBreak()
     {
         if (!LimitBreak) return;
@@ -121,7 +131,9 @@ public class PlayerStats : Stats
     {
         _limitBreakDuration -= levels[_level].experienceToNextLevel / 4;
     }
+    #endregion
 
+    #region Reset values
     private void OnEnable()
     {
         ResetValues();
@@ -135,6 +147,7 @@ public class PlayerStats : Stats
         _maxLevel = false;
         _limitBreak = false;
     }
+    #endregion
 }
 
 [System.Serializable]

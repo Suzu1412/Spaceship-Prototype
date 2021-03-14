@@ -23,7 +23,7 @@ public class BounceToNewTargetEffect : SpecialEffectSO
             return;
         }
 
-        if (Vector3.Distance(enemyPosition.transform.position, projectile.transform.position) > projectile.homingRange)
+        if (Vector3.Distance(enemyPosition.transform.position, projectile.transform.position) > projectile.bouncingRange)
         {
             projectile.gameObject.SetActive(false);
         }

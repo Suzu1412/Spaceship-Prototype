@@ -16,6 +16,7 @@ public class ItemPickUp : ScriptableObject
 {
     public Item itemSpawn;
     public ItemType type;
+    [Tooltip("If Itemtype is buff, assign this")] public TemporaryBuff buff;
     public int amount;
 
     [Range(0, 0.5f)] public float offsetPositionX = 0;

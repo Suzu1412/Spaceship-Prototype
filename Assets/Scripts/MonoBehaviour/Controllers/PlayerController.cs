@@ -11,9 +11,11 @@ public class PlayerController : CharController
     private bool _victory;
     private ExperienceManager _experienceBar;
     private bool _levelUp;
+    [SerializeField] private SpriteRenderer _shield;
     [SerializeField] private GameObject explosion;
     [SerializeField] private CharacterDescription _description;
     public List<SpecialEffectSO> effectList;
+    public List<TemporaryBuff> buffList;
 
     [Header("Player Start Animation")]
     public float smoothTimeStart = 0.6F;
@@ -36,6 +38,10 @@ public class PlayerController : CharController
     private float topCorner;
     [SerializeField] private float offset;
 
+    [Header("Shield")]
+    private float _shieldResistance;
+    private bool _shieldActive = false;
+
     public InputController Input { get { return _input; } }
     public bool canShoot { get { return _canShoot; } }
     public PlayerStats stats { get { return _stats; } }
@@ -55,6 +61,7 @@ public class PlayerController : CharController
         if (_stats == null) Debug.Log(this.gameObject.name + " missing Stats");
         _stats.ResetValues();
         _victory = false;
+        _shield.gameObject.SetActive(false);
     }
 
     public void Shoot()
@@ -124,7 +131,7 @@ public class PlayerController : CharController
 
     private void Move()
     {
-        Vector2 movement = new Vector2(Input.horizontal * stats.moveSpeed, Input.vertical * stats.moveSpeed);
+        Vector2 movement = new Vector2(Input.Horizontal * stats.moveSpeed, Input.Vertical * stats.moveSpeed);
         _rb.velocity = movement;
     }
 
@@ -164,6 +171,17 @@ public class PlayerController : CharController
     {
         if (isDeath) return;
         if (isInvulnerable) return;
+        if (_shieldActive)
+        {
+            _shieldResistance -= 1;
+
+            if (_shieldResistance <= 0)
+            {
+                DisableShield();
+            }
+
+            return;
+        }
 
         _healthBar.ResetDamage();
         MaxLevelExperience(amount);
@@ -200,7 +218,7 @@ public class PlayerController : CharController
 
     public bool IsShooting()
     {
-        return Input.isShooting;
+        return Input.IsShooting;
     }
 
     /// <summary>
@@ -311,6 +329,53 @@ public class PlayerController : CharController
     public void EndLevelUp()
     {
         _levelUp = false;
+    }
+
+    public void ActivateShield(int amount)
+    {
+        _shieldActive = true;
+        _shieldResistance = amount;
+        _shield.gameObject.SetActive(true);
+    }
+
+    public void DisableShield()
+    {
+        _shieldActive = false;
+        _shieldResistance = 0;
+        _shield.gameObject.SetActive(false);
+    }
+
+    public void AddBuff(TemporaryBuff buff)
+    {
+        buffList.Add(buff);
+    }
+
+    public void RemoveBuff(TemporaryBuff buff)
+    {
+        buffList.Remove(buff);
+    }
+
+    public IEnumerator BuffDuration(TemporaryBuff buff)
+    {
+        bool isAdded = false;
+        buff.Initialize(this);
+        buffList.Add(buff);
+
+        yield return new WaitForSeconds(buff.duration);
+        buffList.Remove(buff);
+        for(int i=0; i < buffList.Count; i++)
+        {
+            if (buffList[i] == buff)
+            {
+                isAdded = true;
+                break;
+            }
+        }
+
+        if (!isAdded)
+        {
+            buff.RemoveBuff(this);
+        }        
     }
 }
 
