@@ -44,12 +44,13 @@ public class PlayerWeapon : Weapon
     {
         
         base.SetProjectileValues(gunPosition, xPos, yPos, angle, currentWeapon);
-        currentProjectile.GetComponent<Projectile>().damage = controller.stats.damage + weaponList[currentWeapon].addDamage;
-        currentProjectile.GetComponent<Projectile>().AddResistance(weaponList[currentWeapon].addResistance);
-        currentProjectile.GetComponent<Projectile>().playerWhoShot = controller;
-        currentProjectile.GetComponent<Projectile>().effectList = controller.effectList;
-        currentProjectile.GetComponent<Projectile>().ActivateEffect();
-        if (closestEnemy != null) currentProjectile.GetComponent<ChaserProjectile>()?.SetEnemyPosition(closestEnemy.transform);
+        currentProjectile.damage = controller.stats.damage + weaponList[currentWeapon].addDamage;
+        currentProjectile.AddResistance(weaponList[currentWeapon].addResistance);
+        currentProjectile.playerWhoShot = controller;
+        currentProjectile.effectList = controller.effectList;
+        currentProjectile.homingRange = controller.stats.homingRange;
+        currentProjectile.chanceToInstakill = controller.stats.chanceToInstakill;
+        currentProjectile.ActivateEffect();
     }
         
 

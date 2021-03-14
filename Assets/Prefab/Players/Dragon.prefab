@@ -229,8 +229,9 @@ MonoBehaviour:
     attackSpeed: 0
     movementSpeed: 1
     health: 3
-    special: 2
-  effectList: []
+    special: 3
+  effectList:
+  - {fileID: 11400000, guid: e604901de7ef04639aa37c5342ea62f0, type: 2}
   smoothTimeStart: 0.5
   smoothTimeEnd: 0.4
   smoothVictory: 1.2

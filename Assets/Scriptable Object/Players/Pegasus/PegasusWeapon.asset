@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: PegasusWeapon
   m_EditorClassIdentifier: 
   projectile: {fileID: 6312322471829764151, guid: 55c10aebc9524914788636aad8a9fdd5, type: 3}
-  amountToPool: 20
+  amountToPool: 60
   shootRate: 0.2
   lifeTime: 1.2
-  addDamage: 0
   initialOffsetX: 0.15
   offsetXBetweenShots: 0.4
   initialOffsetY: 0

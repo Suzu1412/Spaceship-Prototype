@@ -80,6 +80,12 @@ public class ExperienceManager : MonoBehaviour
         expBar.fillAmount = (float) player.stats.Experience / player.stats.ExperienceToNextLevel;
     }
 
+    /// <summary>
+    /// Reaching Limit break displays a flashing animation on the player Bar and flash the Level counter on the left of the bar.
+    /// Else reset the values of colors of both bar and Level counter to the original
+    /// To increase the duration of the Lerp, divide it by a higher number, like this:
+    /// float percentComplete = lerpTimer / 2;
+    /// </summary>
     void MaxLevelAnimation()
     {
         if (player.stats.LimitBreak)
@@ -138,6 +144,10 @@ public class ExperienceManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Displays a Text that says 'LEVEL UP!' and flash until it disappear. Change duration changing the Wait for seconds. 
+    /// </summary>
+    /// <returns></returns>
     IEnumerator LevelUpText()
     {
         levelUpText.gameObject.SetActive(true);

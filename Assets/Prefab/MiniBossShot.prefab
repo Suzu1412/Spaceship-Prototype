@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7321851204680836823}
-  m_LocalRotation: {x: 0, y: -0, z: 0.7071068, w: -0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7321851205745762315}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 270}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!212 &7321851204680836818
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -159,3 +159,11 @@ MonoBehaviour:
   projectileSpeed: 0
   moveDirection: {x: 0, y: 0, z: 0}
   playerWhoShot: {fileID: 0}
+  maxResistance: 0
+  homingRange: 0
+  chanceToInstakill: 0
+  chaseTarget: 0
+  bounceTarget: 0
+  effectList: []
+  closestEnemy: {fileID: 0}
+  currentEnemy: {fileID: 0}

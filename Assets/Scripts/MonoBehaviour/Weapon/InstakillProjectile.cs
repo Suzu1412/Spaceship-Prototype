@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class InstakillProjectile : Projectile
 {
-    [Range(0f, 1f)]public float chanceToInstakill = 0f;
-
     protected override void OnTriggerEnter2D(Collider2D other)
     {
         if (other.GetComponent<IHealth>() != null)

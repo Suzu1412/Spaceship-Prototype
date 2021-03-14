@@ -166,7 +166,7 @@ public class PlayerController : CharController
         if (isInvulnerable) return;
 
         _healthBar.ResetDamage();
-        stats.DamageLimitBreak(amount);
+        MaxLevelExperience(amount);
         _damaged = true;
         
         if (_currentHealth - amount <= 0)
@@ -203,6 +203,10 @@ public class PlayerController : CharController
         return Input.isShooting;
     }
 
+    /// <summary>
+    /// Move Upwards the screen in certain amount of seconds. 
+    /// After it has reached the max Position, slowly move downwards to position himself in the end Marker
+    /// </summary>
     void MoveToStartPosition()
     {
         if (!arrivedAtStartPosition)
@@ -229,6 +233,30 @@ public class PlayerController : CharController
             _levelUp = true;
         }
         _currentLevel = newLevel;
+    }
+
+    /// <summary>
+    /// If Player has reached Limit break, reduce the duration of limit break.
+    /// If Player has reached Max Level, the damage received will help him to reach the Limit Break
+    /// </summary>
+    /// <param name="amount">The damage amount received by the player Overcharges the limit break bar</param>
+    public void MaxLevelExperience(int amount)
+    {
+        if (stats.LimitBreak)
+        {
+            stats.DamageLimitBreak();
+        }
+        else if (stats.MaxLevel)
+        {
+            int newLevel = _stats.AddExperience(amount);
+
+            ExperienceBar.UpdateExpBar();
+            if (_currentLevel < newLevel)
+            {
+                _levelUp = true;
+            }
+            _currentLevel = newLevel;
+        }
     }
     #endregion
 

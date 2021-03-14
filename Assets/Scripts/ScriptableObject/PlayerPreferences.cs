@@ -20,9 +20,10 @@ public class PlayerPreferences : ScriptableObject
 
     public void SetScene(int scene)
     {
-        if (currentStage <= scene)
+        if (currentStage < scene)
         {
             currentStage = scene;
+            
         }
     }
 

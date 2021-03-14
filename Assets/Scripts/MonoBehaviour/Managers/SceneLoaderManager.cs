@@ -49,8 +49,15 @@ public class SceneLoaderManager : MonoBehaviour
     public void FirstStage()
     {
         Time.timeScale = 1f;
-        playerPreferences.SetScene(SceneManager.GetSceneByName("FirstLevel").buildIndex);
+        
+        SceneTransition();
+        Invoke("SelectStage", 0.5f);
+    }
+
+    void SelectStage()
+    {
         SceneManager.LoadScene("FirstLevel");
+        playerPreferences.SetScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void MainMenu()
@@ -80,9 +87,24 @@ public class SceneLoaderManager : MonoBehaviour
         }
     }
 
+    public void SceneTransition()
+    {
+        if (blackFade != null)
+        {
+            blackFade.gameObject.SetActive(true);
+            blackFade.canvasRenderer.SetAlpha(0f);
+            FadeInFast();
+        }
+    }
+
     void FadeIn()
     {
         blackFade.CrossFadeAlpha(1f, 1f, false);
+    }
+
+    void FadeInFast()
+    {
+        blackFade.CrossFadeAlpha(1f, 0.5f, false);
     }
 
     void FadeOut()

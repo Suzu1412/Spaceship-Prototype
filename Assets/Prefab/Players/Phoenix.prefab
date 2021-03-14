@@ -228,8 +228,10 @@ MonoBehaviour:
     attack: 0
     attackSpeed: 4
     movementSpeed: 4
-    defense: 0
+    health: 0
     special: 1
+  effectList:
+  - {fileID: 11400000, guid: 8dcd873d5d7ea7e479061f78b0600f8c, type: 2}
   smoothTimeStart: 0.5
   smoothTimeEnd: 0.4
   smoothVictory: 1.2
@@ -271,6 +273,8 @@ MonoBehaviour:
   weaponList:
   - weaponType: {fileID: 11400000, guid: 2575a174b72bcc1439fa1a95db72d76e, type: 2}
     amountToShoot: 1
+    addDamage: 0
+    addResistance: 0
     projectileSpeed: 12
     timeBetweenShots: 0
     timeUntilNextShot: 0
@@ -279,36 +283,45 @@ MonoBehaviour:
     increaseAngle: 0
   - weaponType: {fileID: 11400000, guid: 2575a174b72bcc1439fa1a95db72d76e, type: 2}
     amountToShoot: 2
+    addDamage: 0
+    addResistance: 0
     projectileSpeed: 12
     timeBetweenShots: 0
     timeUntilNextShot: 0
     gunPosition: {fileID: 3013156469161097632}
     pattern: 4
     increaseAngle: 0
-  - weaponType: {fileID: 11400000, guid: 2ee832b3a5f498d4394e9d20220d6085, type: 2}
+  - weaponType: {fileID: 11400000, guid: 2575a174b72bcc1439fa1a95db72d76e, type: 2}
     amountToShoot: 2
+    addDamage: 1
+    addResistance: 0
     projectileSpeed: 12
     timeBetweenShots: 0
     timeUntilNextShot: 0
     gunPosition: {fileID: 3013156469161097632}
     pattern: 4
     increaseAngle: 0
-  - weaponType: {fileID: 11400000, guid: 2ee832b3a5f498d4394e9d20220d6085, type: 2}
+  - weaponType: {fileID: 11400000, guid: 2575a174b72bcc1439fa1a95db72d76e, type: 2}
     amountToShoot: 3
+    addDamage: 1
+    addResistance: 0
     projectileSpeed: 12
     timeBetweenShots: 0
     timeUntilNextShot: 0
     gunPosition: {fileID: 3013156469161097632}
     pattern: 4
     increaseAngle: 0
-  - weaponType: {fileID: 11400000, guid: 2ee832b3a5f498d4394e9d20220d6085, type: 2}
+  - weaponType: {fileID: 11400000, guid: 2575a174b72bcc1439fa1a95db72d76e, type: 2}
     amountToShoot: 5
+    addDamage: 1
+    addResistance: 0
     projectileSpeed: 12
     timeBetweenShots: 0
     timeUntilNextShot: 0
     gunPosition: {fileID: 3013156469161097632}
     pattern: 4
     increaseAngle: 0
+  subWeaponList: []
 --- !u!61 &1963543966140527697
 BoxCollider2D:
   m_ObjectHideFlags: 0

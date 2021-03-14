@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 31976236136422332}
   - component: {fileID: 31976236136422333}
-  - component: {fileID: -7130876907044029287}
+  - component: {fileID: -4972238262966000615}
   m_Layer: 7
   m_Name: PhoenixShot
   m_TagString: PlayerShot
@@ -59,7 +59,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.3}
   m_EdgeRadius: 0
---- !u!114 &-7130876907044029287
+--- !u!114 &-4972238262966000615
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 31976236136422334}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fafbbfc56bf48b4f8de5b2ce49afe06, type: 3}
+  m_Script: {fileID: 11500000, guid: 65c7e156bcad7af428a13c7f89e55d7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fired: 0
@@ -77,6 +77,10 @@ MonoBehaviour:
   projectileSpeed: 0
   moveDirection: {x: 0, y: 0, z: 0}
   playerWhoShot: {fileID: 0}
+  maxResistance: 0
+  homingRange: 0
+  chaseTarget: 0
+  effectList: []
 --- !u!1 &31976237238050144
 GameObject:
   m_ObjectHideFlags: 0

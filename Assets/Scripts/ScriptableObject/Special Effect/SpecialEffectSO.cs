@@ -18,7 +18,7 @@ public abstract class SpecialEffectSO : ScriptableObject
 
     /// <summary>
     /// Apply this before the projectile deals damage. Used for Instakill Effect (Doesn't need to deal damage)
-    /// Since it won't be used frequently its made virtual so it doesn't need to be overriden in each class
+    /// This is mainly for effects that ignore enemy defense
     /// </summary>
     public virtual void BeforeHit(Projectile projectile, CharController enemy)
     {

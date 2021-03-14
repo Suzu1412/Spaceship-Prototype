@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6312322471829764149}
   - component: {fileID: 6312322471829764148}
-  - component: {fileID: 6238684557591041439}
+  - component: {fileID: 8797059783538094526}
   m_Layer: 7
   m_Name: PegasusShot
   m_TagString: PlayerShot
@@ -59,7 +59,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.3}
   m_EdgeRadius: 0
---- !u!114 &6238684557591041439
+--- !u!114 &8797059783538094526
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6312322471829764151}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0718182bb8df784cbe59dd75271c1c9, type: 3}
+  m_Script: {fileID: 11500000, guid: 65c7e156bcad7af428a13c7f89e55d7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fired: 0
@@ -77,9 +77,12 @@ MonoBehaviour:
   projectileSpeed: 0
   moveDirection: {x: 0, y: 0, z: 0}
   playerWhoShot: {fileID: 0}
-  bounceMax: 1
-  maxBounceDistance: 7
-  enemyPosition: {fileID: 0}
+  maxResistance: 0
+  homingRange: 0
+  chaseTarget: 0
+  effectList: []
+  closestEnemy: {fileID: 0}
+  currentEnemy: {fileID: 0}
 --- !u!1 &6312322472898821865
 GameObject:
   m_ObjectHideFlags: 0

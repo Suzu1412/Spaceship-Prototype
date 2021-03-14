@@ -17,6 +17,8 @@ MonoBehaviour:
   moveSpeed: 4
   criticalChance: 0
   dodgeChance: 0
+  homingRange: 5
+  chanceToInstakill: 0.05
   levels:
   - experienceToNextLevel: 5
   - experienceToNextLevel: 10

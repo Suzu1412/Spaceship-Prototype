@@ -6,7 +6,8 @@ using UnityEngine;
 public class PlayerStats : Stats
 {
     [Header("Player Stats")]
-    [Range(5f, 10f)] public float homingRange;
+    [Range(5f, 15f)] public float homingRange;
+    [Range(0.01f, 0.1f)] public float chanceToInstakill;
 
 
     [Header("Level Stats")]
@@ -116,16 +117,9 @@ public class PlayerStats : Stats
         }
     }
 
-    public void DamageLimitBreak(int amount)
+    public void DamageLimitBreak()
     {
-        if (LimitBreak)
-        {
-            _limitBreakDuration -= levels[_level].experienceToNextLevel / 4;
-        }
-        else if (_maxLevel)
-        {
-            AddExperience(amount);
-        }
+        _limitBreakDuration -= levels[_level].experienceToNextLevel / 4;
     }
 
     private void OnEnable()
