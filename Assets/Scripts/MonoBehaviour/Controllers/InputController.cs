@@ -14,10 +14,10 @@ public class InputController : MonoBehaviour
 
     private void Awake()
     {
-        joystick = GameObject.FindObjectOfType<Joystick>();
+        joystick = FindObjectOfType<Joystick>();
 
-        //if (!Application.isMobilePlatform)
-        //    joystick.gameObject.SetActive(false);
+        if (!Application.isMobilePlatform)
+            joystick.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -58,7 +58,9 @@ public class InputController : MonoBehaviour
     void ProcessTouchInputs()
     {
         if (!Application.isMobilePlatform)
+        {
             return;
+        }
 
         if (Time.timeScale == 0)
         {
@@ -74,6 +76,7 @@ public class InputController : MonoBehaviour
 
     public void DisableTouchJoystick()
     {
+        if (joystick != null)
         joystick.gameObject.SetActive(false);
     }
 }

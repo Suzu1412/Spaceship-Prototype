@@ -256,8 +256,8 @@ public class GameManager : MonoBehaviour
 
             Invoke("EndScene", 1f);
             Invoke("EnableVictoryText", 1f);
+            Invoke("ShowPauseMenu", 3f);
             victory = true;
-            sceneManager.PauseGame();
         }
     }
 
@@ -283,10 +283,15 @@ public class GameManager : MonoBehaviour
             sceneManager.EndScene();
             EnableGameOverText();
             gameOver = true;
-            sceneManager.PauseGame();
+            Invoke("ShowPauseMenu", 1f);
             //Invoke("StopTime", 1f);
         }
         
+    }
+
+    void ShowPauseMenu()
+    {
+        sceneManager.PauseGame();
     }
 
     void EnableReadyText()
