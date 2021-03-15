@@ -8,14 +8,24 @@ public class InputController : MonoBehaviour
     public float Vertical { get; private set; }
     public bool IsShooting { get; private set; }
 
+    Joystick joystick;
+
     private bool canClearInput;
+
+    private void Awake()
+    {
+        joystick = GameObject.FindObjectOfType<Joystick>();
+
+        //if (!Application.isMobilePlatform)
+        //    joystick.gameObject.SetActive(false);
+    }
 
     // Update is called once per frame
     private void Update()
     {
         CleanInput();
         ReadInput();
-        //ProcessTouchInputs();
+        ProcessTouchInputs();
         Horizontal = Mathf.Clamp(Horizontal, -1f, 1f);
         Vertical = Mathf.Clamp(Vertical, -1f, 1f);
     }
@@ -43,5 +53,27 @@ public class InputController : MonoBehaviour
         Horizontal += Input.GetAxisRaw("Horizontal");
         Vertical += Input.GetAxisRaw("Vertical");
         IsShooting = Input.GetButton("Shoot");
+    }
+
+    void ProcessTouchInputs()
+    {
+        if (!Application.isMobilePlatform)
+            return;
+
+        if (Time.timeScale == 0)
+        {
+            joystick.gameObject.SetActive(false);
+        }
+        else
+        {
+            joystick.gameObject.SetActive(true);
+        }
+        Horizontal += joystick.Horizontal * 2f;
+        Vertical += joystick.Vertical * 2f;
+    }
+
+    public void DisableTouchJoystick()
+    {
+        joystick.gameObject.SetActive(false);
     }
 }

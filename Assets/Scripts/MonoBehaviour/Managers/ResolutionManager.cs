@@ -7,7 +7,7 @@ public class ResolutionManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        SetRatio(9, 16);
+        if (!Application.isMobilePlatform) SetRatio(9, 16);
     }
 
     void SetRatio(float w, float h)

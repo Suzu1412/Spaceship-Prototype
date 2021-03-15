@@ -96,6 +96,11 @@ public class PlayerController : CharController
         DisableShield();
     }
 
+    protected void OnDisable()
+    {
+        Input.DisableTouchJoystick();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -110,7 +115,12 @@ public class PlayerController : CharController
                 break;
 
             case GameState.Victory:
+                Input.DisableTouchJoystick();
                 Victory();
+                break;
+
+            case GameState.GameOver:
+                Input.DisableTouchJoystick();
                 break;
         }
     }

@@ -257,6 +257,7 @@ public class GameManager : MonoBehaviour
             Invoke("EndScene", 1f);
             Invoke("EnableVictoryText", 1f);
             victory = true;
+            sceneManager.PauseGame();
         }
     }
 
@@ -282,6 +283,7 @@ public class GameManager : MonoBehaviour
             sceneManager.EndScene();
             EnableGameOverText();
             gameOver = true;
+            sceneManager.PauseGame();
             //Invoke("StopTime", 1f);
         }
         

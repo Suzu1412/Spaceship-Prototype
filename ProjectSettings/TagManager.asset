@@ -61,3 +61,6 @@ TagManager:
   - name: BackgroundOnTop
     uniqueID: 173904923
     locked: 0
+  - name: Joystick
+    uniqueID: 605662997
+    locked: 0
